@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { counterReducer } from './features'
+import { volounteersCountReducer } from './features'
 
 
 export const store = configureStore({
     reducer: {
-        counter: counterReducer,
+        volounteersCount: volounteersCountReducer,
     }
 })
 export type RootState = ReturnType<typeof store.getState>

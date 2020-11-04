@@ -1,5 +1,3 @@
-import counterReducer from './counterSlice'
+import volounteersCountReducer from './volounteersCountSlice'
 
-
-export {counterReducer}
- 
+export { volounteersCountReducer }
