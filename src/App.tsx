@@ -6,6 +6,7 @@ import Layout from './pages/Layout';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import Volunteers from './pages/Volunteers';
+import AdminForm from './pages/Admin/AdminForm';
 
 const userData: boolean = true;
 
@@ -21,6 +22,8 @@ function App() {
               </Route>
               <Route exact path="/volunteers" component={Volunteers}></Route>
               <Route path="/settings" component={Settings}></Route>
+              <Route path="/adminform/:id" component={AdminForm}></Route>
+              <Route path="/adminform" component={AdminForm}></Route>
             </Switch>
           </Layout>
         </BrowserRouter> :

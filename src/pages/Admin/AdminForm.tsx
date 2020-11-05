@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Card } from '@material-ui/core';
+import { useParams } from 'react-router-dom';
+import { rows } from '../Settings/SampleAdmins';
+import IAdmin from '../../types/admins/IAdmin';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         justifyContent: 'center',
         minWidth: 500,
-
     },
     mainContainer: {
         padding: theme.spacing(6, 20, 4, 20),
@@ -68,8 +68,35 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Form = () => {
+const handleSubmit = (e: React.SyntheticEvent<EventTarget>): void => {
+    e.preventDefault();
+
+    debugger;
+}
+
+interface IProps {
+
+}
+
+interface IParams {
+    id: string
+}
+
+const AdminForm = (props: IProps) => {
     const classes = useStyles();
+    const { id } = useParams<IParams>();
+
+    // useEffect(() => {
+    //     if (id) {
+
+    //     }
+    // }, [])
+
+    let initialValues: IAdmin | any = {}
+
+    if (id) {
+        initialValues = rows.find((admin: IAdmin) => admin._id === id);
+    }
 
     return (
         <div className={classes.root}>
@@ -78,9 +105,34 @@ const Form = () => {
                     <CssBaseline />
                     <div className={classes.paper}>
                         <Typography component="h1" variant="h4">
-                            Log in
+                            {id ? "Edit" : "Create"} Admin
                         </Typography>
-                        <form className={classes.form} noValidate>
+                        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                            <TextField
+                                variant="filled"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="name"
+                                label="Name"
+                                name="name"
+                                autoComplete="name"
+                                defaultValue={id && initialValues.name}
+                                autoFocus
+                                className={classes.textField}
+                            />
+                            <TextField
+                                variant="filled"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="surname"
+                                label="Surname"
+                                name="surname"
+                                autoComplete="surname"
+                                className={classes.textField}
+                                defaultValue={id && initialValues.surname}
+                            />
                             <TextField
                                 variant="filled"
                                 margin="normal"
@@ -90,8 +142,8 @@ const Form = () => {
                                 label="Email"
                                 name="email"
                                 autoComplete="email"
-                                autoFocus
                                 className={classes.textField}
+                                defaultValue={id && initialValues.email}
                             />
                             <TextField
                                 variant="filled"
@@ -102,21 +154,26 @@ const Form = () => {
                                 label="Password"
                                 type="password"
                                 id="password"
-                                autoComplete="current-password"
                                 className={classes.textField}
                             />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
+                            <TextField
+                                variant="filled"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password2"
+                                label="Confirm Password"
+                                type="password"
+                                id="password2"
+                                className={classes.textField}
                             />
-                            <br />
                             <Button
                                 type="submit"
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
                             >
-                                Login
+                                {id ? "Save" : "Create"}
                             </Button>
                         </form>
                     </div>
@@ -126,4 +183,4 @@ const Form = () => {
     );
 }
 
-export default Form;
+export default AdminForm;
