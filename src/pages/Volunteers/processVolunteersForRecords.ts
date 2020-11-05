@@ -1,5 +1,5 @@
-import IVolunteerRecord from './types/IVolunteerRecord'
-import IProcessedVolunteerRecord from './types/IProcessedVolunteerRecord'
+import IVolunteerRecord from '../../types/volunteers/IVolunteerRecord'
+import IProcessedVolunteerRecord from '../../types/volunteers/IProcessedVolunteerRecord'
 
 const processVolunteersRecords = (data: IVolunteerRecord[]): IProcessedVolunteerRecord[] => {
     const result: IProcessedVolunteerRecord[] = []
