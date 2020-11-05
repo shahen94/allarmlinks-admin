@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Tabs, Tab, Box } from '@material-ui/core';
 import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Title from '../../components/Layout/Title';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,13 +26,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface StyledTabsProps {
-  value: number;
-  onChange: (event: React.ChangeEvent<{}>, newValue: number) => void;
+  value?: number;
 }
 
 interface StyledTabProps {
+  path: string;
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const StyledTabs = withStyles({
@@ -54,7 +54,7 @@ const StyledTab = withStyles((theme: Theme) =>
       marginRight: theme.spacing(1),
     },
   }),
-)((props: StyledTabProps) => <Tab disableRipple {...props} />);
+)((props: StyledTabProps) => <NavLink className="tab" to={props.path} activeClassName="tab-active"><Tab disableRipple {...props} /></NavLink>);
 
 interface IMenuItems {
   text: string;
@@ -64,7 +64,7 @@ interface IMenuItems {
 const menuItems: IMenuItems[] = [
   {
     text: "Volunteers",
-    route: "/"
+    route: "/volunteers"
   },
   {
     text: "Settings",
@@ -72,20 +72,12 @@ const menuItems: IMenuItems[] = [
   },
 ];
 
-const Header = () => {
+interface IProps {
+  userData?: any //TODO
+}
+
+const Header = (props: IProps) => {
   const classes = useStyles();
-  const history = useHistory();
-  const activeTabIndex = menuItems.findIndex(item => item.route === history.location.pathname);
-  const [selectedTab, setSelectedTab] = useState(activeTabIndex);
-
-  const handleTabClick = (route: string) => {
-    if (history.location.pathname === route) return;
-    history.push(route)
-  }
-
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setSelectedTab(newValue);
-  };
 
   return (
     <div className={classes.root}>
@@ -95,13 +87,13 @@ const Header = () => {
             <Title />
           </Box>
         </Grid>
-        <Grid item xs={12} lg={6} className={classes.tabs}>
-          <StyledTabs value={selectedTab} onChange={handleChange}>
+        {!(props.userData && props.userData.type === "SUPER_ADMIN" ) && <Grid item xs={12} lg={6} className={classes.tabs}>
+          <StyledTabs>
             {menuItems.map((item, index) => (
-              <StyledTab label={item.text} onClick={() => handleTabClick(item.route)} />
+              <StyledTab label={item.text} key={index} path={item.route} />
             ))}
           </StyledTabs>
-        </Grid>
+        </Grid>}
         <Grid item xs={12} lg={3} className={classes.signOut}>
           <Box component="div" m={1}>
             Sign out

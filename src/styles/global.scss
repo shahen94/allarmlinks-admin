@@ -3,4 +3,22 @@ html, body, #root {
   height: 100%;
 }
 
+.MuiToolbar-regular {
+  min-height: 50px!important;
+}
+
+@media (max-width: 1280px){
+  .MuiToolbar-regular {
+    min-height: 100px!important;
+  }
+}
+
+.tab {
+  text-decoration: none;
+}
+
+.tab-active .MuiTab-root {
+  font-weight: 700;
+}
+
 @import "./pages/Volunteers.scss";

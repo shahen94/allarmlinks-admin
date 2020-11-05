@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: '#FAFAFA',
             '& .MuiToolbar-root': { display: 'block' }
         },
-        toolbar: {            
-            minHeight: '50px',
+        toolbar: {
+            //minHeight: '50px',
         }
     }),
 );
