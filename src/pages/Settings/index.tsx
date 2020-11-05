@@ -4,12 +4,12 @@ interface Props {
     
 }
 
-const AdminList = (props: Props) => {
+const Settings = (props: Props) => {
     return (
-        <div>
+        <div className='DataGrid-container'>
             ADMIN LIST
         </div>
     )
 }
 
-export default AdminList;
+export default Settings;

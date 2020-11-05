@@ -19,12 +19,8 @@ const columns: ColDef[] = [
 
 const useStyles = makeStyles({
     root: {
-        height: '80vh!important',
         backgroundColor: '#f4f4f4',
-        border: 'none!important',
-        'columnSeparator': {
-            display: 'none!important'
-        }
+        border: 'none'
     },
 
 })
@@ -45,7 +41,7 @@ const Volunteers = () => {
                 columns={columns}
                 className={classes.root}
                 pageSize={20}
-                autoHeight={false}
+                autoHeight
                 hideFooterSelectedRowCount
                 hideFooterRowCount
                 onRowClick={RowClickHandler}
