@@ -41,7 +41,7 @@ const Volunteers = () => {
                 columns={columns}
                 className={classes.root}
                 pageSize={20}
-                autoHeight={false}
+                autoHeight
                 hideFooterSelectedRowCount
                 hideFooterRowCount
                 onRowClick={RowClickHandler}
