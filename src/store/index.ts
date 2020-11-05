@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { volounteersCountReducer } from './features'
+import { volunteersCountReducer } from './features'
 
 
 export const store = configureStore({
     reducer: {
-        volounteersCount: volounteersCountReducer,
+        volunteersCount: volunteersCountReducer,
     }
 })
 

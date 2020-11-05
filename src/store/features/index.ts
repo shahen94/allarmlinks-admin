@@ -1,3 +1,3 @@
-import volounteersCountReducer from './volounteersCountSlice'
+import volunteersCountReducer from './volunteersCountSlice'
 
-export { volounteersCountReducer }
+export { volunteersCountReducer }

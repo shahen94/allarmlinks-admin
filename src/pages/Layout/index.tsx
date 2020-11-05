@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Container, CssBaseline, Toolbar, AppBar } from '@material-ui/core';
-import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Box, CssBaseline, Toolbar, AppBar } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Header from './Header';
 import 'fontsource-roboto';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';

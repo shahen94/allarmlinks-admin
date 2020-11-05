@@ -1,11 +1,11 @@
-import VolunteerRecord from './types/VolunteerRecord'
-import ProcessedVolunteerRecord from './types/ProcessedVolunteerRecord'
+import IVolunteerRecord from './types/IVolunteerRecord'
+import IProcessedVolunteerRecord from './types/IProcessedVolunteerRecord'
 
-const processVolunteersRecords = (data: VolunteerRecord[]): ProcessedVolunteerRecord[] => {
-    const result: ProcessedVolunteerRecord[] = []
+const processVolunteersRecords = (data: IVolunteerRecord[]): IProcessedVolunteerRecord[] => {
+    const result: IProcessedVolunteerRecord[] = []
     for (let index: number = 0; index < data.length; index++) {
         const record = data[index];
-        const processedRecord: ProcessedVolunteerRecord = {
+        const processedRecord: IProcessedVolunteerRecord = {
             _id: record._id,
             id: index,
             firstName: record.firstName,

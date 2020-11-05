@@ -1,4 +1,4 @@
-export default interface ProcessedVolunteerRecord {
+export default interface IProcessedVolunteerRecord {
     _id: string,
     id: number,
     firstName: string,

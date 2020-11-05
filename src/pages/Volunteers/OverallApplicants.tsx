@@ -6,7 +6,7 @@ interface IProps {
 
 const OverallApplicants = ({ count }: IProps) => {
     return (
-        <div className="volounteers-count">
+        <div className="volunteers-count">
             <span>{count}</span>
             <span>Volunteers</span>
         </div>
