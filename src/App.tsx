@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import './styles/global.scss'
 import 'fontsource-roboto';
 import Layout from './pages/Layout';
 import AdminList from './pages/AdminList';
@@ -22,6 +23,7 @@ function App() {
         </BrowserRouter> :
         <Login />
       }
+
     </div>
   );
 }

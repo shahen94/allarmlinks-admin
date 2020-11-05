@@ -1,0 +1,21 @@
+.DataGrid-container {
+  width: 80%;
+  margin: 0 auto;
+  background-color: $neutral_color;
+  margin-top: 3rem;
+  > .volounteers-count {
+    padding: 16px;
+    font-size: 2rem;
+    > span:first-child {
+      margin-right: 16px;
+    }
+  }
+  .MuiDataGrid-root {
+    // height: 80vh !important;
+    // background-color: $neutral_color;
+    // border: none !important;
+    .MuiDataGrid-columnSeparator {
+      display: none !important;
+    }
+  }
+}

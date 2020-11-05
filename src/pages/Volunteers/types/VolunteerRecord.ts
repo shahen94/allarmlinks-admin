@@ -1,0 +1,22 @@
+export default interface VolounteerRecord {
+    _id: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    phoneNumber: string,
+    birthDate: string,
+    country: string,
+    city: string,
+    address?: string,
+    specialization?: string,
+    currentEmployerName?: string,
+    occupation?: string,
+    skills?: string[],
+    languages?: string[],
+    availabilityHours?: [number, number, number],
+    facebookProfile?: string,
+    linkedinProfile?: string,
+    twitterProfile?: string,
+    preferedVolounteerPlace?: string,
+    otherInfo?: string
+}
