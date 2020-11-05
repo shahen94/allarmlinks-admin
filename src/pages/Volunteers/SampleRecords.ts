@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-import ProcessedVolunteerRecord from './types/ProcessedVolunteerRecord';
-export const rows: ProcessedVolunteerRecord[] = [
-    { id: 1, _id: '1', lastName: 'Asad', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
-    { id: 2, _id: '2', lastName: 'Bsfas', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
-=======
 import IProcessedVolunteerRecord from './types/IProcessedVolunteerRecord';
 export const rows: IProcessedVolunteerRecord[] = [
     { id: 1, _id: '1', lastName: 'Jason', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
     { id: 2, _id: '2', lastName: 'Jason', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
->>>>>>> 8e74393391c51d8cc0e7798d89e3d8f4ee3b66a2
     { id: 3, _id: '3', lastName: 'Jason', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
     { id: 4, _id: '4', lastName: 'Jason', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
     { id: 5, _id: '5', lastName: 'Jason', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
