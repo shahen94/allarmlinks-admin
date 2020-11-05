@@ -18,12 +18,9 @@ const columns: ColDef[] = [
 
 const useStyles = makeStyles({
     root: {
-        height: '80vh!important',
+        //height: '80vh!important',
         backgroundColor: '#f4f4f4',
-        border: 'none!important',
-        'columnSeparator': {
-            display: 'none!important'
-        }
+        border: 'none'
     },
 
 })
@@ -34,7 +31,7 @@ const Volunteers = () => {
     return (
         <div className='DataGrid-container'>
             <OverallApplicants count={volunteersCount} />
-            <DataGrid rows={rows} columns={columns} className={classes.root} pageSize={20} autoHeight={false} hideFooterSelectedRowCount hideFooterRowCount />
+            <DataGrid rows={rows} columns={columns} className={classes.root} pageSize={20} autoHeight hideFooterSelectedRowCount hideFooterRowCount />
         </div>
     )
 }

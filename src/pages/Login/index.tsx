@@ -1,18 +1,23 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import Title from '../../components/Layout/Title';
 import Form from './Form';
+import './style.scss'
 
 const Login = () => {
   return (
-    <div>
+    <>
       <Grid container>
         <Grid item xs={12} lg={3}>
-          <Title />
+          <Box component="div" m={1}>
+            <Title />
+          </Box>
         </Grid>
       </Grid>
-      <Form />
-    </div>
+      <div className='login-form-container'>
+        <Form />
+      </div>
+    </>
   )
 }
 

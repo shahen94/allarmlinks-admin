@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Tabs, Tab } from '@material-ui/core';
+import { Tabs, Tab, Box } from '@material-ui/core';
 import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import Title from '../../components/Layout/Title';
@@ -8,7 +8,7 @@ import Title from '../../components/Layout/Title';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      flexGrow: 1,
+      flexGrow: 1
     },
     tab: {
       textTransform: 'none',
@@ -16,6 +16,11 @@ const useStyles = makeStyles((theme: Theme) =>
     tabs: {
       display: 'flex',
       justifyContent: 'center',
+    },
+    signOut: {
+      position: 'fixed',
+      right: '20px',
+      textAlign: 'right'
     }
   }),
 );
@@ -59,32 +64,19 @@ interface IMenuItems {
 const menuItems: IMenuItems[] = [
   {
     text: "Volunteers",
-    route: "/",
+    route: "/"
   },
   {
     text: "Settings",
-    route: "/settings",
+    route: "/settings"
   },
 ];
 
-if (true) {
-  menuItems.unshift(
-    {
-      text: "Admininstrators",
-      route: "/admins",
-    }
-  )
-}
-
-
-interface IProps {
-  authorized: boolean;
-}
-
-const Header = (props: IProps) => {
-  const [value, setValue] = React.useState(0);
+const Header = () => {
   const classes = useStyles();
   const history = useHistory();
+  const activeTabIndex = menuItems.findIndex(item => item.route === history.location.pathname);
+  const [selectedTab, setSelectedTab] = useState(activeTabIndex);
 
   const handleTabClick = (route: string) => {
     if (history.location.pathname === route) return;
@@ -92,24 +84,29 @@ const Header = (props: IProps) => {
   }
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
+    setSelectedTab(newValue);
   };
 
   return (
     <div className={classes.root}>
       <Grid container spacing={0}>
         <Grid item xs={12} lg={3}>
-          <Title />
+          <Box component="div" m={1}>
+            <Title />
+          </Box>
         </Grid>
-        {props.authorized &&
-          <Grid item xs={12} lg={6} className={classes.tabs}>
-            <StyledTabs value={value} onChange={handleChange}>
-              {menuItems.map((item, index) => (
-                <StyledTab label={item.text} onClick={() => handleTabClick(item.route)} />
-              ))}
-            </StyledTabs>
-          </Grid>
-        }
+        <Grid item xs={12} lg={6} className={classes.tabs}>
+          <StyledTabs value={selectedTab} onChange={handleChange}>
+            {menuItems.map((item, index) => (
+              <StyledTab label={item.text} onClick={() => handleTabClick(item.route)} />
+            ))}
+          </StyledTabs>
+        </Grid>
+        <Grid item xs={12} lg={3} className={classes.signOut}>
+          <Box component="div" m={1}>
+            Sign out
+          </Box>
+        </Grid>
       </Grid>
     </div>
   );

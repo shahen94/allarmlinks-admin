@@ -1,6 +1,6 @@
 $neutral_color: #f4f4f4;
-html {
-  height: auto;
+html, body, #root {
+  height: 100%;
 }
 
 @import "./pages/Volounteers.scss";
