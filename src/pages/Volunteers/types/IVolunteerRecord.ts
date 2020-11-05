@@ -1,4 +1,4 @@
-export default interface VolounteerRecord {
+export default interface IVolunteerRecord {
     _id: string,
     firstName: string,
     lastName: string,
@@ -17,6 +17,6 @@ export default interface VolounteerRecord {
     facebookProfile?: string,
     linkedinProfile?: string,
     twitterProfile?: string,
-    preferedVolounteerPlace?: string,
+    preferedVolunteerPlace?: string,
     otherInfo?: string
 }

@@ -3,9 +3,9 @@ const volunteersCountSlice = createSlice({
     name: 'count',
     initialState: 0,
     reducers: {
-        setVolounteersCount: (state: number, { payload }: PayloadAction<number>) => payload,
+        setVolunteersCount: (state: number, { payload }: PayloadAction<number>) => payload,
     }
 })
 const { actions, reducer } = volunteersCountSlice
-export const { setVolounteersCount } = actions
+export const { setVolunteersCount } = actions
 export default reducer

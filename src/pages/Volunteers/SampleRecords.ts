@@ -1,5 +1,5 @@
-import ProcessedVolunteerRecord from './types/ProcessedVolunteerRecord';
-export const rows: ProcessedVolunteerRecord[] = [
+import IProcessedVolunteerRecord from './types/IProcessedVolunteerRecord';
+export const rows: IProcessedVolunteerRecord[] = [
     { id: 1, _id: '1', lastName: 'Jason', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
     { id: 2, _id: '2', lastName: 'Jason', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
     { id: 3, _id: '3', lastName: 'Jason', firstName: 'Johns', email: 'johny@coolmailsystem.org', phoneNumber: '+556979944', country: 'Freelandia', specialization: "Nuclear Weapon Engineer", workStatus: "working" },
