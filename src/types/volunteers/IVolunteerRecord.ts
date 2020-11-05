@@ -13,7 +13,10 @@ export default interface IVolunteerRecord {
     occupation?: string,
     skills?: string[],
     languages?: string[],
-    availabilityHours?: [number, number, number],
+    availabilityHours?: {
+        from: number,
+        to: number
+    },
     facebookProfile?: string,
     linkedinProfile?: string,
     twitterProfile?: string,
