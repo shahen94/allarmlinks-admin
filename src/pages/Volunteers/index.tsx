@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 const Volunteers = () => {
     const classes: Record<string, string> = useStyles();
-    const volunteersCount: number = useSelector((state: RootState) => state.volunteersCount)
+    const volunteersCount: number = useSelector((state: RootState) => state.volunteers.allCount)
     const history = useHistory()
     const RowClickHandler = (params: RowParams): void => {
         history.push("/home")

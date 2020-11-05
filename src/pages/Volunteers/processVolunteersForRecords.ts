@@ -3,7 +3,7 @@ import IProcessedVolunteerRecord from '../../types/volunteers/IProcessedVoluntee
 
 const processVolunteersRecords = (data: IVolunteerRecord[]): IProcessedVolunteerRecord[] => {
     const result: IProcessedVolunteerRecord[] = []
-    for (let index: number = 0; index < data.length; index++) {
+    for (let index: number = 0; index <= data.length; index++) {
         const record = data[index];
         const processedRecord: IProcessedVolunteerRecord = {
             _id: record._id,
