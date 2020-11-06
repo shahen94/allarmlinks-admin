@@ -4,6 +4,7 @@
       "../node_modules/@types",
       "../@types"
     ],
+    "noImplicitAny": false,
     "target": "es5",
     "lib": [
       "dom",
