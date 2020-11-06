@@ -26,6 +26,9 @@
       .MuiDataGrid-cell:focus {
         outline: none !important;
       }
+      .MuiDataGrid-row:hover {
+        background-color: rgba(0, 0, 0, 0.04) !important;
+      }
       // height: 80vh !important;
       // background-color: $neutral_color;
       // border: none !important;

@@ -1,8 +1,8 @@
 export default interface IProcessedVolunteerRecord {
     _id: string,
     id: number,
-    firstName: string,
-    lastName: string,
+    name: string,
+    surname: string,
     email: string,
     phoneNumber: string,
     country: string,

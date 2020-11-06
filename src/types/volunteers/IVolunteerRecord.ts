@@ -1,7 +1,7 @@
 export default interface IVolunteerRecord {
     _id: string,
-    firstName: string,
-    lastName: string,
+    name: string,
+    surname: string,
     email: string,
     phoneNumber: string,
     birthDate: string,
@@ -13,13 +13,13 @@ export default interface IVolunteerRecord {
     occupation?: string,
     skills?: string[],
     languages?: string[],
-    availabilityHours?: {
+    hoursPerWeek?: {
         from: number,
         to: number
     },
     facebookProfile?: string,
     linkedinProfile?: string,
     twitterProfile?: string,
-    preferedVolunteerPlace?: string,
-    otherInfo?: string
+    whereToVolunteer?: string,
+    other?: string
 }
