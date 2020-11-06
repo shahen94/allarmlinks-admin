@@ -2,7 +2,10 @@ import axios, { AxiosRequestConfig } from 'axios'
 localStorage.setItem('jwtToken', "hasdyas8d7fi7sdfaiksdyfaisdfakysdtfvasgdfvjysgdvaygfvaygfvydtviydf")
 const token: string | null = localStorage.getItem('jwtToken')
 const config: AxiosRequestConfig = {
-    headers: { Authorization: `Bearer ${token}` }
+    headers: {
+        "Authorization": `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*"
+    }
 };
 
 export const post = async (url: string, body: object): Promise<object> => {
