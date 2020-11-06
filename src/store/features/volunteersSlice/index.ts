@@ -1,18 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import IVolunteerRecord from '../../../types/volunteers/IVolunteerRecord';
+import IVolunteerRecord from '../../../types/volunteers/IVolunteer';
 import fetchVolunteers from '../../../api/volunteer/fetchVolunteers';
 import IFetchedVolunteers from './../../../types/volunteers/IFetchedVolunteers';
-import IProcessedVolunteerRecord from './../../../types/volunteers/IProcessedVolunteerRecord';
+import IProcessedVolunteerRecord from '../../../types/volunteers/IProcessedVolunteer';
 import processVolunteersRecords from '../../../utils/processVolunteersRecords';
 const fetchAll = createAsyncThunk<
-    IFetchedVolunteers
+    IFetchedVolunteers,
+    number
 >(
     'volunteers/fetchAll',
     // Declare the type your function argument here:
-    async (): Promise<IFetchedVolunteers> => {
-        const response = await fetchVolunteers()
-        console.log(response)
-        return response as IFetchedVolunteers
+    async (limit: number): Promise<IFetchedVolunteers> => {
+        const response = await fetchVolunteers({ limit })
+        return { volunteers: response } as IFetchedVolunteers
     }
 )
 interface IVolunteerState {
@@ -44,8 +44,10 @@ const volunteersSlice = createSlice({
     extraReducers: builder => {
         builder.addCase(fetchAll.fulfilled, (state, { payload }) => {
             state.volunteers = payload.volunteers
-            state.allCount = payload.allCount
-            state.filteredCount = payload.filteredCount
+            // state.allCount = payload.allCount
+            // state.filteredCount = payload.allCount
+            state.allCount = 160
+            state.filteredCount = 160
             state.processedVolunteers = processVolunteersRecords(payload.volunteers)
         })
     }

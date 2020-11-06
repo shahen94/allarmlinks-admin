@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store'
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import IProcessedVolunteerRecord from './../../types/volunteers/IProcessedVolunteerRecord';
+import IProcessedVolunteerRecord from '../../types/volunteers/IProcessedVolunteer';
 import { fetchAll } from '../../store/features/volunteersSlice';
 
 const columns: ColDef[] = [
@@ -38,7 +38,7 @@ const Volunteers = () => {
 
     useEffect(() => {
         if (!processedVolunteers.length) {
-            dispatch(fetchAll())
+            dispatch(fetchAll(10))
         }
     }, [])
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { List, ListItem } from '@material-ui/core/';
 import { useSelector } from 'react-redux';
-import IVolunteerRecord from './../../types/volunteers/IVolunteerRecord';
+import IVolunteerRecord from '../../types/volunteers/IVolunteer';
 import { RootState } from '../../store';
 
 const Volunteer = (props: any) => {
