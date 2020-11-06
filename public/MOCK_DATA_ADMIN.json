@@ -1,0 +1,8 @@
+{
+"admins":[
+        {"_id":"5fa44bbdfc13ae63e8000032","name":"Lewis","surname":"Bannister","email":"bannister@example.org"},
+        {"_id":"5fa44bbdfc13ae63e8000033","name":"Bonnibelle","surname":"Muglestone","email":"bmuglestone0@umich.edu"},
+        {"_id":"5fa44bbdfc13ae63e8000034","name":"Henley","surname":"Cameron","email":"cameron@example.org"},
+        {"_id":"5fa44bbdfc13ae63e8000035","name":"Sean","surname":"Markham","email":"markham@example.org"}
+    ]
+}

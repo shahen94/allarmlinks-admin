@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { rows } from './SampleAdmins';
 import { useHistory } from "react-router-dom";
@@ -12,8 +12,16 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { fetchAll } from '../../store/features/adminsSlice';
+import { useSelector, useDispatch } from 'react-redux'
+import IAdminRecord from '../../types/admins/IAdminRecord';
+import { RootState } from '../../store';
 
 const useStyles = makeStyles({
+    container: {
+        maxWidth: '90%',
+        margin: '0 auto',
+    },    
     root: {
         backgroundColor: '#f4f4f4',
         border: 'none',
@@ -38,7 +46,15 @@ interface IProps {
 
 const Settings = (props: IProps) => {
     const classes: Record<string, string> = useStyles();
+    const dispatch = useDispatch();
     const history = useHistory();
+
+    const admins: IAdminRecord[] = useSelector((state: RootState) => state.admins.admins)
+    useEffect(() => {
+        if (!admins.length) {
+            dispatch(fetchAll())
+        }
+    }, [])
 
     const handleAddAdmin = (/*id: string*/) => {
         history.push("/adminform")
@@ -53,7 +69,7 @@ const Settings = (props: IProps) => {
     }
 
     return (
-        <div className='DataGrid-container'>
+        <div /*className='admin-grid-container'*/ className={classes.container}>
             <IconButton onClick={handleAddAdmin} aria-label="">
                 <AddIcon />
             </IconButton>
@@ -69,7 +85,7 @@ const Settings = (props: IProps) => {
                     </TableHead>
                     <TableBody>
                         {rows.map((row) => (
-                            <TableRow key={row.id}>
+                            <TableRow key={row._id}>
                                 <TableCell className={classes.tableCell}>{row.name}</TableCell>
                                 <TableCell className={classes.tableCell}>{row.surname}</TableCell>
                                 <TableCell className={classes.tableCell}>{row.email}</TableCell>

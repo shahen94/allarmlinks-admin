@@ -1,3 +1,4 @@
-import volunteersReducer from './volunteersSlice'
+import volunteersReducer from './volunteersSlice';
+import adminsReducer from './adminsSlice';
 
-export { volunteersReducer }
+export { volunteersReducer, adminsReducer }

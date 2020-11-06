@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { volunteersReducer } from './features'
+import { volunteersReducer } from './features';
+import { adminsReducer } from './features';
 
 
 export const store = configureStore({
     reducer: {
         volunteers: volunteersReducer,
+        admins: adminsReducer,
     }
 })
 
