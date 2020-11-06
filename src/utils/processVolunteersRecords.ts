@@ -8,8 +8,8 @@ const processVolunteersRecords = (data: IVolunteerRecord[]): IProcessedVolunteer
         const processedRecord: IProcessedVolunteerRecord = {
             _id: record._id,
             id: index,
-            firstName: record.firstName,
-            lastName: record.lastName,
+            name: record.name,
+            surname: record.surname,
             email: record.email,
             phoneNumber: record.phoneNumber,
             country: record.country,

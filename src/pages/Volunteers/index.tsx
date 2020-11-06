@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import { DataGrid, ColDef, RowParams } from '@material-ui/data-grid';
 import OverallApplicants from './OverallApplicants';
@@ -11,8 +12,8 @@ import { fetchAll } from '../../store/features/volunteersSlice';
 const columns: ColDef[] = [
     { field: 'id', hide: true },
     { field: '_id', hide: true },
-    { field: 'firstName', type: 'string', headerName: 'Name', width: 160 },
-    { field: 'lastName', type: 'string', headerName: 'Surname', width: 160 },
+    { field: 'name', type: 'string', headerName: 'Name', width: 160 },
+    { field: 'surname', type: 'string', headerName: 'Surname', width: 160 },
     { field: 'email', type: 'string', headerName: 'Email address', width: 300 },
     { field: 'phoneNumber', type: 'string', headerName: 'Phone Number', width: 200 },
     { field: 'country', type: 'string', headerName: 'Country', width: 170 },

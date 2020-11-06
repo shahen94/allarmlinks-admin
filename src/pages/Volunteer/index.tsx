@@ -1,16 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { List, ListItem } from '@material-ui/core/';
 import { useSelector } from 'react-redux';
 import IVolunteerRecord from './../../types/volunteers/IVolunteerRecord';
 import { RootState } from '../../store';
 
-// interface Props {
-
-// }
-
 const Volunteer = (props: any) => {
     const { id } = props.match.params
-    const volunteer: IVolunteerRecord = useSelector((state: RootState): IVolunteerRecord => {
+    const volunteer: IVolunteerRecord = useSelector((state: RootState) => {
         console.log(state.volunteers.volunteers)
         return state.volunteers.volunteers.filter((elm: IVolunteerRecord) => elm._id === id)[0]
     })
@@ -21,13 +17,13 @@ const Volunteer = (props: any) => {
                     <ListItem divider>
                         <p>
                             <span>Name:</span>
-                            <span>{volunteer.firstName}</span>
+                            <span>{volunteer.name}</span>
                         </p>
                     </ListItem>
                     <ListItem divider>
                         <p>
                             <span>Surname:</span>
-                            <span>{volunteer.lastName}</span>
+                            <span>{volunteer.surname}</span>
                         </p>
                     </ListItem>
                     <ListItem divider>
@@ -87,19 +83,19 @@ const Volunteer = (props: any) => {
                     <ListItem divider>
                         <p>
                             <span>Skills:</span>
-                            <span>{volunteer.skills?.join(',')}</span>
+                            <span>{volunteer.skills?.join(', ')}</span>
                         </p>
                     </ListItem>
                     <ListItem divider>
                         <p>
                             <span>Languages:</span>
-                            <span>{volunteer.languages?.join(',')}</span>
+                            <span>{volunteer.languages?.join(', ')}</span>
                         </p>
                     </ListItem>
                     <ListItem divider>
                         <p>
                             <span>Availability hours per week:</span>
-                            <span>{volunteer.availabilityHours?.from} - {volunteer.availabilityHours?.to}</span>
+                            <span>{volunteer.hoursPerWeek?.from} - {volunteer.hoursPerWeek?.to}</span>
                         </p>
                     </ListItem>
                     <ListItem divider>
@@ -123,13 +119,13 @@ const Volunteer = (props: any) => {
                     <ListItem divider>
                         <p>
                             <span>Where do you prefer to volunteer:</span>
-                            <span>{volunteer.preferedVolunteerPlace}</span>
+                            <span>{volunteer.whereToVolunteer}</span>
                         </p>
                     </ListItem>
                     <ListItem divider>
                         <p>
                             <span>Other info which you would like to to share:</span>
-                            <span>{volunteer.otherInfo}</span>
+                            <span>{volunteer.other}</span>
                         </p>
                     </ListItem>
 
