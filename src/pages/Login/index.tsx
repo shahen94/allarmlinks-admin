@@ -4,16 +4,19 @@ import Title from '../../components/Layout/Title';
 import Form from './Form';
 import './style.scss'
 
-const Login = () => {
+interface IProps {
+}
+
+const Login = (props: IProps) => {
   return (
     <>
-      <Grid container>
+      {/* <Grid container>
         <Grid item xs={12} lg={3}>
           <Box component="div" m={1}>
             <Title />
           </Box>
         </Grid>
-      </Grid>
+      </Grid> */}
       <div className='login-form-container'>
         <Form />
       </div>

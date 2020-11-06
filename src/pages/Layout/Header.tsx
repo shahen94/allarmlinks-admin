@@ -87,18 +87,18 @@ const Header = (props: IProps) => {
             <Title />
           </Box>
         </Grid>
-        {!(props.userData && props.userData.type === "SUPER_ADMIN" ) && <Grid item xs={12} lg={6} className={classes.tabs}>
+        {(props.userData /*&& props.userData.type === "SUPER_ADMIN" */) && <Grid item xs={12} lg={6} className={classes.tabs}>
           <StyledTabs>
             {menuItems.map((item, index) => (
               <StyledTab label={item.text} key={index} path={item.route} />
             ))}
           </StyledTabs>
         </Grid>}
-        <Grid item xs={12} lg={3} className={classes.signOut}>
+        {(props.userData /*&& props.userData.type === "SUPER_ADMIN" */) && <Grid item xs={12} lg={3} className={classes.signOut}>
           <Box component="div" m={1}>
             Sign out
           </Box>
-        </Grid>
+        </Grid>}
       </Grid>
     </div>
   );

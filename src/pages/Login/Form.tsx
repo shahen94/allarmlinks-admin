@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Card } from '@material-ui/core';
+import { Formik, Form as FormikForm, Field, ErrorMessage, FormikHelpers } from 'formik';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,6 +69,28 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+interface IFormikValues {
+    
+}
+
+// const handleFormSubmit = (values: IFormikValues, { setSubmitting }: FormikHelpers<IFormikValues>): void => {
+//     setTimeout(() => {
+//         alert(JSON.stringify(values, null, 2));
+//         setSubmitting(false);
+//     }, 400);
+// }
+const handleFormSubmit = (values: any, { setSubmitting }: any): void => {
+    setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+        window.sessionStorage.setItem('accessToken', 'true');
+    }, 400);
+}
+
+interface IError {
+    email?: string
+}
+
 const Form = () => {
     const classes = useStyles();
 
@@ -80,49 +103,87 @@ const Form = () => {
                         <Typography component="h1" variant="h4">
                             Log in
                         </Typography>
-                        <form className={classes.form} noValidate>
-                            <TextField
-                                variant="filled"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                                className={classes.textField}
-                            />
-                            <TextField
-                                variant="filled"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                className={classes.textField}
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            />
-                            <br />
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                Login
-                            </Button>
-                        </form>
+                        <Formik
+                            initialValues={{ email: '', password: '', remember: false }}
+                            validate={values => {
+                                const errors: IError = {};
+                                if (!values.email) {
+                                    errors.email = 'Required';
+                                } else if (
+                                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                                ) {
+                                    errors.email = 'Invalid email address';
+                                }
+                                return errors;
+                            }}
+                            onSubmit={handleFormSubmit}
+                        >
+                            {({
+                                values,
+                                errors,
+                                touched,
+                                handleChange,
+                                handleBlur,
+                                handleSubmit,
+                                isSubmitting,
+                            }) => (
+                                    <form className={classes.form} onSubmit={handleSubmit}>
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            label="Email"
+                                            name="email"
+                                            autoComplete="email"
+                                            autoFocus
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={classes.textField}
+                                        />
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            name="password"
+                                            label="Password"
+                                            type="password"
+                                            id="password"
+                                            autoComplete="current-password"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={classes.textField}
+                                        />
+                                        <Field
+                                            name="remember"
+                                            render={({ field, form }: any) => {
+                                                return (                                                    
+                                                    <FormControlLabel
+                                                        control={<Checkbox id="remember" value="remember" name="remember" color="primary" checked={field.value} {...field} />}
+                                                        label="Remember me"
+                                                    />
+                                                );
+                                            }}
+                                        />
+                                        <br />
+                                        <Button
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={isSubmitting}
+                                            className={classes.submit}
+                                        >
+                                            Login
+                                        </Button>
+                                    </form>
+                                )}
+                        </Formik>
                     </div>
                 </Container>
             </Card>
-        </div>
+        </div >
     );
 }
 
