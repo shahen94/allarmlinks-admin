@@ -1,20 +1,40 @@
-.DataGrid-container {
-  width: 80%;
-  margin: 0 auto;
+.Volunteers {
+  max-width: 1600px;
   background-color: $neutral_color;
-  > .volunteers-count {
-    padding: 16px;
-    font-size: 2rem;
-    > span:first-child {
-      margin-right: 16px;
+  margin: 0 auto;
+  height: auto;
+  .DataGrid-container {
+    max-width: 90%;
+    margin: 0 auto;
+    height: auto;
+    background-color: $neutral_color;
+    margin-top: 1rem;
+    > div:nth-child(2) {
+      height: auto !important;
+      width: auto !important;
     }
-  }
-  .MuiDataGrid-root {
-    // height: 80vh !important;
-    // background-color: $neutral_color;
-    // border: none !important;
-    .MuiDataGrid-columnSeparator {
-      display: none !important;
+    > .volunteers-count {
+      padding: 16px;
+      font-size: 2rem;
+      > span:first-child {
+        margin-right: 16px;
+      }
+    }
+    .MuiDataGrid-root {
+      margin: 0 auto !important;
+      // min-width: 85%;
+      .MuiDataGrid-cell:focus {
+        outline: none !important;
+      }
+      // height: 80vh !important;
+      // background-color: $neutral_color;
+      // border: none !important;
+      .MuiDataGrid-columnSeparator {
+        visibility: hidden;
+      }
+      .MuiDataGrid-colCellTitle {
+        font-weight: 600 !important;
+      }
     }
   }
 }

@@ -1,15 +1,17 @@
 $neutral_color: #f4f4f4;
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 
 .MuiToolbar-regular {
-  min-height: 50px!important;
+  min-height: 50px !important;
 }
 
-@media (max-width: 1280px){
+@media (max-width: 1280px) {
   .MuiToolbar-regular {
-    min-height: 100px!important;
+    min-height: 100px !important;
   }
 }
 
@@ -22,3 +24,4 @@ html, body, #root {
 }
 
 @import "./pages/Volunteers.scss";
+@import "./pages/Volunteer.scss";
