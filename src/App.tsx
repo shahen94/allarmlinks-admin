@@ -8,7 +8,11 @@ import Login from './pages/Login';
 import Volunteers from './pages/Volunteers';
 import Volunteer from './pages/Volunteer';
 import AdminForm from './pages/Admin/AdminForm';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import login from './api/auth/login';
+import { RootState } from './store';
+import ILoginResponse from './types/auth/ILoginResponse';
+import ILoginState from './types/auth/ILoginState';
 
 interface IRoute {
   children: React.ReactElement;
@@ -16,25 +20,29 @@ interface IRoute {
   path: string;
 }
 
-const userData: boolean = true;
+const userData: boolean = false;
 
 const PrivateRoute = ({ children, ...rest }: IRoute) => {
+  const user: ILoginState = useSelector((state: RootState) => state.user);
+
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        userData ? children : <Redirect to="/login" />
+      user.user.data ? children : <Redirect to="/login" />
       }
     />
   );
 }
 
 const PublicRoute = ({ children, ...rest }: IRoute) => {
+  const user: ILoginState = useSelector((state: RootState) => state.user);
+
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        !userData ? children : (
+        !user.user.data ? children : (
           <Redirect to="/" />
         )
       }
@@ -43,14 +51,14 @@ const PublicRoute = ({ children, ...rest }: IRoute) => {
 }
 
 const App = () => {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(login())
-  // })
-
+  const user: ILoginState = useSelector((state: RootState) => state.user)
+  useEffect(() => {
+    
+  })
+  
   return (
     <BrowserRouter>
-      <Layout userData={userData}>
+      <Layout userData={user && user.user.data}>
         <Switch>
           <Route exact path="/">
             <Redirect to="/volunteers" />

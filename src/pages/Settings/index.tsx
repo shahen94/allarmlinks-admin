@@ -49,7 +49,8 @@ const Settings = (props: IProps) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const admins: IAdminRecord[] = useSelector((state: RootState) => state.admins.admins)
+    const admins: IAdminRecord[] = useSelector((state: RootState) => state.admins.admins);
+
     useEffect(() => {
         if (!admins.length) {
             dispatch(fetchAll())
@@ -84,7 +85,7 @@ const Settings = (props: IProps) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {admins.map((row) => (
                             <TableRow key={row._id}>
                                 <TableCell className={classes.tableCell}>{row.name}</TableCell>
                                 <TableCell className={classes.tableCell}>{row.surname}</TableCell>

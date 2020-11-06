@@ -9,6 +9,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Card } from '@material-ui/core';
 import { Formik, Form as FormikForm, Field, ErrorMessage, FormikHelpers } from 'formik';
+import { useDispatch } from 'react-redux';
+import { adminLogin, setUser } from '../../store/features/loginSlice';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IFormikValues {
-    
+
 }
 
 // const handleFormSubmit = (values: IFormikValues, { setSubmitting }: FormikHelpers<IFormikValues>): void => {
@@ -79,13 +82,7 @@ interface IFormikValues {
 //         setSubmitting(false);
 //     }, 400);
 // }
-const handleFormSubmit = (values: any, { setSubmitting }: any): void => {
-    setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-        window.sessionStorage.setItem('accessToken', 'true');
-    }, 400);
-}
+
 
 interface IError {
     email?: string
@@ -93,7 +90,17 @@ interface IError {
 
 const Form = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
+    const handleFormSubmit = (values: any, { setSubmitting }: any): void => {
+        setTimeout(() => {
+            //alert(JSON.stringify(values, null, 2));
+            dispatch(setUser(values));
+            dispatch(adminLogin(values));
+            setSubmitting(false);
+            window.sessionStorage.setItem('accessToken', 'true');
+        }, 400);
+    }
     return (
         <div className={classes.root}>
             <Card className={classes.card} variant="outlined">
@@ -159,7 +166,7 @@ const Form = () => {
                                         <Field
                                             name="remember"
                                             render={({ field, form }: any) => {
-                                                return (                                                    
+                                                return (
                                                     <FormControlLabel
                                                         control={<Checkbox id="remember" value="remember" name="remember" color="primary" checked={field.value} {...field} />}
                                                         label="Remember me"
