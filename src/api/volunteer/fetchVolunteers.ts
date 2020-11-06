@@ -7,7 +7,6 @@ const fetchVolunteers = async (params: IVolunteersRequest): Promise<object> => {
     const query = qs.stringify(params)
     const url = `${endpoint}/volunteer?${query}`
     const response: AxiosRequestConfig = await get(url)
-    console.log(response.data.data)
     return response.data.data
 }
 export default fetchVolunteers

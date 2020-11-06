@@ -3,9 +3,13 @@ import { List, ListItem } from '@material-ui/core/';
 import { useSelector } from 'react-redux';
 import IVolunteerRecord from '../../types/volunteers/IVolunteer';
 import { RootState } from '../../store';
-
+import { useParams } from 'react-router-dom';
+interface IParams {
+    id: string
+}
 const Volunteer = (props: any) => {
-    const { id } = props.match.params
+    const id: string = useParams<IParams>().id
+    console.log(id)
     const volunteer: IVolunteerRecord = useSelector((state: RootState) => {
         console.log(state.volunteers.volunteers)
         return state.volunteers.volunteers.filter((elm: IVolunteerRecord) => elm._id === id)[0]
