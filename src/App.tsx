@@ -29,7 +29,7 @@ const PrivateRoute = ({ children, ...rest }: IRoute) => {
     <Route
       {...rest}
       render={({ location }) =>
-      user.user.data ? children : <Redirect to="/login" />
+        user.user.data ? children : <Redirect to="/login" />
       }
     />
   );
@@ -53,9 +53,9 @@ const PublicRoute = ({ children, ...rest }: IRoute) => {
 const App = () => {
   const user: ILoginState = useSelector((state: RootState) => state.user)
   useEffect(() => {
-    
+
   })
-  
+
   return (
     <BrowserRouter>
       <Layout userData={user && user.user.data}>
@@ -70,7 +70,7 @@ const App = () => {
             <Volunteers />
           </PrivateRoute>
           <PrivateRoute exact path="/volunteers/:id">
-            <Volunteers />
+            <Volunteer />
           </PrivateRoute>
           <PrivateRoute exact path="/settings">
             <Settings />
