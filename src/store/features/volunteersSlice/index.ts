@@ -4,44 +4,54 @@ import fetchVolunteers from '../../../api/volunteer/fetchVolunteers';
 import IFetchedVolunteers from './../../../types/volunteers/IFetchedVolunteers';
 import IProcessedVolunteerRecord from '../../../types/volunteers/IProcessedVolunteer';
 import processVolunteersRecords from '../../../utils/processVolunteersRecords';
+import IAppStateData from './../../../types/IAppStateData';
+import { ActionStatus } from "../../../types/auth/ILoginData";
 const fetchAll = createAsyncThunk<
     IFetchedVolunteers,
     number
 >(
     'volunteers/fetchAll',
-    // Declare the type your function argument here:
     async (limit: number): Promise<IFetchedVolunteers> => {
         const response = await fetchVolunteers({ limit })
         return { volunteers: response } as IFetchedVolunteers
     }
 )
-interface IVolunteerState {
+interface IVolunteersState extends IAppStateData {
     volunteers: IVolunteerRecord[] | [],
     processedVolunteers: IProcessedVolunteerRecord[] | [],
     allCount: number,
     filteredCount: number
 }
-const initialState: IVolunteerState = {
+const initialState: IVolunteersState = {
     volunteers: [],
     processedVolunteers: [],
     allCount: 0,
     filteredCount: 0,
+    status:ActionStatus.Initial
 }
 const volunteersSlice = createSlice({
     name: 'volunteers',
     initialState,
     reducers: {
-        setVolunteers: ({ volunteers }: IVolunteerState, { payload }: PayloadAction<IVolunteerRecord[]>): void => {
+        setVolunteers: ({ volunteers }: IVolunteersState, { payload }: PayloadAction<IVolunteerRecord[]>): void => {
             volunteers = payload
         },
-        setVolunteersCount: ({ allCount }: IVolunteerState, { payload }: PayloadAction<number>): void => {
+        setVolunteersCount: ({ allCount }: IVolunteersState, { payload }: PayloadAction<number>): void => {
             allCount = payload
         },
-        setVolunteersFilteredCount: ({ filteredCount }: IVolunteerState, { payload }: PayloadAction<number>): void => {
+        setVolunteersFilteredCount: ({ filteredCount }: IVolunteersState, { payload }: PayloadAction<number>): void => {
             filteredCount = payload
         }
     },
     extraReducers: builder => {
+        builder.addCase(fetchAll.fulfilled, (state, { payload }) => {
+            state.volunteers = payload.volunteers
+            // state.allCount = payload.allCount
+            // state.filteredCount = payload.allCount
+            state.allCount = 160
+            state.filteredCount = 160
+            state.processedVolunteers = processVolunteersRecords(payload.volunteers)
+        })
         builder.addCase(fetchAll.fulfilled, (state, { payload }) => {
             state.volunteers = payload.volunteers
             // state.allCount = payload.allCount

@@ -1,19 +1,22 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { List, ListItem } from '@material-ui/core/';
-import { useSelector } from 'react-redux';
-import IVolunteerRecord from '../../types/volunteers/IVolunteer';
+import { useSelector,useDispatch} from 'react-redux';
 import { RootState } from '../../store';
 import { useParams } from 'react-router-dom';
+import { fetchById } from '../../store/features/singleVolunteerSlice';
+import IVolunteerRecord from './../../types/volunteers/IVolunteer';
 interface IParams {
     id: string
 }
-const Volunteer = (props: any) => {
+const Volunteer = () => {
+    const dispatch = useDispatch()
     const id: string = useParams<IParams>().id
-    console.log(id)
-    const volunteer: IVolunteerRecord = useSelector((state: RootState) => {
-        console.log(state.volunteers.volunteers)
-        return state.volunteers.volunteers.filter((elm: IVolunteerRecord) => elm._id === id)[0]
-    })
+    
+    useEffect(()=>{
+        dispatch(fetchById(id))
+    },[])
+    const volunteer:IVolunteerRecord = useSelector((state:RootState)=>state.singleVolunteer.data)
+    console.log(volunteer)
     return (
         <div className="Volunteer">
             <div className="volunteer-container">
@@ -139,3 +142,18 @@ const Volunteer = (props: any) => {
     )
 }
 export default Volunteer
+
+ // let from_store:IVolunteerRecord | {} = useSelector((state: RootState) => {
+    //     const from_state = state.volunteers.volunteers.filter((elm: IVolunteerRecord) => elm._id === id)
+    //     if(from_state.length){
+    //         return from_state[0]
+    //     }
+    //     else if(state.singleVolunteer._id === id){
+    //         return state.singleVolunteer
+    //     }
+    //     else
+    //         return {}
+    // })
+    // if(!Object.keys(from_store).length){
+    //     dispatch(fetchById(id))
+    // }

@@ -1,8 +1,9 @@
 import { get } from '../../utils/fetch'
 import IVolunteerRecord from '../../types/volunteers/IVolunteer';
 import { endpoint } from './../../config';
+import { AxiosRequestConfig } from 'axios';
 const fetchVolunteerById = async (id: string): Promise<object> => {
-    const records: object = await get(`${endpoint}/volunteers/${id}`)
-    return records as IVolunteerRecord
+    const records: AxiosRequestConfig = await get(`${endpoint}/admin/volunteers/${id}`)
+    return records.data.data as IVolunteerRecord
 }
 export default fetchVolunteerById
