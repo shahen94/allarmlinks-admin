@@ -45,6 +45,9 @@ const App = () => {
           <PublicRoute exact path="/login">
             <Login />
           </PublicRoute>
+          <Route path="/">
+            <Redirect to="/volunteers" />
+          </Route>
         </Switch>
       </Layout>
     </BrowserRouter>
