@@ -95,7 +95,7 @@ const Header = (props: IProps) => {
             <Title />
           </Box>
         </Grid>
-        {(login.status === ActionStatus.Success && login.userData && login.userData.type === "super") &&
+        {(login.status === ActionStatus.Success && login.data && login.data.type === "super") &&
           <Grid item xs={12} lg={6} className={classes.tabs}>
             {menuItems.map((item, index) => (
               <StyledTab label={item.text} key={index} path={item.route} />

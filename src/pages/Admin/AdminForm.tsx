@@ -105,6 +105,12 @@ const AdminForm = () => {
     const [submitting, setSubmitting] = useState<boolean>(false);
     const admins: IAdminState = useSelector((state: RootState) => state.admins);
 
+    // useEffect(() => {
+    //     if (id) {
+    //         setSubmitting(false);
+    //     }
+    // }, []);
+
     useEffect(() => {
         if (admins.status !== ActionStatus.Pending) {
             setSubmitting(false);

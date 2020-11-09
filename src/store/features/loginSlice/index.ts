@@ -3,14 +3,14 @@ import login from '../../../api/auth/login';
 import { ILocalStorageData } from "../../../types/auth/ILocalStorageData";
 import ILoginState from "../../../types/auth/ILoginData";
 import { ActionStatus } from "../../../types/auth/ILoginData";
-import ILoginResponse from "../../../types/auth/ILoginResponse";
+import ILoginData from "../../../types/auth/ILoginData";
 import { getLocalStorageData } from "../../../utils/localStorageUtils";
 
-const adminLogin = createAsyncThunk(
+const adminLogin = createAsyncThunk<ILoginData, any>(
     'admin/login',
-    async (loginData: any): Promise<ILoginResponse> => {
+    async (loginData: any): Promise<ILoginData> => {
         const response = await login(loginData);
-        return response as ILoginResponse
+        return response as ILoginData
     }
 )
 
@@ -24,7 +24,7 @@ const adminLogin = createAsyncThunk(
 
 const initialState: ILoginState = {
     status: ActionStatus.Initial,
-    userData: {},
+    data: {},
     error: ""
 }
 
@@ -36,7 +36,7 @@ const loginSlice = createSlice({
             const parsedData: ILocalStorageData = JSON.parse(getLocalStorageData() || "{}");
             if (parsedData.accessToken) {
                 state.status = ActionStatus.Success;
-                state.userData = parsedData.userData;
+                state.data = parsedData.userData;
             }
             else {
                 state.status = ActionStatus.Initial;
@@ -45,18 +45,18 @@ const loginSlice = createSlice({
         logout: (state: ILoginState): void => {
             window.localStorage.removeItem("adminAuthData");
             state.status = ActionStatus.Initial;
-            state.userData = null;
+            state.data = null;
         }
     },
     extraReducers: builder => {
-        builder.addCase(adminLogin.fulfilled, (state, { payload }: PayloadAction<ILoginResponse>) => {
+        builder.addCase(adminLogin.fulfilled, (state, { payload }: PayloadAction<ILoginData>) => {
             const storageData: ILocalStorageData = {
                 accessToken: payload.accessToken,
                 userData: payload.data
             };
             window.localStorage.setItem("adminAuthData", JSON.stringify(storageData));
             state.status = ActionStatus.Success;
-            state.userData = payload.data;
+            state.data = payload.data;
         });
         builder.addCase(adminLogin.pending, (state) => {
             state.status = ActionStatus.Pending;

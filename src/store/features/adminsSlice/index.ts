@@ -9,7 +9,15 @@ import { IAdminCreateData, IAdminUpdateData } from "../../../types/admins/IAdmin
 import { IAdminState } from "../../../types/admins/IAdminState";
 import { ActionStatus } from "../../../types/auth/ILoginData";
 
-const fetchAll = createAsyncThunk(
+const fetchAll = createAsyncThunk<IAdminState>(
+    'admins/fetchAll',
+    async (): Promise<IAdminState> => {
+        const response = await fetchAdmins();
+        return response as IAdminState;
+    }
+);
+
+const fetchById = createAsyncThunk<any>( //TODO
     'admins/fetchAll',
     async (): Promise<any> => {
         const response = await fetchAdmins();
@@ -61,13 +69,16 @@ const adminsSlice = createSlice({
             state.data = payload.data;
         });
         builder.addCase(createNewAdmin.fulfilled, (state, { payload }) => {
+            debugger
             state.status = ActionStatus.Success;
             state.data.push(payload.data as never);
         });
         builder.addCase(createNewAdmin.pending, (state, { payload }) => {
+            debugger
             state.status = ActionStatus.Pending;
         });
         builder.addCase(createNewAdmin.rejected, (state, { payload }) => {
+            debugger
             state.status = ActionStatus.Error;
             state.error = "Error creating admin";
         });
