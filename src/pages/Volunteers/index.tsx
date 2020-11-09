@@ -59,7 +59,6 @@ const Volunteers = () => {
                     hideFooterSelectedRowCount
                     hideFooterRowCount
                     onRowClick={RowClickHandler}
-
                 />
             </div>
         </div>
