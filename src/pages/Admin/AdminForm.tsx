@@ -5,16 +5,21 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Card } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
-import { rows } from '../Settings/SampleAdmins';
-import IAdmin from '../../types/admins/IAdmin';
+import { Card, CircularProgress } from '@material-ui/core';
+import { Formik, ErrorMessage } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store';
+import { ActionStatus } from '../../types/auth/ILoginData';
+import { Redirect, useParams } from 'react-router-dom';
+import { createNewAdmin } from '../../store/features/adminsSlice';
+import { IAdminState } from '../../types/admins/IAdminState';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         justifyContent: 'center',
         minWidth: 500,
+
     },
     mainContainer: {
         padding: theme.spacing(6, 20, 4, 20),
@@ -48,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
         minWidth: '120px',
         borderRadius: '20px'
     },
+    progress: {
+        '& > * + *': {
+            marginLeft: theme.spacing(2),
+        },
+    },
     textField: {
         border: 'none',
         '& .MuiInputBase-root': {
@@ -68,34 +78,48 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const handleSubmit = (e: React.SyntheticEvent<EventTarget>): void => {
-    e.preventDefault();
-
-    debugger;
-}
-
-interface IProps {
-
-}
-
 interface IParams {
     id: string
 }
 
-const AdminForm = (props: IProps) => {
+interface IFormikValues {
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
+}
+
+interface IError {
+    name?: string;
+    surname?: string;
+    email?: string;
+    password?: string;
+    passwordConfirm?: string;
+}
+
+const AdminForm = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const { id } = useParams<IParams>();
+    const [submitting, setSubmitting] = useState<boolean>(false);
+    const admins: IAdminState = useSelector((state: RootState) => state.admins);
 
-    // useEffect(() => {
-    //     if (id) {
+    useEffect(() => {
+        if (admins.status !== ActionStatus.Pending) {
+            setSubmitting(false);
+        }
+    }, [admins.status]);
 
-    //     }
-    // }, [])
+    //let initialValues: IAdmin = { _id: '', name: '', surname: '', email: '' };
 
-    let initialValues: IAdmin | any = {}
+    const handleFormSubmit = (values: IFormikValues): void => {
+        dispatch(createNewAdmin(values));
+        setSubmitting(true);
+    }
 
-    if (id) {
-        initialValues = rows.find((admin: IAdmin) => admin._id === id);
+    if (submitting && admins.status === ActionStatus.Success) {
+        return <Redirect to="/settings" />
     }
 
     return (
@@ -105,81 +129,137 @@ const AdminForm = (props: IProps) => {
                     <CssBaseline />
                     <div className={classes.paper}>
                         <Typography component="h1" variant="h4">
-                            {id ? "Edit" : "Create"} Admin
+                            Log in
                         </Typography>
-                        <form className={classes.form} noValidate onSubmit={handleSubmit}>
-                            <TextField
-                                variant="filled"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="name"
-                                label="Name"
-                                name="name"
-                                autoComplete="name"
-                                defaultValue={id && initialValues.name}
-                                autoFocus
-                                className={classes.textField}
-                            />
-                            <TextField
-                                variant="filled"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="surname"
-                                label="Surname"
-                                name="surname"
-                                autoComplete="surname"
-                                className={classes.textField}
-                                defaultValue={id && initialValues.surname}
-                            />
-                            <TextField
-                                variant="filled"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email"
-                                name="email"
-                                autoComplete="email"
-                                className={classes.textField}
-                                defaultValue={id && initialValues.email}
-                            />
-                            <TextField
-                                variant="filled"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                className={classes.textField}
-                            />
-                            <TextField
-                                variant="filled"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password2"
-                                label="Confirm Password"
-                                type="password"
-                                id="password2"
-                                className={classes.textField}
-                            />
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                {id ? "Save" : "Create"}
-                            </Button>
-                        </form>
+                        <Formik
+                            initialValues={{ name: '', surname: '', email: '', password: '', passwordConfirm: '' }}
+                            validate={values => {
+                                const errors: IError = {};
+                                if (!values.name) {
+                                    errors.name = 'Name is required';
+                                }
+                                if (!values.surname) {
+                                    errors.surname = 'Surname is required';
+                                }
+                                if (!values.email) {
+                                    errors.email = 'Email is required';
+                                }
+                                else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+                                    errors.email = 'Invalid email address';
+                                }
+                                if (values.password !== values.passwordConfirm) {
+                                    errors.passwordConfirm = 'Passwords do not match';
+                                }
+                                return errors;
+                            }}
+                            onSubmit={handleFormSubmit}
+                        >
+                            {({
+                                values,
+                                errors,
+                                touched,
+                                handleChange,
+                                handleBlur,
+                                handleSubmit
+                            }) => (
+                                    <form className={classes.form} onSubmit={handleSubmit}>
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="name"
+                                            label="Name"
+                                            name="name"
+                                            autoComplete="name"
+                                            autoFocus
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={classes.textField}
+                                        />
+                                        {errors.name && touched.name && <ErrorMessage name="name" component="div" className="form-error" />}
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="surname"
+                                            label="Surname"
+                                            name="surname"
+                                            autoComplete="surname"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={classes.textField}
+                                        />
+                                        {errors.surname && touched.surname && <ErrorMessage name="surname" component="div" className="form-error" />}
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            label="Email"
+                                            name="email"
+                                            autoComplete="email"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={classes.textField}
+                                        />
+                                        {errors.email && touched.email && <ErrorMessage name="email" component="div" className="form-error" />}
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            name="password"
+                                            label="Password"
+                                            type="password"
+                                            id="password"
+                                            autoComplete="current-password"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={classes.textField}
+                                        />
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            name="passwordConfirm"
+                                            label="Confirm Password"
+                                            type="password"
+                                            id="passwordConfirm"
+                                            autoComplete="current-password"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={classes.textField}
+                                        />
+                                        <ErrorMessage name="passwordConfirm" component="div" />
+                                        <br />
+                                        <Button
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={submitting}
+                                            className={classes.submit}
+                                        >
+                                            {id ? "Save" : "Create"}
+                                        </Button>
+                                        {admins.status === ActionStatus.Pending &&
+                                            <div className={classes.progress}>
+                                                <CircularProgress />
+                                            </div>
+                                        }
+                                        {admins.status === ActionStatus.Error &&
+                                            <div className="form-error">{admins.error}</div>
+                                        }
+                                    </form>
+                                )}
+                        </Formik>
                     </div>
                 </Container>
             </Card>
-        </div>
+        </div >
     );
 }
 

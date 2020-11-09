@@ -21,8 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IProps {
     window?: () => Window;
-    children: React.ReactElement;
-    userData: any
+    children: React.ReactElement
 }
 
 function ElevationScroll(props: IProps) {
@@ -47,7 +46,7 @@ const Layout = (props: IProps) => {
                 <AppBar className={classes.appBar}>
                     <Toolbar className={classes.toolbar}>
                         <Box component="span" m={0}>
-                            <Header userData={props.userData} />
+                            <Header />
                         </Box>
                     </Toolbar>
                 </AppBar>

@@ -9,18 +9,9 @@ interface IProps {
 
 const Login = (props: IProps) => {
   return (
-    <>
-      {/* <Grid container>
-        <Grid item xs={12} lg={3}>
-          <Box component="div" m={1}>
-            <Title />
-          </Box>
-        </Grid>
-      </Grid> */}
-      <div className='login-form-container'>
-        <Form />
-      </div>
-    </>
+    <div className='login-form-container'>
+      <Form />
+    </div>
   )
 }
 

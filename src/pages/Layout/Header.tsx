@@ -1,9 +1,14 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Tabs, Tab, Box } from '@material-ui/core';
+import { Tab, Box } from '@material-ui/core';
 import { makeStyles, withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import Title from '../../components/Layout/Title';
+import ILoginData, { ActionStatus } from '../../types/auth/ILoginData';
+import Button from '@material-ui/core/Button';
+import { logout } from '../../store/features/loginSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,27 +26,20 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'fixed',
       right: '20px',
       textAlign: 'right'
-    }
+    },
+    textButton: {
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
   }),
 );
-
-interface StyledTabsProps {
-  value?: number;
-}
 
 interface StyledTabProps {
   path: string;
   label: string;
   onClick?: () => void;
 }
-
-const StyledTabs = withStyles({
-  indicator: {
-    display: 'flex',
-    justifyContent: 'center',
-    backgroundColor: 'transparent'
-  },
-})((props: StyledTabsProps) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
 
 const StyledTab = withStyles((theme: Theme) =>
   createStyles({
@@ -54,7 +52,11 @@ const StyledTab = withStyles((theme: Theme) =>
       marginRight: theme.spacing(1),
     },
   }),
-)((props: StyledTabProps) => <NavLink className="tab" to={props.path} activeClassName="tab-active"><Tab disableRipple {...props} /></NavLink>);
+)((props: StyledTabProps) => (
+  <NavLink className="tab" to={props.path} activeClassName="tab-active">
+    <Tab disableRipple {...props} />
+  </NavLink>
+));
 
 interface IMenuItems {
   text: string;
@@ -73,11 +75,17 @@ const menuItems: IMenuItems[] = [
 ];
 
 interface IProps {
-  userData?: any //TODO
+
 }
 
 const Header = (props: IProps) => {
   const classes = useStyles();
+  const login: ILoginData = useSelector((state: RootState) => state.login);
+  const dispatch = useDispatch();
+
+  const handleSignOut = () => {
+    dispatch(logout());
+  }
 
   return (
     <div className={classes.root}>
@@ -87,16 +95,17 @@ const Header = (props: IProps) => {
             <Title />
           </Box>
         </Grid>
-        {(props.userData /*&& props.userData.type === "SUPER_ADMIN" */) && <Grid item xs={12} lg={6} className={classes.tabs}>
-          <StyledTabs>
+        {(login.status === ActionStatus.Success && login.userData && login.userData.type === "super") &&
+          <Grid item xs={12} lg={6} className={classes.tabs}>
             {menuItems.map((item, index) => (
               <StyledTab label={item.text} key={index} path={item.route} />
             ))}
-          </StyledTabs>
-        </Grid>}
-        {(props.userData /*&& props.userData.type === "SUPER_ADMIN" */) && <Grid item xs={12} lg={3} className={classes.signOut}>
+          </Grid>}
+        {login.status === ActionStatus.Success && <Grid item xs={12} lg={3} className={classes.signOut}>
           <Box component="div" m={1}>
-            Sign out
+            <div className={classes.textButton}>
+              <Button onClick={handleSignOut}>Sign out</Button>
+            </div>
           </Box>
         </Grid>}
       </Grid>

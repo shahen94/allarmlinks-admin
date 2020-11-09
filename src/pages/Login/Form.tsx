@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -7,11 +7,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Card } from '@material-ui/core';
-import { Formik, Form as FormikForm, Field, ErrorMessage, FormikHelpers } from 'formik';
-import { useDispatch } from 'react-redux';
-import { adminLogin, setUser } from '../../store/features/loginSlice';
-
+import { Card, CircularProgress } from '@material-ui/core';
+import { Formik, Field, ErrorMessage } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
+import { adminLogin } from '../../store/features/loginSlice';
+import { RootState } from '../../store';
+import ILoginData, { ActionStatus } from '../../types/auth/ILoginData';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        minWidth: '280px'
     },
     avatar: {
         margin: theme.spacing(1),
@@ -51,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
         height: '40px',
         minWidth: '120px',
         borderRadius: '20px'
+    },
+    progress: {
+        '& > * + *': {
+            marginLeft: theme.spacing(2),
+        },
     },
     textField: {
         border: 'none',
@@ -73,34 +80,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IFormikValues {
-
+    email: string;
+    password: string;
 }
 
-// const handleFormSubmit = (values: IFormikValues, { setSubmitting }: FormikHelpers<IFormikValues>): void => {
-//     setTimeout(() => {
-//         alert(JSON.stringify(values, null, 2));
-//         setSubmitting(false);
-//     }, 400);
-// }
-
-
 interface IError {
-    email?: string
+    email?: string;
 }
 
 const Form = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const [submitting, setSubmitting] = useState<boolean>(false);
+    const login: ILoginData = useSelector((state: RootState) => state.login);
 
-    const handleFormSubmit = (values: any, { setSubmitting }: any): void => {
-        setTimeout(() => {
-            //alert(JSON.stringify(values, null, 2));
-            dispatch(setUser(values));
-            dispatch(adminLogin(values));
+    useEffect(() => {
+        if(login.status !== ActionStatus.Pending) {
             setSubmitting(false);
-            window.sessionStorage.setItem('accessToken', 'true');
-        }, 400);
+        }
+    }, [login.status]);
+
+    const handleFormSubmit = (values: IFormikValues): void => {
+        dispatch(adminLogin(values));
+        setSubmitting(true);
     }
+
     return (
         <div className={classes.root}>
             <Card className={classes.card} variant="outlined">
@@ -110,12 +114,12 @@ const Form = () => {
                         <Typography component="h1" variant="h4">
                             Log in
                         </Typography>
-                        <Formik
+                        <Formik                            
                             initialValues={{ email: '', password: '', remember: false }}
                             validate={values => {
                                 const errors: IError = {};
                                 if (!values.email) {
-                                    errors.email = 'Required';
+                                    errors.email = 'Email is required';
                                 } else if (
                                     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
                                 ) {
@@ -131,8 +135,7 @@ const Form = () => {
                                 touched,
                                 handleChange,
                                 handleBlur,
-                                handleSubmit,
-                                isSubmitting,
+                                handleSubmit
                             }) => (
                                     <form className={classes.form} onSubmit={handleSubmit}>
                                         <TextField
@@ -149,6 +152,7 @@ const Form = () => {
                                             onBlur={handleBlur}
                                             className={classes.textField}
                                         />
+                                        {errors.email && touched.email && <ErrorMessage name="email" component="div" className="form-error" />}
                                         <TextField
                                             variant="filled"
                                             margin="normal"
@@ -163,7 +167,7 @@ const Form = () => {
                                             onBlur={handleBlur}
                                             className={classes.textField}
                                         />
-                                        <Field
+                                        {/* <Field
                                             name="remember"
                                             render={({ field, form }: any) => {
                                                 return (
@@ -173,17 +177,25 @@ const Form = () => {
                                                     />
                                                 );
                                             }}
-                                        />
+                                        /> */}
                                         <br />
                                         <Button
                                             type="submit"
                                             variant="contained"
                                             color="primary"
-                                            disabled={isSubmitting}
+                                            disabled={submitting}
                                             className={classes.submit}
                                         >
                                             Login
                                         </Button>
+                                        {login.status === ActionStatus.Pending &&
+                                            <div className={classes.progress}>
+                                                <CircularProgress />
+                                            </div>
+                                        }
+                                        {login.status === ActionStatus.Error &&
+                                            <div className="form-error">{login.error}</div>
+                                        }
                                     </form>
                                 )}
                         </Formik>

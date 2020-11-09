@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { rows } from './SampleAdmins';
 import { useHistory } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -12,7 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { fetchAll } from '../../store/features/adminsSlice';
+import { deleteAdminById, fetchAll as fetchAllAdmins } from '../../store/features/adminsSlice';
 import { useSelector, useDispatch } from 'react-redux'
 import IAdminRecord from '../../types/admins/IAdminRecord';
 import { RootState } from '../../store';
@@ -40,24 +39,19 @@ const useStyles = makeStyles({
     }
 })
 
-interface IProps {
-
-}
-
-const Settings = (props: IProps) => {
+const Settings = () => {
     const classes: Record<string, string> = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const admins: IAdminRecord[] = useSelector((state: RootState) => state.admins.admins);
-
-    useEffect(() => {
+    const admins: IAdminRecord[] = useSelector((state: RootState) => state.admins.data);
+    useEffect(() => { 
         if (!admins.length) {
-            dispatch(fetchAll())
+            dispatch(fetchAllAdmins());
         }
-    }, [])
+    }, [admins.length, dispatch])
 
-    const handleAddAdmin = (/*id: string*/) => {
+    const handleAddAdmin = () => {
         history.push("/adminform")
     }
 
@@ -65,12 +59,13 @@ const Settings = (props: IProps) => {
         history.push(`/adminform/${id}`)
     }
 
-    const handleDelete = () => {
+    const handleDelete = (id: string) => {
+        dispatch(deleteAdminById(id));
         history.push("/settings")
     }
 
     return (
-        <div /*className='admin-grid-container'*/ className={classes.container}>
+        <div className={classes.container}>
             <IconButton onClick={handleAddAdmin} aria-label="">
                 <AddIcon />
             </IconButton>
@@ -85,16 +80,16 @@ const Settings = (props: IProps) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {admins.map((row) => (
-                            <TableRow key={row._id}>
-                                <TableCell className={classes.tableCell}>{row.name}</TableCell>
-                                <TableCell className={classes.tableCell}>{row.surname}</TableCell>
-                                <TableCell className={classes.tableCell}>{row.email}</TableCell>
+                        {admins && admins.map((admin) => (
+                            <TableRow key={admin._id}>
+                                <TableCell className={classes.tableCell}>{admin.name}</TableCell>
+                                <TableCell className={classes.tableCell}>{admin.surname}</TableCell>
+                                <TableCell className={classes.tableCell}>{admin.email}</TableCell>
                                 <TableCell align="right" className={classes.tableCell}>
-                                    <IconButton aria-label="edit" onClick={() => handleEdit(row._id)}>
+                                    <IconButton aria-label="edit" onClick={() => handleEdit(admin._id)}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton aria-label="delete" onClick={handleDelete}>
+                                    <IconButton aria-label="delete" onClick={() => handleDelete(admin._id)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </TableCell>

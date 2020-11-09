@@ -23,5 +23,10 @@ body,
   font-weight: 700;
 }
 
+
+.form-error {
+  color: red;
+}
+
 @import "./pages/Volunteers.scss";
 @import "./pages/Volunteer.scss";

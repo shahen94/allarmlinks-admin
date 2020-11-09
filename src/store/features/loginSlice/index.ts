@@ -1,39 +1,84 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import login from '../../../api/auth/login';
-import IAdminAuthorizeData from "../../../types/admins/IAdminAuthorizeData";
+import { ILocalStorageData } from "../../../types/auth/ILocalStorageData";
+import ILoginState from "../../../types/auth/ILoginData";
+import { ActionStatus } from "../../../types/auth/ILoginData";
 import ILoginResponse from "../../../types/auth/ILoginResponse";
-import ILoginState from "../../../types/auth/ILoginState";
+import { getLocalStorageData } from "../../../utils/localStorageUtils";
 
 const adminLogin = createAsyncThunk(
     'admin/login',
     async (loginData: any): Promise<ILoginResponse> => {
         const response = await login(loginData);
-        debugger
         return response as ILoginResponse
     }
 )
 
+// const adminLoginCheck = createAsyncThunk(
+//     'admin/profile',
+//     async (): Promise<ILoginResponse> => {
+//         const response = await loginCheck();
+//         return response as ILoginResponse
+//     }
+// )
+
 const initialState: ILoginState = {
-    user: {}
+    status: ActionStatus.Initial,
+    userData: {},
+    error: ""
 }
 
 const loginSlice = createSlice({
-    name: 'user',
+    name: 'login',
     initialState,
     reducers: {
-        setUser: ({ user }: ILoginState, { payload }: PayloadAction<ILoginResponse>): void => {
-            user.data = payload
+        adminLoginCheck: (state: ILoginState): void => {
+            const parsedData: ILocalStorageData = JSON.parse(getLocalStorageData() || "{}");
+            if (parsedData.accessToken) {
+                state.status = ActionStatus.Success;
+                state.userData = parsedData.userData;
+            }
+            else {
+                state.status = ActionStatus.Initial;
+            }
+        },
+        logout: (state: ILoginState): void => {
+            window.localStorage.removeItem("adminAuthData");
+            state.status = ActionStatus.Initial;
+            state.userData = null;
         }
     },
     extraReducers: builder => {
         builder.addCase(adminLogin.fulfilled, (state, { payload }: PayloadAction<ILoginResponse>) => {
-            window.localStorage.setItem("accessToken", payload.accessToken);
-            state.user = payload;
-        })
+            const storageData: ILocalStorageData = {
+                accessToken: payload.accessToken,
+                userData: payload.data
+            };
+            window.localStorage.setItem("adminAuthData", JSON.stringify(storageData));
+            state.status = ActionStatus.Success;
+            state.userData = payload.data;
+        });
+        builder.addCase(adminLogin.pending, (state) => {
+            state.status = ActionStatus.Pending;
+        });
+        builder.addCase(adminLogin.rejected, (state, action: PayloadAction<any>) => {
+            state.status = ActionStatus.Error;
+            state.error = "Authentication error";
+        });
+        // builder.addCase(adminLoginCheck.fulfilled, (state) => {
+        //     debugger
+        //     state.status = LoginStatus.Success;
+        //     //state.userData = payload.data;
+        // });
+        // builder.addCase(adminLoginCheck.rejected, (state, asdsa: any) => {
+        //     debugger
+        //     state.status = LoginStatus.Initial;
+        //     //state.userData = payload.data;
+        // });
     }
 })
 
 const { actions, reducer } = loginSlice;
-export const { setUser } = actions;
+export const { logout, adminLoginCheck } = actions;
 export { adminLogin };
 export default reducer;

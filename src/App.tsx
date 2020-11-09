@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import './styles/global.scss'
 import 'fontsource-roboto';
@@ -8,57 +8,18 @@ import Login from './pages/Login';
 import Volunteers from './pages/Volunteers';
 import Volunteer from './pages/Volunteer';
 import AdminForm from './pages/Admin/AdminForm';
-import { useDispatch, useSelector } from 'react-redux';
-import login from './api/auth/login';
-import { RootState } from './store';
-import ILoginResponse from './types/auth/ILoginResponse';
-import ILoginState from './types/auth/ILoginState';
-
-interface IRoute {
-  children: React.ReactElement;
-  exact?: boolean;
-  path: string;
-}
-
-const userData: boolean = false;
-
-const PrivateRoute = ({ children, ...rest }: IRoute) => {
-  const user: ILoginState = useSelector((state: RootState) => state.user);
-
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        user.user.data ? children : <Redirect to="/login" />
-      }
-    />
-  );
-}
-
-const PublicRoute = ({ children, ...rest }: IRoute) => {
-  const user: ILoginState = useSelector((state: RootState) => state.user);
-
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        !user.user.data ? children : (
-          <Redirect to="/" />
-        )
-      }
-    />
-  );
-}
+import { useDispatch } from 'react-redux';
+import { adminLoginCheck } from './store/features/loginSlice';
+import PrivateRoute from './components/Routes/PrivateRoute';
+import PublicRoute from './components/Routes/PublicRoute';
 
 const App = () => {
-  const user: ILoginState = useSelector((state: RootState) => state.user)
-  useEffect(() => {
-
-  })
-
+  const dispatch = useDispatch();
+  dispatch(adminLoginCheck());
+  
   return (
     <BrowserRouter>
-      <Layout userData={user && user.user.data}>
+      <Layout>
         <Switch>
           <Route exact path="/">
             <Redirect to="/volunteers" />
@@ -84,12 +45,6 @@ const App = () => {
           <PublicRoute exact path="/login">
             <Login />
           </PublicRoute>
-          {/* <Route exact path="/login" component={Login}></Route>
-          <Route exact path="/volunteers" component={Volunteers}></Route>
-          <Route exact path="/volunteers/:id" component={Volunteer}></Route>
-          <Route path="/settings" component={Settings}></Route>
-          <Route path="/adminform/:id" component={AdminForm}></Route>
-          <Route path="/adminform" component={AdminForm}></Route> */}
         </Switch>
       </Layout>
     </BrowserRouter>
