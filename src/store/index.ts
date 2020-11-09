@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { volunteersReducer, adminsReducer, loginReducer } from './features';
+import { volunteersReducer, adminsReducer, loginReducer ,singleVolunteerReducer} from './features';
 
 
 export const store = configureStore({
     reducer: {
         volunteers: volunteersReducer,
         admins: adminsReducer,
-        login: loginReducer
+        login: loginReducer,
+        singleVolunteer:singleVolunteerReducer,
     }
 })
 

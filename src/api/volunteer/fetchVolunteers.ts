@@ -5,7 +5,7 @@ import { endpoint } from './../../config'
 import qs from 'qs'
 const fetchVolunteers = async (params: IVolunteersRequest): Promise<object> => {
     const query = qs.stringify(params)
-    const url = `${endpoint}/volunteer?${query}`
+    const url = `${endpoint}/admin/volunteers?${query}`
     const response: AxiosRequestConfig = await get(url)
     return response.data.data
 }
