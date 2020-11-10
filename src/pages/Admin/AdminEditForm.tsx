@@ -10,9 +10,10 @@ import { Formik, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { ActionStatus } from '../../types/auth/ILoginData';
-import { Redirect } from 'react-router-dom';
-import { createNewAdmin } from '../../store/features/adminsSlice';
+import { Redirect, useParams } from 'react-router-dom';
+import { fetchById as fetchAdminById, updateAdminById } from '../../store/features/adminsSlice';
 import { IAdminState } from '../../types/admins/IAdminState';
+import IAdminRecord from '../../types/admins/IAdminRecord';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -78,6 +79,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+interface IParams {
+    id: string
+}
+
 interface IFormikValues {
     name: string;
     surname: string;
@@ -94,11 +99,21 @@ interface IError {
     passwordConfirm?: string;
 }
 
-const AdminForm = () => {
+const AdminEditForm = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { id: idFromParams } = useParams<IParams>();
     const [submitting, setSubmitting] = useState<boolean>(false);
     const admins: IAdminState = useSelector((state: RootState) => state.admins);
+    const adminInStore: IAdminRecord | undefined = useSelector((state: RootState) => state.admins.data.find((admin: IAdminRecord) => admin._id === idFromParams));
+
+    useEffect(() => {
+        debugger
+        //const adminInStore = admins.data.find((admin: IAdminRecord) => admin._id === idFromParams);
+        if (idFromParams && !adminInStore) {
+            dispatch(fetchAdminById(idFromParams));
+        }
+    }, [adminInStore, dispatch, idFromParams]);
 
     useEffect(() => {
         if (admins.status !== ActionStatus.Pending) {
@@ -106,10 +121,27 @@ const AdminForm = () => {
         }
     }, [admins.status]);
 
+    const editFormInitialValues = { ...adminInStore, password: '', passwordConfirm: '' };
+
     const handleFormSubmit = (values: IFormikValues): void => {
-        dispatch(createNewAdmin(values));
+        const submitValues: { name?: string, surname?: string, email?: string, password?: string } = {};
+        if (values.name !== adminInStore?.name) {
+            submitValues.name = values.name
+        }
+        if (values.surname !== adminInStore?.surname) {
+            submitValues.surname = values.surname
+        }
+        if (values.email !== adminInStore?.email) {
+            submitValues.email = values.email
+        }
+        if (values.password !== '') {
+            submitValues.password = values.password
+        }
+        dispatch(updateAdminById({ _id: idFromParams, ...submitValues }));
         setSubmitting(true);
     }
+
+    if (!adminInStore || !adminInStore._id) return null;
 
     if (submitting && admins.status === ActionStatus.Success) {
         return <Redirect to="/settings" />
@@ -124,8 +156,8 @@ const AdminForm = () => {
                         <Typography component="h1" variant="h4">
                             Log in
                         </Typography>
-                        <Formik
-                            initialValues={{ name: '', surname: '', email: '', password: '', passwordConfirm: '' }}
+                        {adminInStore && adminInStore._id ? <Formik
+                            initialValues={editFormInitialValues as any}
                             validate={values => {
                                 const errors: IError = {};
                                 if (!values.name) {
@@ -169,6 +201,7 @@ const AdminForm = () => {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             className={classes.textField}
+                                            value={values.name}
                                         />
                                         {errors.name && touched.name && <ErrorMessage name="name" component="div" className="form-error" />}
                                         <TextField
@@ -183,6 +216,7 @@ const AdminForm = () => {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             className={classes.textField}
+                                            value={values.surname}
                                         />
                                         {errors.surname && touched.surname && <ErrorMessage name="surname" component="div" className="form-error" />}
                                         <TextField
@@ -197,12 +231,12 @@ const AdminForm = () => {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             className={classes.textField}
+                                            value={values.email}
                                         />
                                         {errors.email && touched.email && <ErrorMessage name="email" component="div" className="form-error" />}
                                         <TextField
                                             variant="filled"
-                                            margin="normal"
-                                            required
+                                            margin="normal"                                            
                                             fullWidth
                                             name="password"
                                             label="Password"
@@ -215,8 +249,7 @@ const AdminForm = () => {
                                         />
                                         <TextField
                                             variant="filled"
-                                            margin="normal"
-                                            required
+                                            margin="normal"                                            
                                             fullWidth
                                             name="passwordConfirm"
                                             label="Confirm Password"
@@ -236,7 +269,7 @@ const AdminForm = () => {
                                             disabled={submitting}
                                             className={classes.submit}
                                         >
-                                            Create
+                                            Save
                                         </Button>
                                         {admins.status === ActionStatus.Pending &&
                                             <div className={classes.progress}>
@@ -248,7 +281,10 @@ const AdminForm = () => {
                                         }
                                     </form>
                                 )}
-                        </Formik>
+                        </Formik> :
+                            <div className={classes.progress}>
+                                <CircularProgress />
+                            </div>}
                     </div>
                 </Container>
             </Card>
@@ -256,4 +292,4 @@ const AdminForm = () => {
     );
 }
 
-export default AdminForm;
+export default AdminEditForm;
