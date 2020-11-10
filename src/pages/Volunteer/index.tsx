@@ -42,7 +42,7 @@ const Volunteer = () => {
                     <ListItem divider>
                         <p>
                             <span>Phone number:</span>
-                            <span>{volunteer.phoneNumber}</span>
+                            <span>{volunteer.phone}</span>
                         </p>
                     </ListItem>
                     <ListItem divider>

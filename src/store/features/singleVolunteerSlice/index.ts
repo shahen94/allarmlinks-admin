@@ -21,7 +21,7 @@ const initialState: ISingleVolunteerState = {
         name:'',
         surname:'',
         email:'',
-        phoneNumber:'',  
+        phone:'',
         birthDate:'',
         country:'',
         city:''
