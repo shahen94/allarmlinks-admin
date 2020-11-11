@@ -21,5 +21,6 @@ export default interface IVolunteerRecord {
     linkedinProfile?: string,
     twitterProfile?: string,
     whereToVolunteer?: string,
-    other?: string
+    other?: string,
+    workStatus?: string
 }
