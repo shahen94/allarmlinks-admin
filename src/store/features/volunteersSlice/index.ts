@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import IVolunteerRecord from "../../../types/volunteers/IVolunteer";
 import fetchVolunteers from "../../../api/volunteer/fetchVolunteers";
-import IFetchedVolunteers from "./../../../types/volunteers/IFetchedVolunteers";
+import IFetchedVolunteers from "../../../types/volunteers/IFetchedVolunteers";
 import IProcessedVolunteerRecord from "../../../types/volunteers/IProcessedVolunteer";
 import processVolunteersRecords from "../../../utils/processVolunteersRecords";
 import IAppStateData from "./../../../types/IAppStateData";

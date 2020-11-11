@@ -15,6 +15,8 @@ import { deleteAdminById, fetchAll as fetchAllAdmins } from '../../store/feature
 import { useSelector, useDispatch } from 'react-redux'
 import IAdminRecord from '../../types/admins/IAdminRecord';
 import { RootState } from '../../store';
+import SearchBar from '../../components/SearchBar';
+import {searchTypesAdmins} from "../../types/admins/IAdminSearchTypes"
 
 const useStyles = makeStyles({
     container: {
@@ -65,41 +67,60 @@ const Settings = () => {
     }
 
     return (
-        <div className={classes.container}>
-            <IconButton onClick={handleAddAdmin} aria-label="">
-                <AddIcon />
-            </IconButton>
-            <TableContainer className={classes.root}>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell className={classes.tableHead}>Name</TableCell>
-                            <TableCell className={classes.tableHead}>Surname</TableCell>
-                            <TableCell className={classes.tableHead}>Email Address</TableCell>
-                            <TableCell align="right" className={classes.tableHead}></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {admins && admins.map((admin) => (
-                            <TableRow key={admin._id}>
-                                <TableCell className={classes.tableCell}>{admin.name}</TableCell>
-                                <TableCell className={classes.tableCell}>{admin.surname}</TableCell>
-                                <TableCell className={classes.tableCell}>{admin.email}</TableCell>
-                                <TableCell align="right" className={classes.tableCell}>
-                                    <IconButton aria-label="edit" onClick={() => handleEdit(admin._id)}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => handleDelete(admin._id)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </div>
-    )
+      <div className={classes.container}>
+        <SearchBar role="admins" searchTypes={searchTypesAdmins} />
+        <IconButton onClick={handleAddAdmin} aria-label="">
+          <AddIcon />
+        </IconButton>
+        <TableContainer className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.tableHead}>Name</TableCell>
+                <TableCell className={classes.tableHead}>Surname</TableCell>
+                <TableCell className={classes.tableHead}>
+                  Email Address
+                </TableCell>
+                <TableCell
+                  align="right"
+                  className={classes.tableHead}
+                ></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {admins &&
+                admins.map((admin) => (
+                  <TableRow key={admin._id}>
+                    <TableCell className={classes.tableCell}>
+                      {admin.name}
+                    </TableCell>
+                    <TableCell className={classes.tableCell}>
+                      {admin.surname}
+                    </TableCell>
+                    <TableCell className={classes.tableCell}>
+                      {admin.email}
+                    </TableCell>
+                    <TableCell align="right" className={classes.tableCell}>
+                      <IconButton
+                        aria-label="edit"
+                        onClick={() => handleEdit(admin._id)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => handleDelete(admin._id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    );
 }
 
 export default Settings;

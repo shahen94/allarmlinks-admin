@@ -4,7 +4,7 @@ import { useSelector,useDispatch} from 'react-redux';
 import { RootState } from '../../store';
 import { useParams } from 'react-router-dom';
 import { fetchById } from '../../store/features/singleVolunteerSlice';
-import IVolunteerRecord from './../../types/volunteers/IVolunteer';
+import IVolunteerRecord from '../../types/volunteers/IVolunteer';
 interface IParams {
     id: string
 }

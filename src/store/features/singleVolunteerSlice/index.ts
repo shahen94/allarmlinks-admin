@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ActionStatus } from "../../../types/auth/ILoginData";
 import IVolunteerRecord from '../../../types/volunteers/IVolunteer';
 import fetchVolunteerById from './../../../api/volunteer/fetchVolunteerById';
-import ISingleVolunteerState from './../../../types/volunteers/ISingleVolunteerState';
+import ISingleVolunteerState from '../../../types/volunteers/ISingleVolunteerState';
 const fetchById = createAsyncThunk<
     IVolunteerRecord,
     string

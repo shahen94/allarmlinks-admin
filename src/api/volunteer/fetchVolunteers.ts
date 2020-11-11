@@ -1,6 +1,6 @@
 import { get } from '../../utils/fetch'
 import { AxiosRequestConfig } from 'axios'
-import IVolunteersRequest from './../../types/volunteers/IVolunteersRequest'
+import IVolunteersRequest from '../../types/volunteers/IVolunteersRequest'
 import { endpoint } from './../../config'
 import qs from 'qs'
 const fetchVolunteers = async (params: IVolunteersRequest): Promise<object> => {
