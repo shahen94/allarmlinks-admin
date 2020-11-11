@@ -3,41 +3,50 @@
   background-color: $neutral_color;
   margin: 0 auto;
   height: auto;
+
   .DataGrid-container {
     max-width: 90%;
     margin: 0 auto;
     height: auto;
     background-color: $neutral_color;
     margin-top: 1rem;
+
     .table-header {
       font-weight: bold;
     }
+
     > div:nth-child(2) {
       height: auto !important;
       width: auto !important;
     }
+
     > .volunteers-count {
       padding: 16px;
       font-size: 2rem;
+
       > span:first-child {
         margin-right: 16px;
       }
     }
+
     .MuiDataGrid-root {
       margin: 0 auto !important;
       // min-width: 85%;
       .MuiDataGrid-cell:focus {
         outline: none !important;
       }
+
       .MuiDataGrid-row:hover {
         background-color: rgba(0, 0, 0, 0.04) !important;
       }
+
       // height: 80vh !important;
       // background-color: $neutral_color;
       // border: none !important;
       .MuiDataGrid-columnSeparator {
         visibility: hidden;
       }
+
       .MuiDataGrid-colCellTitle {
         font-weight: 600 !important;
       }

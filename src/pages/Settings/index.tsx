@@ -1,20 +1,19 @@
-import React, { useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from "react-router-dom";
+import React, {useEffect} from 'react'
+import {makeStyles} from '@material-ui/core/styles';
+import {useHistory} from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import AddIcon from '@material-ui/icons/Add';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { deleteAdminById, fetchAll as fetchAllAdmins } from '../../store/features/adminsSlice';
-import { useSelector, useDispatch } from 'react-redux'
+import {deleteAdminById, fetchAll as fetchAllAdmins} from '../../store/features/adminsSlice';
+import {useDispatch, useSelector} from 'react-redux'
 import IAdminRecord from '../../types/admins/IAdminRecord';
-import { RootState } from '../../store';
+import {RootState} from '../../store';
 import SubHeader from './SubHeader';
 
 const useStyles = makeStyles({
@@ -49,7 +48,7 @@ const Settings = () => {
     const admins: IAdminRecord[] = useSelector((state: RootState) => state.admins.data);
 
     useEffect(() => {
-        if(!admins.length){
+        if (!admins.length) {
             dispatch(fetchAllAdmins());
         }
     }, [admins.length, dispatch])
@@ -65,7 +64,7 @@ const Settings = () => {
 
     return (
         <>
-            <SubHeader count={admins.length} />
+            <SubHeader count={admins.length}/>
             <TableContainer className={classes.root}>
                 <Table className={classes.table}>
                     <TableHead>
@@ -79,7 +78,7 @@ const Settings = () => {
                     </TableHead>
                     <TableBody>
                         {admins && admins.map((admin) => {
-                            const { _id, email, name, surname, password }: IAdminRecord = admin;
+                            const {_id, email, name, surname, password}: IAdminRecord = admin;
                             return (
                                 <TableRow key={admin._id}>
                                     <TableCell className={classes.tableCell}>{name}</TableCell>
@@ -87,11 +86,13 @@ const Settings = () => {
                                     <TableCell className={classes.tableCell}>{email}</TableCell>
                                     <TableCell className={classes.tableCell}>{password}</TableCell>
                                     <TableCell align="right" className={classes.tableCell}>
-                                        <IconButton className={classes.editButton} aria-label="edit" onClick={() => handleEdit(_id)}>
-                                            <EditIcon />
+                                        <IconButton className={classes.editButton} aria-label="edit"
+                                                    onClick={() => handleEdit(_id)}>
+                                            <EditIcon/>
                                         </IconButton>
-                                        <IconButton className={classes.deleteButton} aria-label="delete" onClick={() => handleDelete(_id)}>
-                                            <DeleteIcon />
+                                        <IconButton className={classes.deleteButton} aria-label="delete"
+                                                    onClick={() => handleDelete(_id)}>
+                                            <DeleteIcon/>
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>

@@ -1,4 +1,4 @@
-import IVolunteerRecord from '../types/volunteers/IVolunteer'
+import IVolunteerRecord from '../types/volunteers/IVolunteerRecord'
 import IProcessedVolunteerRecord from '../types/volunteers/IProcessedVolunteer'
 
 const processVolunteersRecords = (data: IVolunteerRecord[]): IProcessedVolunteerRecord[] => {

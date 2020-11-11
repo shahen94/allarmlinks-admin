@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Card, CircularProgress } from '@material-ui/core';
-import { Formik, Field, ErrorMessage } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { adminLogin } from '../../store/features/loginSlice';
-import { RootState } from '../../store';
-import ILoginData, { ActionStatus } from '../../types/auth/ILoginData';
+import {Card, CircularProgress} from '@material-ui/core';
+import {ErrorMessage, Formik} from 'formik';
+import {useDispatch, useSelector} from 'react-redux';
+import {adminLogin} from '../../store/features/loginSlice';
+import {RootState} from '../../store';
+import ILoginData, {ActionStatus} from '../../types/auth/ILoginData';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,13 +55,13 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '20px',
         '&:hover': {
             boxShadow: 'none',
-          },
-          '&:active': {
+        },
+        '&:active': {
             boxShadow: 'none',
-          },
-          '&:focus': {
+        },
+        '&:focus': {
             boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-          },
+        },
     },
     progress: {
         '& > * + *': {
@@ -106,7 +104,7 @@ const Form = () => {
     const login: ILoginData = useSelector((state: RootState) => state.login);
 
     useEffect(() => {
-        if(login.status !== ActionStatus.Pending) {
+        if (login.status !== ActionStatus.Pending) {
             setSubmitting(false);
         }
     }, [login.status]);
@@ -120,13 +118,13 @@ const Form = () => {
         <div className={classes.root}>
             <Card className={classes.card} variant="outlined">
                 <Container component="main" maxWidth="sm" className={classes.mainContainer}>
-                    <CssBaseline />
+                    <CssBaseline/>
                     <div className={classes.paper}>
                         <Typography component="h1" variant="h4">
                             Log in
                         </Typography>
-                        <Formik                            
-                            initialValues={{ email: '', password: '', remember: false }}
+                        <Formik
+                            initialValues={{email: '', password: '', remember: false}}
                             validate={values => {
                                 const errors: IError = {};
                                 if (!values.email) {
@@ -141,44 +139,45 @@ const Form = () => {
                             onSubmit={handleFormSubmit}
                         >
                             {({
-                                values,
-                                errors,
-                                touched,
-                                handleChange,
-                                handleBlur,
-                                handleSubmit
-                            }) => (
-                                    <form className={classes.form} onSubmit={handleSubmit}>
-                                        <TextField
-                                            variant="filled"
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            id="email"
-                                            label="Email"
-                                            name="email"
-                                            autoComplete="email"
-                                            autoFocus
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            className={classes.textField}
-                                        />
-                                        {errors.email && touched.email && <ErrorMessage name="email" component="div" className="form-error" />}
-                                        <TextField
-                                            variant="filled"
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            name="password"
-                                            label="Password"
-                                            type="password"
-                                            id="password"
-                                            autoComplete="current-password"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            className={classes.textField}
-                                        />
-                                        {/* <Field
+                                  values,
+                                  errors,
+                                  touched,
+                                  handleChange,
+                                  handleBlur,
+                                  handleSubmit
+                              }) => (
+                                <form className={classes.form} onSubmit={handleSubmit}>
+                                    <TextField
+                                        variant="filled"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="email"
+                                        label="Email"
+                                        name="email"
+                                        autoComplete="email"
+                                        autoFocus
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        className={classes.textField}
+                                    />
+                                    {errors.email && touched.email &&
+                                    <ErrorMessage name="email" component="div" className="form-error"/>}
+                                    <TextField
+                                        variant="filled"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        label="Password"
+                                        type="password"
+                                        id="password"
+                                        autoComplete="current-password"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        className={classes.textField}
+                                    />
+                                    {/* <Field
                                             name="remember"
                                             render={({ field, form }: any) => {
                                                 return (
@@ -189,31 +188,31 @@ const Form = () => {
                                                 );
                                             }}
                                         /> */}
-                                        <br />
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            color="primary"
-                                            disabled={submitting}
-                                            className={classes.button}
-                                        >
-                                            Login
-                                        </Button>
-                                        {login.status === ActionStatus.Pending &&
-                                            <div className={classes.progress}>
-                                                <CircularProgress />
-                                            </div>
-                                        }
-                                        {login.status === ActionStatus.Error &&
-                                            <div className="form-error">{login.error}</div>
-                                        }
-                                    </form>
-                                )}
+                                    <br/>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        disabled={submitting}
+                                        className={classes.button}
+                                    >
+                                        Login
+                                    </Button>
+                                    {login.status === ActionStatus.Pending &&
+                                    <div className={classes.progress}>
+                                        <CircularProgress/>
+                                    </div>
+                                    }
+                                    {login.status === ActionStatus.Error &&
+                                    <div className="form-error">{login.error}</div>
+                                    }
+                                </form>
+                            )}
                         </Formik>
                     </div>
                 </Container>
             </Card>
-        </div >
+        </div>
     );
 }
 

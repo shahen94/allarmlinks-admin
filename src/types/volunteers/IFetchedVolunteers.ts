@@ -1,4 +1,4 @@
-import IVolunteerRecord from './IVolunteer';
+import IVolunteerRecord from './IVolunteerRecord';
 import IResponse from '../IResponse';
 
 export default interface IFetchedVolunteers extends IResponse {

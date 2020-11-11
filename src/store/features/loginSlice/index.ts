@@ -1,10 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
 import login from '../../../api/auth/login';
-import { ILocalStorageData } from "../../../types/auth/ILocalStorageData";
+import {ILocalStorageData} from "../../../types/auth/ILocalStorageData";
 import ILoginState from "../../../types/auth/ILoginData";
-import { ActionStatus } from "../../../types/auth/ILoginData";
-import ILoginData from "../../../types/auth/ILoginData";
-import { getLocalStorageData } from "../../../utils/localStorageUtils";
+import ILoginData, {ActionStatus} from "../../../types/auth/ILoginData";
+import {getLocalStorageData} from "../../../utils/localStorageUtils";
 
 const adminLogin = createAsyncThunk<ILoginData, any>(
     'admin/login',
@@ -37,8 +36,7 @@ const loginSlice = createSlice({
             if (parsedData.accessToken) {
                 state.status = ActionStatus.Success;
                 state.data = parsedData.userData;
-            }
-            else {
+            } else {
                 state.status = ActionStatus.Initial;
             }
         },
@@ -49,7 +47,7 @@ const loginSlice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(adminLogin.fulfilled, (state, { payload }: PayloadAction<ILoginData>) => {
+        builder.addCase(adminLogin.fulfilled, (state, {payload}: PayloadAction<ILoginData>) => {
             const storageData: ILocalStorageData = {
                 accessToken: payload.accessToken,
                 userData: payload.data
@@ -78,7 +76,7 @@ const loginSlice = createSlice({
     }
 })
 
-const { actions, reducer } = loginSlice;
-export const { logout, adminLoginCheck } = actions;
-export { adminLogin };
+const {actions, reducer} = loginSlice;
+export const {logout, adminLoginCheck} = actions;
+export {adminLogin};
 export default reducer;

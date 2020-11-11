@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import AdminForm from '../Admin/AdminForm';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import SearchBar from "../../components/SearchBar";
 import {searchTypesAdmins} from "../../types/admins/AdminSearchTypes"
 
@@ -27,7 +27,7 @@ interface IProps {
     count: number
 }
 
-const SubHeader = ({ count }: IProps) => {
+const SubHeader = ({count}: IProps) => {
     const [modalOpen, setModalOpen] = useState(false);
     const classes: Record<string, string> = useStyles();
 
@@ -48,11 +48,11 @@ const SubHeader = ({ count }: IProps) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={8}>
-                    <SearchBar role = "admins" searchTypes = {searchTypesAdmins}/>
+                    <SearchBar role="admins" searchTypes={searchTypesAdmins}/>
                 </Grid>
                 <Grid item xs={12} sm={1}>
                     <IconButton onClick={handleModalOpen} aria-label="" className={classes.addButton}>
-                        <AddIcon />
+                        <AddIcon/>
                     </IconButton>
                 </Grid>
                 <Modal
@@ -63,7 +63,7 @@ const SubHeader = ({ count }: IProps) => {
                     className={classes.formModal}
                     disableBackdropClick
                 >
-                    <AdminForm onModalClose={handleModalClose} />
+                    <AdminForm onModalClose={handleModalClose}/>
                 </Modal>
             </Grid>
         </div>

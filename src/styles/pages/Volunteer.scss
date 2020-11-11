@@ -5,9 +5,11 @@
     min-width: 320px;
     background-color: $neutral_color;
   }
+
   li {
     > p {
       font-size: 1rem;
+
       > span:first-child {
         font-weight: 600;
         margin-right: 25px;

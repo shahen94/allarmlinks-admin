@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { generateConfigHeaderWithToken } from './localStorageUtils';
+import {generateConfigHeaderWithToken} from './localStorageUtils';
 
 export const post = async (url: string, body: object): Promise<object> => {
     return axios.post(url, body, generateConfigHeaderWithToken())

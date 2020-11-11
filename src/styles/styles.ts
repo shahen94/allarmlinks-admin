@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
     button: {
@@ -10,13 +10,13 @@ export default makeStyles((theme) => ({
         borderRadius: '20px',
         '&:hover': {
             boxShadow: 'none',
-          },
-          '&:active': {
+        },
+        '&:active': {
             boxShadow: 'none',
-          },
-          '&:focus': {
+        },
+        '&:focus': {
             boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-          },
+        },
     },
     textField: {
         border: 'none',

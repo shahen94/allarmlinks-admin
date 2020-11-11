@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from 'react-redux'
 import {RootState} from '../../store'
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {useHistory} from "react-router-dom";
-import IProcessedVolunteerRecord from '../../types/volunteers/IProcessedVolunteer';
 import {fetchAll} from '../../store/features/volunteersSlice';
 import TextField from "@material-ui/core/TextField";
 import Switch, {SwitchClassKey, SwitchProps} from "@material-ui/core/Switch";
@@ -21,6 +20,7 @@ import TableRow from '@material-ui/core/TableRow';
 import {put} from "../../utils/fetch";
 import {endpoint} from "../../config";
 import withStyles from "@material-ui/core/styles/withStyles";
+import IVolunteerRecord from "../../types/volunteers/IVolunteerRecord";
 
 interface Styles extends Partial<Record<SwitchClassKey, string>> {
     focusVisible?: string;
@@ -155,10 +155,10 @@ const Volunteers = () => {
     const history = useHistory()
     const classes: Record<string, string> = useStyles();
     const volunteersCount: number = useSelector((state: RootState) => state.volunteers.allCount)
-    const processedVolunteers: IProcessedVolunteerRecord[] = useSelector((state: RootState) => state.volunteers.processedVolunteers)
+    const volunteers: IVolunteerRecord[] = useSelector((state: RootState) => state.volunteers.data)
 
     useEffect(() => {
-        if (!processedVolunteers.length) {
+        if (!volunteers.length) {
             dispatch(fetchAll(10))
         }
     }, [])
@@ -187,8 +187,8 @@ const Volunteers = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {processedVolunteers.map((row) => (
-                            <TableRow key={row.id} className={classes.hideLastBorder}>
+                        {volunteers && volunteers.map((row) => (
+                            <TableRow key={row._id} className={classes.hideLastBorder}>
                                 <TableCell align="left">{row.name}</TableCell>
                                 <TableCell align="left">{row.surname}</TableCell>
                                 <TableCell align="left">{row.email}</TableCell>

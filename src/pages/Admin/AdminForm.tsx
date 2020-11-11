@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Card, CircularProgress } from '@material-ui/core';
-import { Formik, ErrorMessage } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../store';
-import { ActionStatus } from '../../types/auth/ILoginData';
-import { createNewAdmin } from '../../store/features/adminsSlice';
-import { IAdminState } from '../../types/admins/IAdminState';
+import {Card, CircularProgress} from '@material-ui/core';
+import {ErrorMessage, Formik} from 'formik';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../store';
+import {ActionStatus} from '../../types/auth/ILoginData';
+import {createNewAdmin} from '../../store/features/adminsSlice';
+import {IAdminState} from '../../types/admins/IAdminState';
 import useGlobalStyles from '../../styles/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +77,7 @@ interface IProps {
     onModalClose: () => void,
 }
 
-const AdminForm = ({ onModalClose }: IProps) => {
+const AdminForm = ({onModalClose}: IProps) => {
     const classes = useStyles();
     const globalClasses = useGlobalStyles();
     const dispatch = useDispatch();
@@ -113,13 +113,13 @@ const AdminForm = ({ onModalClose }: IProps) => {
         <div className={classes.root}>
             <Card className={classes.card} variant="outlined">
                 <Container component="main" maxWidth="sm" className={classes.mainContainer}>
-                    <CssBaseline />
+                    <CssBaseline/>
                     <div className={classes.paper}>
                         <Typography component="h1" variant="h4">
                             Add Admin
                         </Typography>
                         <Formik
-                            initialValues={{ name: '', surname: '', email: '', password: '', passwordConfirm: '' }}
+                            initialValues={{name: '', surname: '', email: '', password: '', passwordConfirm: ''}}
                             validate={values => {
                                 const errors: IError = {};
                                 if (!values.name) {
@@ -130,17 +130,14 @@ const AdminForm = ({ onModalClose }: IProps) => {
                                 }
                                 if (!values.email) {
                                     errors.email = 'Email is required';
-                                }
-                                else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+                                } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
                                     errors.email = 'Invalid email address';
                                 }
                                 if (!values.password) {
                                     errors.password = 'Password is required';
-                                }
-                                else if (values.password.length < 8) {
+                                } else if (values.password.length < 8) {
                                     errors.password = 'Password must have 8 or more characters';
-                                }
-                                else if (!/(?=.*[A-Z])(?=.*\d)/.test(values.password)) {
+                                } else if (!/(?=.*[A-Z])(?=.*\d)/.test(values.password)) {
                                     errors.password = 'Password must contain at least one uppercase and lowercase letters and a number';
                                 }
                                 return errors;
@@ -148,110 +145,114 @@ const AdminForm = ({ onModalClose }: IProps) => {
                             onSubmit={handleFormSubmit}
                         >
                             {({
-                                values,
-                                errors,
-                                touched,
-                                handleChange,
-                                handleBlur,
-                                handleSubmit
-                            }) => (
-                                    <form className={classes.form} onSubmit={handleSubmit}>
-                                        <div className={classes.inputsContainer}>
-                                            <TextField
-                                                variant="filled"
-                                                margin="normal"
-                                                required
-                                                fullWidth
-                                                id="name"
-                                                label="Name"
-                                                name="name"
-                                                autoComplete="name"
-                                                autoFocus
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                className={globalClasses.textField}
-                                            />
-                                            {errors.name && touched.name && <ErrorMessage name="name" component="div" className="form-error" />}
-                                            <TextField
-                                                variant="filled"
-                                                margin="normal"
-                                                required
-                                                fullWidth
-                                                id="surname"
-                                                label="Surname"
-                                                name="surname"
-                                                autoComplete="surname"
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                className={globalClasses.textField}
-                                            />
-                                            {errors.surname && touched.surname && <ErrorMessage name="surname" component="div" className="form-error" />}
-                                            <TextField
-                                                variant="filled"
-                                                margin="normal"
-                                                required
-                                                fullWidth
-                                                id="email"
-                                                label="Email"
-                                                name="email"
-                                                autoComplete="email"
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                className={globalClasses.textField}
-                                            />
-                                            {errors.email && touched.email && <ErrorMessage name="email" component="div" className="form-error" />}
-                                            <TextField
-                                                variant="filled"
-                                                margin="normal"
-                                                required
-                                                fullWidth
-                                                name="password"
-                                                label="Password"
-                                                type="text"
-                                                id="password"
-                                                autoComplete="current-password"
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                className={globalClasses.textField}
-                                            />
-                                            {errors.password && touched.password && <ErrorMessage name="password" component="div" className="form-error" />}
-                                        </div>
-                                        <div>
-                                            <Button
-                                                type="button"
-                                                variant="contained"
-                                                color="default"
-                                                disabled={submitting}
-                                                className={globalClasses.button}
-                                                onClick={handleCancel}
-                                            >
-                                                Cancel
+                                  values,
+                                  errors,
+                                  touched,
+                                  handleChange,
+                                  handleBlur,
+                                  handleSubmit
+                              }) => (
+                                <form className={classes.form} onSubmit={handleSubmit}>
+                                    <div className={classes.inputsContainer}>
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="name"
+                                            label="Name"
+                                            name="name"
+                                            autoComplete="name"
+                                            autoFocus
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={globalClasses.textField}
+                                        />
+                                        {errors.name && touched.name &&
+                                        <ErrorMessage name="name" component="div" className="form-error"/>}
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="surname"
+                                            label="Surname"
+                                            name="surname"
+                                            autoComplete="surname"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={globalClasses.textField}
+                                        />
+                                        {errors.surname && touched.surname &&
+                                        <ErrorMessage name="surname" component="div" className="form-error"/>}
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            label="Email"
+                                            name="email"
+                                            autoComplete="email"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={globalClasses.textField}
+                                        />
+                                        {errors.email && touched.email &&
+                                        <ErrorMessage name="email" component="div" className="form-error"/>}
+                                        <TextField
+                                            variant="filled"
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            name="password"
+                                            label="Password"
+                                            type="text"
+                                            id="password"
+                                            autoComplete="current-password"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            className={globalClasses.textField}
+                                        />
+                                        {errors.password && touched.password &&
+                                        <ErrorMessage name="password" component="div" className="form-error"/>}
+                                    </div>
+                                    <div>
+                                        <Button
+                                            type="button"
+                                            variant="contained"
+                                            color="default"
+                                            disabled={submitting}
+                                            className={globalClasses.button}
+                                            onClick={handleCancel}
+                                        >
+                                            Cancel
                                         </Button>
-                                            <Button
-                                                type="submit"
-                                                variant="contained"
-                                                color="primary"
-                                                disabled={submitting}
-                                                className={globalClasses.button}
-                                            >
-                                                Create
+                                        <Button
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={submitting}
+                                            className={globalClasses.button}
+                                        >
+                                            Create
                                         </Button>
-                                        </div>
-                                        {admins.status === ActionStatus.Pending &&
-                                            <div className={classes.progress}>
-                                                <CircularProgress />
-                                            </div>
-                                        }
-                                        {admins.status === ActionStatus.Error &&
-                                            <div className="form-error">{admins.error}</div>
-                                        }
-                                    </form>
-                                )}
+                                    </div>
+                                    {admins.status === ActionStatus.Pending &&
+                                    <div className={classes.progress}>
+                                        <CircularProgress/>
+                                    </div>
+                                    }
+                                    {admins.status === ActionStatus.Error &&
+                                    <div className="form-error">{admins.error}</div>
+                                    }
+                                </form>
+                            )}
                         </Formik>
                     </div>
                 </Container>
             </Card>
-        </div >
+        </div>
     );
 }
 
