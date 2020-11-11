@@ -119,7 +119,6 @@ const AdminEditForm = () => {
     const adminInStore: IAdminRecord | undefined = useSelector((state: RootState) => state.admins.data.find((admin: IAdminRecord) => admin._id === idFromParams));
 
     useEffect(() => {
-        debugger
         //const adminInStore = admins.data.find((admin: IAdminRecord) => admin._id === idFromParams);
         if (idFromParams && !adminInStore) {
             dispatch(fetchAdminById(idFromParams));

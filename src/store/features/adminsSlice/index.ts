@@ -102,23 +102,22 @@ const adminsSlice = createSlice({
                 state.status = ActionStatus.Error;
             })
             .addCase(createNewAdmin.fulfilled, (state, { payload }) => {
-                debugger
-                state.status = ActionStatus.Success;
-                // NEED A FIX FROM BACKEND
                 state.data.push(payload.data as never);
+                state.status = ActionStatus.Success;
             })
             .addCase(createNewAdmin.pending, (state, { payload }) => {
-                debugger
                 state.status = ActionStatus.Pending;
             })
             .addCase(createNewAdmin.rejected, (state, { payload }) => {
-                debugger
                 state.status = ActionStatus.Error;
                 state.error = "Error creating admin";
             })
-            .addCase(updateAdminById.fulfilled, (state, action) => {
+            .addCase(updateAdminById.fulfilled, (state, { payload }) => {
+                const foundIndex = state.data.findIndex((admin: any) => admin._id === payload.data._id);
+                const newData: IAdminRecord[] = state.data;
+                newData[foundIndex] = payload.data;
+                state.data = newData;
                 state.status = ActionStatus.Success;
-                //TODO
             })
             .addCase(updateAdminById.pending, (state, { payload }) => {
                 state.status = ActionStatus.Pending;
@@ -127,11 +126,11 @@ const adminsSlice = createSlice({
                 state.status = ActionStatus.Error;
                 state.error = "Error saving changes";
             })
-            .addCase(deleteAdminById.fulfilled, (state, action: any) => {
-                state.status = ActionStatus.Success;
+            .addCase(deleteAdminById.fulfilled, (state, { payload }) => {
                 state.data = state.data.filter((admin: any) => {
-                    return admin._id !== action.meta.arg //TODO
+                    return admin._id !== payload.data.id
                 })
+                state.status = ActionStatus.Success;
             })
             .addCase(deleteAdminById.rejected, (state, { payload }) => {
                 state.status = ActionStatus.Error;
