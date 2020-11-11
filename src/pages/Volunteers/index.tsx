@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {RootState} from '../../store'
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {useHistory} from "react-router-dom";
+import IProcessedVolunteerRecord from '../../types/volunteers/IProcessedVolunteer';
 import {fetchAll} from '../../store/features/volunteersSlice';
 import TextField from "@material-ui/core/TextField";
 import Switch, {SwitchClassKey, SwitchProps} from "@material-ui/core/Switch";
@@ -141,6 +142,8 @@ const WorkStatusComponent = (props: any) => {
         </form>
     );
 };
+import WorkStatusContainer from "../../components/Volunteer/WorkStatusContainer";
+import NoteContainer from "../../components/Volunteer/NoteContainer";
 
 const useStyles = makeStyles({
     root: {
@@ -156,6 +159,10 @@ const Volunteers = () => {
     const classes: Record<string, string> = useStyles();
     const volunteersCount: number = useSelector((state: RootState) => state.volunteers.allCount)
     const volunteers: IVolunteerRecord[] = useSelector((state: RootState) => state.volunteers.data)
+
+    const CellClickHandler = (id: string): void => {
+        history.push(`/volunteers/${id}`);
+    }
 
     useEffect(() => {
         if (!volunteers.length) {
@@ -187,22 +194,32 @@ const Volunteers = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {volunteers && volunteers.map((row) => (
-                            <TableRow key={row._id} className={classes.hideLastBorder}>
-                                <TableCell align="left">{row.name}</TableCell>
-                                <TableCell align="left">{row.surname}</TableCell>
-                                <TableCell align="left">{row.email}</TableCell>
-                                <TableCell align="left">{row.phone}</TableCell>
-                                <TableCell align="left">{row.country}</TableCell>
-                                <TableCell align="left">{row.specialization}</TableCell>
-                                <TableCell align="left">
-                                    <WorkStatusComponent
-                                        workStatus={!row.workStatus ? "Empty" : row.workStatus}
-                                        _id={row._id}
-                                    />
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {volunteers && volunteers.map((row) => {
+                            console.log(row);
+                            return (
+                                <TableRow key={row._id} className={classes.hideLastBorder}>
+                                    <TableCell align="left"
+                                               onClick={(e) => CellClickHandler(row._id)}>{row.name}</TableCell>
+                                    <TableCell align="left"
+                                               onClick={(e) => CellClickHandler(row._id)}>{row.surname}</TableCell>
+                                    <TableCell align="left"
+                                               onClick={(e) => CellClickHandler(row._id)}>{row.email}</TableCell>
+                                    <TableCell align="left"
+                                               onClick={(e) => CellClickHandler(row._id)}>{row.phone}</TableCell>
+                                    <TableCell align="left"
+                                               onClick={(e) => CellClickHandler(row._id)}>{row.country}</TableCell>
+                                    <TableCell align="left"
+                                               onClick={(e) => CellClickHandler(row._id)}>{row.specialization}</TableCell>
+                                    <TableCell align="left">
+                                        <WorkStatusContainer
+                                            workStatus={row.workStatus}
+                                            _id={row._id}
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })
+                        }
                     </TableBody>
                 </Table>
             </TableContainer>

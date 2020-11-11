@@ -23,7 +23,7 @@ export default makeStyles((theme) => ({
         '& .MuiInputBase-root': {
             backgroundColor: '#FFFFFF',
             borderRadius: '8px',
-            boxShadow: '0px 3px 6px #CCCCCC',
+            boxShadow: '0px 3px 6px #00000029',
         },
         '& .MuiFilledInput-underline:before': {
             content: 'none',

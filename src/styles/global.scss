@@ -30,6 +30,12 @@ body,
   color: #3967d6;
 }
 
+.subheader-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
 .form-error {
   color: red;
 }
