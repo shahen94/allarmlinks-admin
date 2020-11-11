@@ -22,6 +22,9 @@ import {put} from "../../utils/fetch";
 import {endpoint} from "../../config";
 import withStyles from "@material-ui/core/styles/withStyles";
 import IVolunteerRecord from "../../types/volunteers/IVolunteerRecord";
+import WorkStatusContainer from "../../components/Volunteer/WorkStatusContainer";
+import SubHeader from "./SubHeader"
+
 
 interface Styles extends Partial<Record<SwitchClassKey, string>> {
     focusVisible?: string;
@@ -142,8 +145,6 @@ const WorkStatusComponent = (props: any) => {
         </form>
     );
 };
-import WorkStatusContainer from "../../components/Volunteer/WorkStatusContainer";
-import NoteContainer from "../../components/Volunteer/NoteContainer";
 
 const useStyles = makeStyles({
     root: {
@@ -173,14 +174,7 @@ const Volunteers = () => {
     return (
         <div className="Volunteers">
             <TableContainer className="DataGrid-container">
-                <Grid container>
-                    <Grid item xs={12} sm={6}>
-                        <OverallApplicants count={volunteersCount}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <SearchBar searchTypes={searchTypesVolunteers} role="volunteers"/>
-                    </Grid>
-                </Grid>
+                <SubHeader count = {volunteersCount}/>
                 <Table size="small" aria-label="Volunteers">
                     <TableHead>
                         <TableRow>
