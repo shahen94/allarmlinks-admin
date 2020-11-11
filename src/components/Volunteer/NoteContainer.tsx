@@ -1,18 +1,18 @@
-import React, {useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import TextField from "@material-ui/core/TextField";
-import {Button} from "@material-ui/core";
-import {endpoint} from "../../config";
-import {put} from "../../utils/fetch";
+import { Button } from "@material-ui/core";
+import { endpoint } from "../../config";
+import { put } from "../../utils/fetch";
 
 
-const NoteContainer = (props: {note: string | undefined, _id: string}) => {
+const NoteContainer = (props: { note: string | undefined, _id: string }) => {
     const [readonly, setReadonly] = useState(true);
     const [note, setNote] = useState(props.note);
     const [prevNote, setPrevNote] = useState(props.note);
 
     const sendNote = () => {
         const url = endpoint + "/admin/volunteers/note/" + props._id;
-        const body = {note: note};
+        const body = { note: note };
 
         console.log(body);
 
@@ -72,16 +72,16 @@ const NoteContainer = (props: {note: string | undefined, _id: string}) => {
                     marginTop: 25
                 }}>
                 {
-                    readonly ? (<Button variant="contained" style={{width: 90}} color="primary"
-                                        onClick={() => setReadonly(false)}>Edit</Button>)
+                    readonly ? (<Button variant="contained" style={{ width: 90 }} color="primary"
+                        onClick={() => setReadonly(false)}>Edit</Button>)
                         : (
                             <>
-                                <Button variant="contained" style={{width: 90}} color="default"
-                                        onClick={() => {
-                                            setReadonly(true);
-                                            setNote(prevNote);
-                                        }}>Cancel</Button>
-                                <Button variant="contained" style={{width: 90}} color="primary" onClick={() => {
+                                <Button variant="contained" style={{ width: 90 }} color="default"
+                                    onClick={() => {
+                                        setReadonly(true);
+                                        setNote(prevNote);
+                                    }}>Cancel</Button>
+                                <Button variant="contained" style={{ width: 90 }} color="primary" onClick={() => {
                                     setReadonly(true);
                                     sendNote();
                                     setPrevNote(note);

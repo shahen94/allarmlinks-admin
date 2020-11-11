@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import IAdminRecord from '../../../types/admins/IAdminRecord';
 import fetchAdmins from '../../../api/admin/fetchAdmins';
 import fetchAdminById from '../../../api/admin/fetchAdminById';
@@ -6,10 +6,10 @@ import createAdmin from '../../../api/admin/createAdmin';
 import deleteAdmin from '../../../api/admin/deleteAdmin';
 import updateAdmin from '../../../api/admin/updateAdmin';
 import IFetchedAdmins from './../../../types/admins/IFetchedAdmins';
-import {IAdminRequestData, IAdminUpdateThunkData} from "../../../types/admins/IAdminRequestData";
-import {IAdminState} from "../../../types/admins/IAdminState";
-import {ActionStatus} from "../../../types/auth/ILoginData";
-import {ISearch} from "../../../types/ISearch";
+import { IAdminRequestData, IAdminUpdateThunkData } from "../../../types/admins/IAdminRequestData";
+import { IAdminState } from "../../../types/admins/IAdminState";
+import { ActionStatus } from "../../../types/auth/ILoginData";
+import { ISearch } from "../../../types/ISearch";
 import search from "../../../api/admin/search";
 
 const fetchAll = createAsyncThunk<IAdminState>(
@@ -56,7 +56,7 @@ const deleteAdminById = createAsyncThunk(
 const updateAdminById = createAsyncThunk(
     'admins/updateById',
     async (adminData: IAdminUpdateThunkData): Promise<any> => {
-        const {_id, ...data} = adminData;
+        const { _id, ...data } = adminData;
         const response = await updateAdmin(_id, data);
         return response as IFetchedAdmins;
     }
@@ -71,7 +71,7 @@ const adminsSlice = createSlice({
     name: 'admins',
     initialState,
     reducers: {
-        setAdmins: ({data}: IAdminState, {payload}: PayloadAction<IAdminRecord[]>): void => {
+        setAdmins: ({ data }: IAdminState, { payload }: PayloadAction<IAdminRecord[]>): void => {
             data = payload
         },
         // deleteAdminById: (): void => {            
@@ -79,10 +79,10 @@ const adminsSlice = createSlice({
     },
     extraReducers: builder => {
         builder
-            .addCase(fetchAll.fulfilled, (state, {payload}) => {
+            .addCase(fetchAll.fulfilled, (state, { payload }) => {
                 state.data = payload.data;
             })
-            .addCase(fetchById.fulfilled, (state, {payload}) => {
+            .addCase(fetchById.fulfilled, (state, { payload }) => {
                 debugger
                 const adminRecord = state.data.some((admin: any) => {
                     return admin._id === payload.data._id
@@ -95,23 +95,23 @@ const adminsSlice = createSlice({
                 state.status = ActionStatus.Success;
                 //state.data = payload.data;
             })
-            .addCase(fetchById.pending, (state, {payload}) => {
+            .addCase(fetchById.pending, (state, { payload }) => {
                 state.status = ActionStatus.Pending;
             })
-            .addCase(fetchById.rejected, (state, {payload}) => {
+            .addCase(fetchById.rejected, (state, { payload }) => {
                 state.status = ActionStatus.Error;
             })
-            .addCase(createNewAdmin.fulfilled, (state, {payload}) => {
+            .addCase(createNewAdmin.fulfilled, (state, { payload }) => {
                 debugger
                 state.status = ActionStatus.Success;
                 // NEED A FIX FROM BACKEND
                 state.data.push(payload.data as never);
             })
-            .addCase(createNewAdmin.pending, (state, {payload}) => {
+            .addCase(createNewAdmin.pending, (state, { payload }) => {
                 debugger
                 state.status = ActionStatus.Pending;
             })
-            .addCase(createNewAdmin.rejected, (state, {payload}) => {
+            .addCase(createNewAdmin.rejected, (state, { payload }) => {
                 debugger
                 state.status = ActionStatus.Error;
                 state.error = "Error creating admin";
@@ -120,10 +120,10 @@ const adminsSlice = createSlice({
                 state.status = ActionStatus.Success;
                 //TODO
             })
-            .addCase(updateAdminById.pending, (state, {payload}) => {
+            .addCase(updateAdminById.pending, (state, { payload }) => {
                 state.status = ActionStatus.Pending;
             })
-            .addCase(updateAdminById.rejected, (state, {payload}) => {
+            .addCase(updateAdminById.rejected, (state, { payload }) => {
                 state.status = ActionStatus.Error;
                 state.error = "Error saving changes";
             })
@@ -133,18 +133,18 @@ const adminsSlice = createSlice({
                     return admin._id !== action.meta.arg //TODO
                 })
             })
-            .addCase(deleteAdminById.rejected, (state, {payload}) => {
+            .addCase(deleteAdminById.rejected, (state, { payload }) => {
                 state.status = ActionStatus.Error;
                 state.error = "Error deleting admin";
             })
-            .addCase(searchAdmins.fulfilled, (state, {payload}) => {
+            .addCase(searchAdmins.fulfilled, (state, { payload }) => {
                 debugger
                 state.data = payload.data;
             })
     }
 });
 
-const {actions, reducer} = adminsSlice;
-export const {setAdmins} = actions;
-export {fetchAll, fetchById, createNewAdmin, updateAdminById, deleteAdminById, searchAdmins};
+const { actions, reducer } = adminsSlice;
+export const { setAdmins } = actions;
+export { fetchAll, fetchById, createNewAdmin, updateAdminById, deleteAdminById, searchAdmins };
 export default reducer;

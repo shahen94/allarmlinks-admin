@@ -21,7 +21,7 @@ interface IProps {
 
 const ConfirmationDialog = (props: IProps) => {
     const globalClasses = useGlobalStyles();
-    const { titleText, bodyText, open, handleClose, defaultPrimaryClose, defaultFocusConfirm, closeButtonText, confirmButtonText} = props;
+    const { titleText, bodyText, open, handleClose, defaultPrimaryClose, defaultFocusConfirm, closeButtonText, confirmButtonText } = props;
     return (
         <Dialog
             open={open}
@@ -33,7 +33,7 @@ const ConfirmationDialog = (props: IProps) => {
             <DialogContent>
                 <DialogContentText>
                     {bodyText}
-          </DialogContentText>
+                </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button

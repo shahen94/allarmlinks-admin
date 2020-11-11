@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import './styles/global.scss'
 import 'fontsource-roboto';
 import Layout from './pages/Layout';
@@ -7,8 +7,8 @@ import Settings from './pages/Settings';
 import Login from './pages/Login';
 import Volunteers from './pages/Volunteers';
 import Volunteer from './pages/Volunteer';
-import {useDispatch} from 'react-redux';
-import {adminLoginCheck} from './store/features/loginSlice';
+import { useDispatch } from 'react-redux';
+import { adminLoginCheck } from './store/features/loginSlice';
 import PrivateRoute from './components/Routes/PrivateRoute';
 import PublicRoute from './components/Routes/PublicRoute';
 import AdminEditForm from './pages/Admin/AdminEditForm';
@@ -22,31 +22,31 @@ const App = () => {
             <Layout>
                 <Switch>
                     <Route exact path="/">
-                        <Redirect to="/volunteers"/>
+                        <Redirect to="/volunteers" />
                     </Route>
                     <PrivateRoute exact path="/">
-                        <Volunteers/>
+                        <Volunteers />
                     </PrivateRoute>
                     <PrivateRoute exact path="/volunteers/">
-                        <Volunteers/>
+                        <Volunteers />
                     </PrivateRoute>
                     <PrivateRoute exact path="/volunteers/:id">
-                        <Volunteer/>
+                        <Volunteer />
                     </PrivateRoute>
                     <PrivateRoute exact path="/settings">
-                        <Settings/>
+                        <Settings />
                     </PrivateRoute>
                     <PrivateRoute exact path="/adminform/:id">
-                        <AdminEditForm/>
+                        <AdminEditForm />
                     </PrivateRoute>
                     {/* <PrivateRoute exact path="/adminform">
             <AdminForm />
           </PrivateRoute> */}
                     <PublicRoute exact path="/login">
-                        <Login/>
+                        <Login />
                     </PublicRoute>
                     <Route path="/">
-                        <Redirect to="/volunteers"/>
+                        <Redirect to="/volunteers" />
                     </Route>
                 </Switch>
             </Layout>

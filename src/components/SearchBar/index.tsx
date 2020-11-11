@@ -1,14 +1,14 @@
-import React, {useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
 import InputBase from "@material-ui/core/InputBase";
 import Button from "@material-ui/core/Button";
-import {useDispatch} from "react-redux";
-import {searchVolunteers} from "../../store/features/volunteersSlice";
-import {searchAdmins} from "../../store/features/adminsSlice";
+import { useDispatch } from "react-redux";
+import { searchVolunteers } from "../../store/features/volunteersSlice";
+import { searchAdmins } from "../../store/features/adminsSlice";
 
 const useStyles = makeStyles((theme) => ({
     searchBar: {
@@ -73,9 +73,9 @@ const SearchBar = (props: any) => {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         if (props.role === "volunteers")
-            dispatch(searchVolunteers({type, value: searchString}))
+            dispatch(searchVolunteers({ type, value: searchString }))
         else
-            dispatch(searchAdmins({type, value: searchString}))
+            dispatch(searchAdmins({ type, value: searchString }))
     };
 
     const handleChange = (e: any) => {
@@ -112,7 +112,7 @@ const SearchBar = (props: any) => {
                     <Grid container spacing={1} wrap="nowrap" justify="space-between">
                         <Grid item container wrap="nowrap">
                             <Grid item className={classes.searchIcon}>
-                                <SearchIcon/>
+                                <SearchIcon />
                             </Grid>
                             <Grid item>
                                 <InputBase

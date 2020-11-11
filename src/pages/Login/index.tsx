@@ -8,7 +8,7 @@ interface IProps {
 const Login = (props: IProps) => {
     return (
         <div className='login-form-container'>
-            <Form/>
+            <Form />
         </div>
     )
 }

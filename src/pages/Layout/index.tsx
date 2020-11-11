@@ -1,6 +1,6 @@
 import React from 'react';
-import {AppBar, Box, CssBaseline, Toolbar} from '@material-ui/core';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import { AppBar, Box, CssBaseline, Toolbar } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Header from './Header';
 import 'fontsource-roboto';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
         appBar: {
             color: '#000000',
             backgroundColor: '#FAFAFA',
-            '& .MuiToolbar-root': {display: 'block'}
+            '& .MuiToolbar-root': { display: 'block' }
         },
         toolbar: {
             //minHeight: '50px',
@@ -29,7 +29,7 @@ interface IProps {
 }
 
 function ElevationScroll(props: IProps) {
-    const {children, window} = props;
+    const { children, window } = props;
     const trigger = useScrollTrigger({
         disableHysteresis: true,
         threshold: 0,
@@ -45,17 +45,17 @@ const Layout = (props: IProps) => {
     const classes = useStyles();
     return (
         <div className={classes.container}>
-            <CssBaseline/>
+            <CssBaseline />
             <ElevationScroll {...props} >
                 <AppBar className={classes.appBar}>
                     <Toolbar className={classes.toolbar}>
                         <Box component="span" m={0}>
-                            <Header/>
+                            <Header />
                         </Box>
                     </Toolbar>
                 </AppBar>
             </ElevationScroll>
-            <Toolbar/>
+            <Toolbar />
             <div className="main-container">{props.children}</div>
         </div>
     )

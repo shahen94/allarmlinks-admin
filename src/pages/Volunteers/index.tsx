@@ -1,30 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {FormEvent, useEffect, useState} from 'react'
-import OverallApplicants from './OverallApplicants';
-import {useDispatch, useSelector} from 'react-redux'
-import {RootState} from '../../store'
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import {useHistory} from "react-router-dom";
-import IProcessedVolunteerRecord from '../../types/volunteers/IProcessedVolunteer';
-import {fetchAll} from '../../store/features/volunteersSlice';
+import React, { FormEvent, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../store'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
+import { fetchAll } from '../../store/features/volunteersSlice';
 import TextField from "@material-ui/core/TextField";
-import Switch, {SwitchClassKey, SwitchProps} from "@material-ui/core/Switch";
-import SearchBar from "../../components/SearchBar/index";
-import Grid from "@material-ui/core/Grid";
-import {searchTypesVolunteers} from "../../types/volunteers/VolunteerSearchTypes";
+import Switch, { SwitchClassKey, SwitchProps } from "@material-ui/core/Switch";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {put} from "../../utils/fetch";
-import {endpoint} from "../../config";
+import { put } from "../../utils/fetch";
+import { endpoint } from "../../config";
 import withStyles from "@material-ui/core/styles/withStyles";
 import IVolunteerRecord from "../../types/volunteers/IVolunteerRecord";
 import WorkStatusContainer from "../../components/Volunteer/WorkStatusContainer";
 import SubHeader from "./SubHeader"
-
 
 interface Styles extends Partial<Record<SwitchClassKey, string>> {
     focusVisible?: string;
@@ -72,7 +66,7 @@ const IOSSwitch = withStyles((theme: Theme) =>
         checked: {},
         focusVisible: {},
     }),
-)(({classes, ...props}: Props) => {
+)(({ classes, ...props }: Props) => {
     return (
         <Switch
             focusVisibleClassName={classes.focusVisible}
@@ -106,7 +100,7 @@ const WorkStatusComponent = (props: any) => {
 
     const sendStatus = () => {
         const url = endpoint + "/admin/volunteers/workstatus/" + props._id;
-        const body = {workStatus: status};
+        const body = { workStatus: status };
 
         put(url, body)
             .then(r => console.log(r))
@@ -127,19 +121,19 @@ const WorkStatusComponent = (props: any) => {
             alignItems: "center",
             width: 260
         }} onSubmit={submit}>
-            <IOSSwitch checked={checked} onChange={toggleChecked}/>
+            <IOSSwitch checked={checked} onChange={toggleChecked} />
             {
                 (checked) ? ((readonly) ? <div onClick={() => setReadonly(!readonly)}>
-                            {status}
-                        </div> :
-                        <TextField
-                            placeholder="Add Company Name"
-                            variant="outlined"
-                            style={{width: 180, color: "#BCBCBC", backgroundColor: "white", borderColor: "#e9e9e9"}}
-                            onChange={(e) => setStatus(e.target.value)}
-                            value={status}
-                            size="small"
-                        />
+                    {status}
+                </div> :
+                    <TextField
+                        placeholder="Add Company Name"
+                        variant="outlined"
+                        style={{ width: 180, color: "#BCBCBC", backgroundColor: "white", borderColor: "#e9e9e9" }}
+                        onChange={(e) => setStatus(e.target.value)}
+                        value={status}
+                        size="small"
+                    />
                 ) : ""
             }
         </form>
@@ -174,7 +168,7 @@ const Volunteers = () => {
     return (
         <div className="Volunteers">
             <TableContainer className="DataGrid-container">
-                <SubHeader count = {volunteersCount}/>
+                <SubHeader count={volunteersCount} />
                 <Table size="small" aria-label="Volunteers">
                     <TableHead>
                         <TableRow>
@@ -193,17 +187,17 @@ const Volunteers = () => {
                             return (
                                 <TableRow key={row._id} className={classes.hideLastBorder}>
                                     <TableCell align="left"
-                                               onClick={(e) => CellClickHandler(row._id)}>{row.name}</TableCell>
+                                        onClick={(e) => CellClickHandler(row._id)}>{row.name}</TableCell>
                                     <TableCell align="left"
-                                               onClick={(e) => CellClickHandler(row._id)}>{row.surname}</TableCell>
+                                        onClick={(e) => CellClickHandler(row._id)}>{row.surname}</TableCell>
                                     <TableCell align="left"
-                                               onClick={(e) => CellClickHandler(row._id)}>{row.email}</TableCell>
+                                        onClick={(e) => CellClickHandler(row._id)}>{row.email}</TableCell>
                                     <TableCell align="left"
-                                               onClick={(e) => CellClickHandler(row._id)}>{row.phone}</TableCell>
+                                        onClick={(e) => CellClickHandler(row._id)}>{row.phone}</TableCell>
                                     <TableCell align="left"
-                                               onClick={(e) => CellClickHandler(row._id)}>{row.country}</TableCell>
+                                        onClick={(e) => CellClickHandler(row._id)}>{row.country}</TableCell>
                                     <TableCell align="left"
-                                               onClick={(e) => CellClickHandler(row._id)}>{row.specialization}</TableCell>
+                                        onClick={(e) => CellClickHandler(row._id)}>{row.specialization}</TableCell>
                                     <TableCell align="left">
                                         <WorkStatusContainer
                                             workStatus={row.workStatus}

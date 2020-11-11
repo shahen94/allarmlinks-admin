@@ -1,5 +1,5 @@
-import {AxiosRequestConfig} from 'axios';
-import {ILocalStorageData} from '../types/auth/ILocalStorageData';
+import { AxiosRequestConfig } from 'axios';
+import { ILocalStorageData } from '../types/auth/ILocalStorageData';
 
 export const getLocalStorageData = () => {
     const storageData: string | null = localStorage.getItem('adminAuthData');

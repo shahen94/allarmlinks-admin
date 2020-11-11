@@ -1,8 +1,8 @@
 import React from 'react'
-import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
-import ILoginData, {ActionStatus} from '../../types/auth/ILoginData';
-import {Redirect, Route} from 'react-router-dom'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import ILoginData, { ActionStatus } from '../../types/auth/ILoginData';
+import { Redirect, Route } from 'react-router-dom'
 
 interface IProps {
     children: React.ReactElement;
@@ -10,7 +10,7 @@ interface IProps {
     exact?: boolean;
 }
 
-const PublicRoute = ({children, ...rest}: IProps) => {
+const PublicRoute = ({ children, ...rest }: IProps) => {
     const login: ILoginData = useSelector((state: RootState) => state.login);
     return (
         <Route
@@ -18,7 +18,7 @@ const PublicRoute = ({children, ...rest}: IProps) => {
             render={() =>
                 login.status !== ActionStatus.Success ?
                     children :
-                    <Redirect to="/"/>
+                    <Redirect to="/" />
             }
         />
     )

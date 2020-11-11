@@ -8,8 +8,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
-import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
-import {useHistory} from "react-router-dom";
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -69,34 +69,34 @@ const menuItems: IMenuItems[] = [
     {
         text: "Volunteers",
         route: "/volunteers",
-        icon: <InboxIcon/>,
+        icon: <InboxIcon />,
     }
 ]
 
 const Menu = (props: IProps) => {
-    const {window} = props;
+    const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
     const history = useHistory();
 
     const drawer = (
         <div>
-            <div className={classes.toolbar}/>
-            <Divider/>
+            <div className={classes.toolbar} />
+            <Divider />
             <List>
                 {menuItems.map((item, index) => (
                     <ListItem button key={item.text} onClick={() => history.push("/adminList")}>
                         <ListItemIcon>{item.icon}</ListItemIcon>
-                        <ListItemText primary={item.text}/>
+                        <ListItemText primary={item.text} />
                     </ListItem>
                 ))}
             </List>
-            <Divider/>
+            <Divider />
             <List>
                 {['All mail', 'Trash', 'Spam'].map((text, index) => (
                     <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                        <ListItemText primary={text}/>
+                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                        <ListItemText primary={text} />
                     </ListItem>
                 ))}
             </List>
