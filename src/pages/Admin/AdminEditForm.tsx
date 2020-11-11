@@ -48,11 +48,22 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
         textAlign: 'center'
     },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        height: '40px',
-        minWidth: '120px',
-        borderRadius: '20px'
+    button: {
+        boxShadow: 'none',
+        margin: theme.spacing(3, 2, 2),
+        textTransform: 'none',
+        height: '35px',
+        minWidth: '100px',
+        borderRadius: '20px',
+        '&:hover': {
+            boxShadow: 'none',
+        },
+        '&:active': {
+            boxShadow: 'none',
+        },
+        '&:focus': {
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+        },
     },
     progress: {
         '& > * + *': {
@@ -121,7 +132,7 @@ const AdminEditForm = () => {
         }
     }, [admins.status]);
 
-    const editFormInitialValues = { ...adminInStore, password: '', passwordConfirm: '' };
+    const editFormInitialValues = { ...adminInStore };
 
     const handleFormSubmit = (values: IFormikValues): void => {
         const submitValues: { name?: string, surname?: string, email?: string, password?: string } = {};
@@ -154,7 +165,7 @@ const AdminEditForm = () => {
                     <CssBaseline />
                     <div className={classes.paper}>
                         <Typography component="h1" variant="h4">
-                            Log in
+                            Edit Admin
                         </Typography>
                         {adminInStore && adminInStore._id ? <Formik
                             initialValues={editFormInitialValues as any}
@@ -172,8 +183,14 @@ const AdminEditForm = () => {
                                 else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
                                     errors.email = 'Invalid email address';
                                 }
-                                if (values.password !== values.passwordConfirm) {
-                                    errors.passwordConfirm = 'Passwords do not match';
+                                if (!values.password) {
+                                    errors.password = 'Password is required';
+                                }
+                                else if (values.password.length < 8) {
+                                    errors.password = 'Password must have 8 or more characters';
+                                }
+                                else if (!/(?=.*[A-Z])(?=.*\d)/.test(values.password)) {
+                                    errors.password = 'Password must contain at least one uppercase and lowercase letters and a number';
                                 }
                                 return errors;
                             }}
@@ -236,38 +253,27 @@ const AdminEditForm = () => {
                                         {errors.email && touched.email && <ErrorMessage name="email" component="div" className="form-error" />}
                                         <TextField
                                             variant="filled"
-                                            margin="normal"                                            
+                                            margin="normal"
+                                            required
                                             fullWidth
                                             name="password"
                                             label="Password"
-                                            type="password"
+                                            type="text"
                                             id="password"
                                             autoComplete="current-password"
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             className={classes.textField}
+                                            value={values.password}
                                         />
-                                        <TextField
-                                            variant="filled"
-                                            margin="normal"                                            
-                                            fullWidth
-                                            name="passwordConfirm"
-                                            label="Confirm Password"
-                                            type="password"
-                                            id="passwordConfirm"
-                                            autoComplete="current-password"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            className={classes.textField}
-                                        />
-                                        <ErrorMessage name="passwordConfirm" component="div" />
+                                        {errors.password && touched.password && <ErrorMessage name="password" component="div" className="form-error" />}
                                         <br />
                                         <Button
                                             type="submit"
                                             variant="contained"
                                             color="primary"
                                             disabled={submitting}
-                                            className={classes.submit}
+                                            className={classes.button}
                                         >
                                             Save
                                         </Button>

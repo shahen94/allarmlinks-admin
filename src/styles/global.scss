@@ -5,8 +5,14 @@ body,
   height: 100%;
 }
 
+.main-container {
+  background-color: #f4f4f4;
+  padding: 36px;
+  border-radius: 10px;
+}
+
 .MuiToolbar-regular {
-  min-height: 50px !important;
+  min-height: 80px !important;
 }
 
 @media (max-width: 1280px) {
@@ -21,8 +27,8 @@ body,
 
 .tab-active .MuiTab-root {
   font-weight: 700;
+  color: #3967d6;
 }
-
 
 .form-error {
   color: red;

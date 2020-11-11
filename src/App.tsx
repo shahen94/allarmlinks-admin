@@ -40,9 +40,9 @@ const App = () => {
           <PrivateRoute exact path="/adminform/:id">
             <AdminEditForm />
           </PrivateRoute>
-          <PrivateRoute exact path="/adminform">
+          {/* <PrivateRoute exact path="/adminform">
             <AdminForm />
-          </PrivateRoute>
+          </PrivateRoute> */}
           <PublicRoute exact path="/login">
             <Login />
           </PublicRoute>

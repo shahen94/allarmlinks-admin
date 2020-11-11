@@ -48,11 +48,22 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
         textAlign: 'center'
     },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        height: '40px',
-        minWidth: '120px',
-        borderRadius: '20px'
+    button: {
+        boxShadow: 'none',
+        margin: theme.spacing(3, 2, 2),
+        textTransform: 'none',
+        height: '35px',
+        minWidth: '100px',
+        borderRadius: '20px',
+        '&:hover': {
+            boxShadow: 'none',
+          },
+          '&:active': {
+            boxShadow: 'none',
+          },
+          '&:focus': {
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+          },
     },
     progress: {
         '& > * + *': {
@@ -184,7 +195,7 @@ const Form = () => {
                                             variant="contained"
                                             color="primary"
                                             disabled={submitting}
-                                            className={classes.submit}
+                                            className={classes.button}
                                         >
                                             Login
                                         </Button>

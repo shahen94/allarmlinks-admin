@@ -94,7 +94,7 @@ const adminsSlice = createSlice({
                 debugger
                 state.status = ActionStatus.Success;
                 // NEED A FIX FROM BACKEND
-                //state.data.push(payload.data as never);
+                state.data.push(payload.data as never);
             })
             .addCase(createNewAdmin.pending, (state, { payload }) => {
                 debugger
