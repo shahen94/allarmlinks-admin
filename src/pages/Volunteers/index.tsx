@@ -11,7 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import Switch, {SwitchClassKey, SwitchProps} from "@material-ui/core/Switch";
 import SearchBar from "../../components/SearchBar/index";
 import Grid from "@material-ui/core/Grid";
-import { searchTypesVolunteers } from "../../types/volunteers/IVolunteerSearchTypes";
+import {searchTypesVolunteers} from "../../types/volunteers/VolunteerSearchTypes";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -68,7 +68,7 @@ const IOSSwitch = withStyles((theme: Theme) =>
         checked: {},
         focusVisible: {},
     }),
-)(({ classes, ...props }: Props) => {
+)(({classes, ...props}: Props) => {
     return (
         <Switch
             focusVisibleClassName={classes.focusVisible}
@@ -141,32 +141,6 @@ const WorkStatusComponent = (props: any) => {
         </form>
     );
 };
-const columns: ColDef[] = [
-  { field: "id", hide: true },
-  { field: "_id", hide: true },
-  { field: "name", type: "string", headerName: "Name", width: 160 },
-  { field: "surname", type: "string", headerName: "Surname", width: 160 },
-  { field: "email", type: "string", headerName: "Email address", width: 300 },
-  {
-    field: "phoneNumber",
-    type: "string",
-    headerName: "Phone Number",
-    width: 200,
-  },
-  { field: "country", type: "string", headerName: "Country", width: 170 },
-  {
-    field: "specialization",
-    type: "string",
-    headerName: "Industry of Specialization",
-    width: 250,
-  },
-  {
-    field: "workStatus",
-    type: "string",
-    headerName: "Work Status",
-    width: 150,
-  },
-];
 
 const useStyles = makeStyles({
     root: {
@@ -189,19 +163,15 @@ const Volunteers = () => {
         }
     }, [])
 
-    const RowClickHandler = (params: RowParams): void => {
-        history.push(`/volunteers/${params.data._id}`)
-    }
-
     return (
         <div className="Volunteers">
             <TableContainer className="DataGrid-container">
                 <Grid container>
                     <Grid item xs={12} sm={6}>
-                        <OverallApplicants count={volunteersCount} />
+                        <OverallApplicants count={volunteersCount}/>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <SearchBar searchTypes={searchTypesVolunteers} role="volunteers" />
+                        <SearchBar searchTypes={searchTypesVolunteers} role="volunteers"/>
                     </Grid>
                 </Grid>
                 <Table size="small" aria-label="Volunteers">

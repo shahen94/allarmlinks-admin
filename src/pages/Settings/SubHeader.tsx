@@ -6,7 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import AdminForm from '../Admin/AdminForm';
 import { makeStyles } from '@material-ui/core/styles';
-import Fade from '@material-ui/core/Fade';
+import SearchBar from "../../components/SearchBar";
+import {searchTypesAdmins} from "../../types/admins/AdminSearchTypes"
 
 const useStyles = makeStyles({
     addButton: {
@@ -47,6 +48,7 @@ const SubHeader = ({ count }: IProps) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={8}>
+                    <SearchBar role = "admins" searchTypes = {searchTypesAdmins}/>
                 </Grid>
                 <Grid item xs={12} sm={1}>
                     <IconButton onClick={handleModalOpen} aria-label="" className={classes.addButton}>
