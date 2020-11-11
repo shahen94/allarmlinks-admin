@@ -14,6 +14,7 @@ const processVolunteersRecords = (data: IVolunteerRecord[]): IProcessedVolunteer
             phone: record.phone,
             country: record.country,
             specialization: record.specialization,
+            workStatus: record.workStatus
         }
         result.push(processedRecord)
     }
