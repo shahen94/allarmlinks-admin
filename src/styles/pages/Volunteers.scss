@@ -9,6 +9,9 @@
     height: auto;
     background-color: $neutral_color;
     margin-top: 1rem;
+    .table-header {
+      font-weight: bold;
+    }
     > div:nth-child(2) {
       height: auto !important;
       width: auto !important;

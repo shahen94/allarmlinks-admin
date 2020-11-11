@@ -3,7 +3,7 @@ export default interface IVolunteerRecord {
     name: string,
     surname: string,
     email: string,
-    phoneNumber: string,
+    phone: string,
     birthDate: string,
     country: string,
     city: string,
