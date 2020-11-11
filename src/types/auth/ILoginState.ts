@@ -1,5 +1,5 @@
-import ILoginResponse from "./ILoginResponse";
+import ILoginData from "./ILoginData";
 
 export default interface ILoginState {
-    user: ILoginResponse,
+    user: ILoginData,
 }

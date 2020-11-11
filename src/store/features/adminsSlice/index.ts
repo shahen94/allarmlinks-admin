@@ -1,25 +1,34 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import IAdminRecord from '../../../types/admins/IAdminRecord';
 import fetchAdmins from '../../../api/admin/fetchAdmins';
+import fetchAdminById from '../../../api/admin/fetchAdminById';
 import createAdmin from '../../../api/admin/createAdmin';
 import deleteAdmin from '../../../api/admin/deleteAdmin';
 import updateAdmin from '../../../api/admin/updateAdmin';
 import IFetchedAdmins from './../../../types/admins/IFetchedAdmins';
-import { IAdminCreateData, IAdminUpdateData } from "../../../types/admins/IAdminCreateData";
+import { IAdminRequestData, IAdminUpdateThunkData } from "../../../types/admins/IAdminRequestData";
 import { IAdminState } from "../../../types/admins/IAdminState";
 import { ActionStatus } from "../../../types/auth/ILoginData";
 
-const fetchAll = createAsyncThunk(
+const fetchAll = createAsyncThunk<IAdminState>(
     'admins/fetchAll',
-    async (): Promise<any> => {
+    async (): Promise<IAdminState> => {
         const response = await fetchAdmins();
-        return response as any;
+        return response as IAdminState;
+    }
+);
+
+const fetchById = createAsyncThunk<any, string>(
+    'admins/fetchById',
+    async (id: string): Promise<IAdminRecord> => {
+        const response = await fetchAdminById(id);
+        return response as IAdminRecord;
     }
 );
 
 const createNewAdmin = createAsyncThunk(
     'admins/create',
-    async (adminData: IAdminCreateData): Promise<any> => {
+    async (adminData: IAdminRequestData): Promise<any> => {
         const response = await createAdmin(adminData);
         return response as any;
     }
@@ -35,8 +44,9 @@ const deleteAdminById = createAsyncThunk(
 
 const updateAdminById = createAsyncThunk(
     'admins/updateById',
-    async (adminData: IAdminUpdateData): Promise<any> => {
-        const response = await updateAdmin(adminData);
+    async (adminData: IAdminUpdateThunkData): Promise<any> => {
+        const { _id, ...data } = adminData;
+        const response = await updateAdmin(_id, data);
         return response as IFetchedAdmins;
     }
 )
@@ -57,45 +67,69 @@ const adminsSlice = createSlice({
         // }
     },
     extraReducers: builder => {
-        builder.addCase(fetchAll.fulfilled, (state, { payload }) => {
-            state.data = payload.data;
-        });
-        builder.addCase(createNewAdmin.fulfilled, (state, { payload }) => {
-            state.status = ActionStatus.Success;
-            state.data.push(payload.data as never);
-        });
-        builder.addCase(createNewAdmin.pending, (state, { payload }) => {
-            state.status = ActionStatus.Pending;
-        });
-        builder.addCase(createNewAdmin.rejected, (state, { payload }) => {
-            state.status = ActionStatus.Error;
-            state.error = "Error creating admin";
-        });
-        builder.addCase(updateAdminById.fulfilled, (state, action) => {
-            state.status = ActionStatus.Success;
-            //TODO
-        });
-        builder.addCase(updateAdminById.pending, (state, { payload }) => {
-            state.status = ActionStatus.Pending;
-        });
-        builder.addCase(updateAdminById.rejected, (state, { payload }) => {
-            state.status = ActionStatus.Error;
-            state.error = "Error saving changes";
-        });
-        builder.addCase(deleteAdminById.fulfilled, (state, action: any) => {
-            state.status = ActionStatus.Success;
-            state.data = state.data.filter((admin: any) => {
-                return admin._id !== action.meta.arg //TODO
+        builder
+            .addCase(fetchAll.fulfilled, (state, { payload }) => {
+                state.data = payload.data;
             })
-        });
-        builder.addCase(deleteAdminById.rejected, (state, { payload }) => {
-            state.status = ActionStatus.Error;
-            state.error = "Error deleting admin";
-        });
+            .addCase(fetchById.fulfilled, (state, { payload }) => {
+                debugger
+                const adminRecord = state.data.some((admin: any) => {
+                    return admin._id === payload.data._id
+                });
+
+                if (!adminRecord) {
+                    state.data.push(payload.data as never);
+                }
+
+                state.status = ActionStatus.Success;
+                //state.data = payload.data;
+            })
+            .addCase(fetchById.pending, (state, { payload }) => {
+                state.status = ActionStatus.Pending;
+            })
+            .addCase(fetchById.rejected, (state, { payload }) => {
+                state.status = ActionStatus.Error;
+            })
+            .addCase(createNewAdmin.fulfilled, (state, { payload }) => {
+                debugger
+                state.status = ActionStatus.Success;
+                // NEED A FIX FROM BACKEND
+                state.data.push(payload.data as never);
+            })
+            .addCase(createNewAdmin.pending, (state, { payload }) => {
+                debugger
+                state.status = ActionStatus.Pending;
+            })
+            .addCase(createNewAdmin.rejected, (state, { payload }) => {
+                debugger
+                state.status = ActionStatus.Error;
+                state.error = "Error creating admin";
+            })
+            .addCase(updateAdminById.fulfilled, (state, action) => {
+                state.status = ActionStatus.Success;
+                //TODO
+            })
+            .addCase(updateAdminById.pending, (state, { payload }) => {
+                state.status = ActionStatus.Pending;
+            })
+            .addCase(updateAdminById.rejected, (state, { payload }) => {
+                state.status = ActionStatus.Error;
+                state.error = "Error saving changes";
+            })
+            .addCase(deleteAdminById.fulfilled, (state, action: any) => {
+                state.status = ActionStatus.Success;
+                state.data = state.data.filter((admin: any) => {
+                    return admin._id !== action.meta.arg //TODO
+                })
+            })
+            .addCase(deleteAdminById.rejected, (state, { payload }) => {
+                state.status = ActionStatus.Error;
+                state.error = "Error deleting admin";
+            });
     }
-})
+});
 
 const { actions, reducer } = adminsSlice;
 export const { setAdmins } = actions;
-export { fetchAll, createNewAdmin, updateAdminById, deleteAdminById };
+export { fetchAll, fetchById, createNewAdmin, updateAdminById, deleteAdminById };
 export default reducer;

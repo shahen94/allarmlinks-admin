@@ -15,6 +15,6 @@ export enum ActionStatus {
 }
 
 export default interface ILoginData extends IAppStateData {
-    userData?: ILoginResponseData | any,
+    data?: ILoginResponseData | any,
     accessToken?: string | any,
 }

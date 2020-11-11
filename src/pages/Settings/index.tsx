@@ -15,14 +15,9 @@ import { deleteAdminById, fetchAll as fetchAllAdmins } from '../../store/feature
 import { useSelector, useDispatch } from 'react-redux'
 import IAdminRecord from '../../types/admins/IAdminRecord';
 import { RootState } from '../../store';
-import SearchBar from '../../components/SearchBar';
-import {searchTypesAdmins} from "../../types/admins/IAdminSearchTypes"
+import SubHeader from './SubHeader';
 
 const useStyles = makeStyles({
-    container: {
-        maxWidth: '90%',
-        margin: '0 auto',
-    },    
     root: {
         backgroundColor: '#f4f4f4',
         border: 'none',
@@ -38,6 +33,12 @@ const useStyles = makeStyles({
     tableCell: {
         padding: '8px 16px',
         border: 'none'
+    },
+    editButton: {
+        color: '#3967d6'
+    },
+    deleteButton: {
+        color: '#d0332d'
     }
 })
 
@@ -45,17 +46,13 @@ const Settings = () => {
     const classes: Record<string, string> = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
-
     const admins: IAdminRecord[] = useSelector((state: RootState) => state.admins.data);
-    useEffect(() => { 
-        if (!admins.length) {
+
+    useEffect(() => {
+        if(!admins.length){
             dispatch(fetchAllAdmins());
         }
     }, [admins.length, dispatch])
-
-    const handleAddAdmin = () => {
-        history.push("/adminform")
-    }
 
     const handleEdit = (id: string) => {
         history.push(`/adminform/${id}`)
@@ -67,60 +64,44 @@ const Settings = () => {
     }
 
     return (
-      <div className={classes.container}>
-        <SearchBar role="admins" searchTypes={searchTypesAdmins} />
-        <IconButton onClick={handleAddAdmin} aria-label="">
-          <AddIcon />
-        </IconButton>
-        <TableContainer className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.tableHead}>Name</TableCell>
-                <TableCell className={classes.tableHead}>Surname</TableCell>
-                <TableCell className={classes.tableHead}>
-                  Email Address
-                </TableCell>
-                <TableCell
-                  align="right"
-                  className={classes.tableHead}
-                ></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {admins &&
-                admins.map((admin) => (
-                  <TableRow key={admin._id}>
-                    <TableCell className={classes.tableCell}>
-                      {admin.name}
-                    </TableCell>
-                    <TableCell className={classes.tableCell}>
-                      {admin.surname}
-                    </TableCell>
-                    <TableCell className={classes.tableCell}>
-                      {admin.email}
-                    </TableCell>
-                    <TableCell align="right" className={classes.tableCell}>
-                      <IconButton
-                        aria-label="edit"
-                        onClick={() => handleEdit(admin._id)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => handleDelete(admin._id)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    );
+        <>
+            <SubHeader count={admins.length} />
+            <TableContainer className={classes.root}>
+                <Table className={classes.table}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell className={classes.tableHead}>Name</TableCell>
+                            <TableCell className={classes.tableHead}>Surname</TableCell>
+                            <TableCell className={classes.tableHead}>Email Address</TableCell>
+                            <TableCell className={classes.tableHead}>Password</TableCell>
+                            <TableCell align="right" className={classes.tableHead}></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {admins && admins.map((admin) => {
+                            const { _id, email, name, surname, password }: IAdminRecord = admin;
+                            return (
+                                <TableRow key={admin._id}>
+                                    <TableCell className={classes.tableCell}>{name}</TableCell>
+                                    <TableCell className={classes.tableCell}>{surname}</TableCell>
+                                    <TableCell className={classes.tableCell}>{email}</TableCell>
+                                    <TableCell className={classes.tableCell}>{password}</TableCell>
+                                    <TableCell align="right" className={classes.tableCell}>
+                                        <IconButton className={classes.editButton} aria-label="edit" onClick={() => handleEdit(_id)}>
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton className={classes.deleteButton} aria-label="delete" onClick={() => handleDelete(_id)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
+    )
 }
 
 export default Settings;

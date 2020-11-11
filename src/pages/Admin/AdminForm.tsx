@@ -10,16 +10,16 @@ import { Formik, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { ActionStatus } from '../../types/auth/ILoginData';
-import { Redirect, useParams } from 'react-router-dom';
 import { createNewAdmin } from '../../store/features/adminsSlice';
 import { IAdminState } from '../../types/admins/IAdminState';
+import useGlobalStyles from '../../styles/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
-        justifyContent: 'center',
-        minWidth: 500,
-
+        // display: 'flex',
+        // justifyContent: 'center',
+        // minWidth: 500,
+        width: '600px'
     },
     mainContainer: {
         padding: theme.spacing(6, 20, 4, 20),
@@ -47,40 +47,15 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
         textAlign: 'center'
     },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        height: '40px',
-        minWidth: '120px',
-        borderRadius: '20px'
-    },
     progress: {
         '& > * + *': {
             marginLeft: theme.spacing(2),
         },
     },
-    textField: {
-        border: 'none',
-        '& .MuiInputBase-root': {
-            backgroundColor: '#FFFFFF',
-            borderRadius: '8px',
-            boxShadow: '0px 3px 6px #CCCCCC',
-        },
-        '& .MuiFilledInput-underline:before': {
-            content: 'none',
-        },
-        '& .MuiFormLabel-root': {
-            color: '#bababa',
-        },
-        '& .MuiFormLabel-asterisk': {
-            display: 'none',
-        },
-
+    inputsContainer: {
+        minHeight: '360px'
     }
 }));
-
-interface IParams {
-    id: string
-}
 
 interface IFormikValues {
     name: string;
@@ -98,10 +73,14 @@ interface IError {
     passwordConfirm?: string;
 }
 
-const AdminForm = () => {
+interface IProps {
+    onModalClose: () => void,
+}
+
+const AdminForm = ({ onModalClose }: IProps) => {
     const classes = useStyles();
+    const globalClasses = useGlobalStyles();
     const dispatch = useDispatch();
-    const { id } = useParams<IParams>();
     const [submitting, setSubmitting] = useState<boolean>(false);
     const admins: IAdminState = useSelector((state: RootState) => state.admins);
 
@@ -111,16 +90,24 @@ const AdminForm = () => {
         }
     }, [admins.status]);
 
-    //let initialValues: IAdmin = { _id: '', name: '', surname: '', email: '' };
+    useEffect(() => {
+        if (submitting && admins.status === ActionStatus.Success) {
+            onModalClose();
+        }
+    }, [admins.status, onModalClose, submitting]);
 
     const handleFormSubmit = (values: IFormikValues): void => {
         dispatch(createNewAdmin(values));
         setSubmitting(true);
     }
 
-    if (submitting && admins.status === ActionStatus.Success) {
-        return <Redirect to="/settings" />
+    const handleCancel = () => {
+        onModalClose();
     }
+
+    // if (submitting && admins.status === ActionStatus.Success) {
+    //     return <Redirect to="/settings" />
+    // }
 
     return (
         <div className={classes.root}>
@@ -129,7 +116,7 @@ const AdminForm = () => {
                     <CssBaseline />
                     <div className={classes.paper}>
                         <Typography component="h1" variant="h4">
-                            Log in
+                            Add Admin
                         </Typography>
                         <Formik
                             initialValues={{ name: '', surname: '', email: '', password: '', passwordConfirm: '' }}
@@ -147,8 +134,14 @@ const AdminForm = () => {
                                 else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
                                     errors.email = 'Invalid email address';
                                 }
-                                if (values.password !== values.passwordConfirm) {
-                                    errors.passwordConfirm = 'Passwords do not match';
+                                if (!values.password) {
+                                    errors.password = 'Password is required';
+                                }
+                                else if (values.password.length < 8) {
+                                    errors.password = 'Password must have 8 or more characters';
+                                }
+                                else if (!/(?=.*[A-Z])(?=.*\d)/.test(values.password)) {
+                                    errors.password = 'Password must contain at least one uppercase and lowercase letters and a number';
                                 }
                                 return errors;
                             }}
@@ -163,88 +156,87 @@ const AdminForm = () => {
                                 handleSubmit
                             }) => (
                                     <form className={classes.form} onSubmit={handleSubmit}>
-                                        <TextField
-                                            variant="filled"
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            id="name"
-                                            label="Name"
-                                            name="name"
-                                            autoComplete="name"
-                                            autoFocus
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            className={classes.textField}
-                                        />
-                                        {errors.name && touched.name && <ErrorMessage name="name" component="div" className="form-error" />}
-                                        <TextField
-                                            variant="filled"
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            id="surname"
-                                            label="Surname"
-                                            name="surname"
-                                            autoComplete="surname"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            className={classes.textField}
-                                        />
-                                        {errors.surname && touched.surname && <ErrorMessage name="surname" component="div" className="form-error" />}
-                                        <TextField
-                                            variant="filled"
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            id="email"
-                                            label="Email"
-                                            name="email"
-                                            autoComplete="email"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            className={classes.textField}
-                                        />
-                                        {errors.email && touched.email && <ErrorMessage name="email" component="div" className="form-error" />}
-                                        <TextField
-                                            variant="filled"
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            name="password"
-                                            label="Password"
-                                            type="password"
-                                            id="password"
-                                            autoComplete="current-password"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            className={classes.textField}
-                                        />
-                                        <TextField
-                                            variant="filled"
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            name="passwordConfirm"
-                                            label="Confirm Password"
-                                            type="password"
-                                            id="passwordConfirm"
-                                            autoComplete="current-password"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            className={classes.textField}
-                                        />
-                                        <ErrorMessage name="passwordConfirm" component="div" />
-                                        <br />
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            color="primary"
-                                            disabled={submitting}
-                                            className={classes.submit}
-                                        >
-                                            {id ? "Save" : "Create"}
+                                        <div className={classes.inputsContainer}>
+                                            <TextField
+                                                variant="filled"
+                                                margin="normal"
+                                                required
+                                                fullWidth
+                                                id="name"
+                                                label="Name"
+                                                name="name"
+                                                autoComplete="name"
+                                                autoFocus
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                className={globalClasses.textField}
+                                            />
+                                            {errors.name && touched.name && <ErrorMessage name="name" component="div" className="form-error" />}
+                                            <TextField
+                                                variant="filled"
+                                                margin="normal"
+                                                required
+                                                fullWidth
+                                                id="surname"
+                                                label="Surname"
+                                                name="surname"
+                                                autoComplete="surname"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                className={globalClasses.textField}
+                                            />
+                                            {errors.surname && touched.surname && <ErrorMessage name="surname" component="div" className="form-error" />}
+                                            <TextField
+                                                variant="filled"
+                                                margin="normal"
+                                                required
+                                                fullWidth
+                                                id="email"
+                                                label="Email"
+                                                name="email"
+                                                autoComplete="email"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                className={globalClasses.textField}
+                                            />
+                                            {errors.email && touched.email && <ErrorMessage name="email" component="div" className="form-error" />}
+                                            <TextField
+                                                variant="filled"
+                                                margin="normal"
+                                                required
+                                                fullWidth
+                                                name="password"
+                                                label="Password"
+                                                type="text"
+                                                id="password"
+                                                autoComplete="current-password"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                className={globalClasses.textField}
+                                            />
+                                            {errors.password && touched.password && <ErrorMessage name="password" component="div" className="form-error" />}
+                                        </div>
+                                        <div>
+                                            <Button
+                                                type="button"
+                                                variant="contained"
+                                                color="default"
+                                                disabled={submitting}
+                                                className={globalClasses.button}
+                                                onClick={handleCancel}
+                                            >
+                                                Cancel
                                         </Button>
+                                            <Button
+                                                type="submit"
+                                                variant="contained"
+                                                color="primary"
+                                                disabled={submitting}
+                                                className={globalClasses.button}
+                                            >
+                                                Create
+                                        </Button>
+                                        </div>
                                         {admins.status === ActionStatus.Pending &&
                                             <div className={classes.progress}>
                                                 <CircularProgress />

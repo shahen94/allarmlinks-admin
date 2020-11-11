@@ -8,6 +8,10 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        container: {
+            maxWidth: '90%',
+            margin: '0 auto'
+        },
         appBar: {
             color: '#000000',
             backgroundColor: '#FAFAFA',
@@ -40,7 +44,7 @@ function ElevationScroll(props: IProps) {
 const Layout = (props: IProps) => {
     const classes = useStyles();
     return (
-        <>
+        <div className={classes.container}>
             <CssBaseline />
             <ElevationScroll {...props} >
                 <AppBar className={classes.appBar}>
@@ -52,8 +56,8 @@ const Layout = (props: IProps) => {
                 </AppBar>
             </ElevationScroll>
             <Toolbar />
-            {props.children}
-        </>
+            <div className="main-container">{props.children}</div>
+        </div>
     )
 }
 

@@ -45,9 +45,12 @@ const StyledTab = withStyles((theme: Theme) =>
   createStyles({
     root: {
       textTransform: 'none',
-      color: '#000',
+      color: '#9a9a9a',
       fontWeight: theme.typography.fontWeightRegular,
-      '&.Mui-selected': { fontWeight: theme.typography.fontWeightBold },
+      '&.Mui-selected': {
+        fontWeight: theme.typography.fontWeightBold,
+        color: '#3967d6'
+      },
       fontSize: theme.typography.pxToRem(15),
       marginRight: theme.spacing(1),
     },
@@ -95,12 +98,13 @@ const Header = (props: IProps) => {
             <Title />
           </Box>
         </Grid>
-        {(login.status === ActionStatus.Success && login.userData && login.userData.type === "super") &&
+        {(login.status === ActionStatus.Success && login.data && login.data.type === "super") &&
           <Grid item xs={12} lg={6} className={classes.tabs}>
             {menuItems.map((item, index) => (
               <StyledTab label={item.text} key={index} path={item.route} />
             ))}
-          </Grid>}
+          </Grid>
+        }
         {login.status === ActionStatus.Success && <Grid item xs={12} lg={3} className={classes.signOut}>
           <Box component="div" m={1}>
             <div className={classes.textButton}>
