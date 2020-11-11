@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import IconButton from '@material-ui/core/IconButton';
@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import IAdminRecord from '../../types/admins/IAdminRecord';
 import { RootState } from '../../store';
 import SubHeader from './SubHeader';
+import ConfirmationDialog from '../../components/Dialog/ConfirmationDialog';
 
 const useStyles = makeStyles({
     root: {
@@ -42,14 +43,22 @@ const useStyles = makeStyles({
     }
 })
 
+interface IAdminRecordForDialog {
+    _id: string;
+    name: string;
+    surname: string;
+}
+
 const Settings = () => {
     const classes: Record<string, string> = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const admins: IAdminRecord[] = useSelector((state: RootState) => state.admins.data);
+    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const [deleteDialogData, setDeleteDialogData] = useState<IAdminRecordForDialog>();
 
     useEffect(() => {
-        if(!admins.length){
+        if (!admins.length) {
             dispatch(fetchAllAdmins());
         }
     }, [admins.length, dispatch])
@@ -58,9 +67,20 @@ const Settings = () => {
         history.push(`/adminform/${id}`)
     }
 
-    const handleDelete = (id: string) => {
+    const closeDialog = () => {
+        setDialogOpen(false);
+    }
+
+    const handleDelete = (admin: IAdminRecord) => {
+        const { _id, name, surname } = admin;
+        setDeleteDialogData({ _id, name, surname });
+        setDialogOpen(true);
+
+    }
+
+    const handleConfirmDelete = (id: string) => {
         dispatch(deleteAdminById(id));
-        history.push("/settings")
+        closeDialog();
     }
 
     return (
@@ -90,7 +110,7 @@ const Settings = () => {
                                         <IconButton className={classes.editButton} aria-label="edit" onClick={() => handleEdit(_id)}>
                                             <EditIcon />
                                         </IconButton>
-                                        <IconButton className={classes.deleteButton} aria-label="delete" onClick={() => handleDelete(_id)}>
+                                        <IconButton className={classes.deleteButton} aria-label="delete" onClick={() => handleDelete(admin)}>
                                             <DeleteIcon />
                                         </IconButton>
                                     </TableCell>
@@ -99,6 +119,15 @@ const Settings = () => {
                         })}
                     </TableBody>
                 </Table>
+                {deleteDialogData && deleteDialogData._id && <ConfirmationDialog
+                    titleText="Confirm Delete Admin"
+                    bodyText={`Are you sure you want to delete admin ${deleteDialogData.name} ${deleteDialogData.surname}?`}
+                    open={dialogOpen}
+                    handleClose={closeDialog}
+                    handleConfirm={() => handleConfirmDelete(deleteDialogData._id)}
+                    closeButtonText="No"
+                    confirmButtonText="Yes"
+                />}
             </TableContainer>
         </>
     )
