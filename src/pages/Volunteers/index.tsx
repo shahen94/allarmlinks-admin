@@ -166,8 +166,8 @@ const Volunteers = () => {
     }, [])
 
     return (
-        <div className="Volunteers">
-            <TableContainer className="DataGrid-container">
+        <div className="main-container">
+            <TableContainer>
                 <SubHeader count={volunteersCount} />
                 <Table size="small" aria-label="Volunteers">
                     <TableHead>

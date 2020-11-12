@@ -49,7 +49,7 @@ const StyledTab = withStyles((theme: Theme) =>
       fontWeight: theme.typography.fontWeightRegular,
       '&.Mui-selected': {
         fontWeight: theme.typography.fontWeightBold,
-        color: '#3967d6'
+        color: '#3967d6',
       },
       fontSize: theme.typography.pxToRem(15),
       marginRight: theme.spacing(1),
