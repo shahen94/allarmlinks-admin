@@ -1,2 +1,2 @@
-export const endpoint = "https://allarmlinks-server-staging.herokuapp.com"
+export const endpoint = "https://allarmlinks-server.herokuapp.com"
 
