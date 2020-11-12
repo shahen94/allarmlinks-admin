@@ -6,6 +6,12 @@ export const getLocalStorageData = () => {
     return storageData;
 }
 
+export const getAdminData = () => {
+    const storageData: string | null = localStorage.getItem('adminAuthData');    
+    const adminData = storageData && JSON.parse(storageData).userData;
+    return adminData;
+}
+
 export const generateConfigHeaderWithToken = () => {
     const storageData: string | null = localStorage.getItem('adminAuthData');
     let config: AxiosRequestConfig = {}

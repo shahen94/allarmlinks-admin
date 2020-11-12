@@ -16,10 +16,9 @@ import useGlobalStyles from '../../styles/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        // display: 'flex',
-        // justifyContent: 'center',
-        // minWidth: 500,
-        width: '600px'
+        display: 'flex',
+        justifyContent: 'center',
+        minWidth: 400,
     },
     mainContainer: {
         padding: theme.spacing(6, 20, 4, 20),

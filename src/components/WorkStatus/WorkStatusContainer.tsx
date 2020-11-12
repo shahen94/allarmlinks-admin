@@ -25,7 +25,7 @@ const IOSSwitch = withStyles((theme: Theme) =>
     switchBase: {
       padding: 1,
       '&$checked': {
-        transform: 'translateX(16px)',
+        transform: 'translateX(20px)',
         color: theme.palette.common.white,
         '& + $track': {
           backgroundColor: '#2524d6',
@@ -119,7 +119,7 @@ const WorkStatusContainer = (props: {
   };
 
   return (
-    <form className="volunteer__workStatus" onSubmit={submit}>
+    <form className="volunteer-work-status" onSubmit={submit}>
       <IOSSwitch checked={checked} onChange={toggleChecked} />
       {checked ? (
         readonly ? (

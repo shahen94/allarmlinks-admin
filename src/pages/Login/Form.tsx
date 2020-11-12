@@ -115,9 +115,9 @@ const Form = () => {
     }
 
     return (
-        <div className={classes.root}>
+        <div className={`login-form ${classes.root}`}>
             <Card className={classes.card} variant="outlined">
-                <Container component="main" maxWidth="sm" className={classes.mainContainer}>
+                <Container component="main" maxWidth="sm" className={`login-form-main ${classes.mainContainer}`}>
                     <CssBaseline />
                     <div className={classes.paper}>
                         <Typography component="h1" variant="h4">

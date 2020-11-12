@@ -2,6 +2,22 @@
   display: none;
 }
 
+.MuiInputBase-root.MuiInput-root.MuiInputBase-adornedStart {
+  width: 480px;
+}
+
+@media screen and (max-width: 1280px) and (min-width: 981px) {
+  .MuiInputBase-root.MuiInput-root.MuiInputBase-adornedStart {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 981px) {
+  .MuiInputBase-root.MuiInput-root.MuiInputBase-adornedStart {
+    width: auto;
+  }
+}
+
 @media screen and (max-width: 680px) {
   .MuiInputAdornment-root.MuiInputAdornment-positionStart,
   .searchTextInButton {
@@ -16,9 +32,6 @@
   }
   .searchBar {
     flex-wrap: wrap;
-  }
-  .makeStyles-selectType-22 {
-    width: 75px;
   }
   .searchBar {
     min-width: 400px;

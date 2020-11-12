@@ -55,9 +55,9 @@ const fetchById = createAsyncThunk<any, string>(
 
 const createNewAdmin = createAsyncThunk(
     'admins/create',
-    async (adminData: IAdminRequestData): Promise<any> => {
+    async (adminData: IAdminRequestData): Promise<IAdminState> => {
         const response = await createAdmin(adminData);
-        return response as any;
+        return response as IAdminState;
     }
 );
 
@@ -123,7 +123,7 @@ const adminsSlice = createSlice({
             .addCase(createNewAdmin.pending, (state, { payload }) => {
                 state.status = ActionStatus.Pending;
             })
-            .addCase(createNewAdmin.rejected, (state, { payload }) => {
+            .addCase(createNewAdmin.rejected, (state, action) => {                
                 state.status = ActionStatus.Error;
                 state.error = "Error creating admin";
             })

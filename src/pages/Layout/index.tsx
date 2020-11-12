@@ -4,6 +4,9 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Header from './Header';
 import 'fontsource-roboto';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import ILoginData from '../../types/auth/ILoginData';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,9 +45,14 @@ function ElevationScroll(props: IProps) {
 }
 
 const Layout = (props: IProps) => {
+    const login: ILoginData = useSelector((state: RootState) => state.login);
     const classes = useStyles();
+
+    const containerClass = login.data && login.data.type === "super" ? classes.container : `${classes.container} no-tabs`
+
+
     return (
-        <div className={classes.container}>
+        <div className={containerClass}>
             <CssBaseline />
             <ElevationScroll {...props} >
                 <AppBar className={classes.appBar}>

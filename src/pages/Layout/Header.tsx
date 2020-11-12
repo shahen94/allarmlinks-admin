@@ -9,6 +9,7 @@ import Title from '../../components/Layout/Title';
 import ILoginData, { ActionStatus } from '../../types/auth/ILoginData';
 import Button from '@material-ui/core/Button';
 import { logout } from '../../store/features/loginSlice';
+import { getAdminData } from '../../utils/localStorageUtils';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,12 +25,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     signOut: {
       position: 'fixed',
-      right: '20px',
+      right: '10px',
       textAlign: 'right'
     },
     textButton: {
       '& > *': {
-        margin: theme.spacing(1),
+        textTransform: 'none',
+        margin: '0',
       },
     },
   }),
@@ -85,30 +87,38 @@ const Header = (props: IProps) => {
   const classes = useStyles();
   const login: ILoginData = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
+  const adminData = getAdminData();
 
   const handleSignOut = () => {
     dispatch(logout());
   }
 
+  const rootClass = login.data && login.data.type === "super" ? classes.root : `${classes.root} no-tabs`
+
   return (
-    <div className={classes.root}>
+    <div className={rootClass}>
       <Grid container spacing={0}>
-        <Grid item xs={12} lg={3}>
+        <Grid item xs={12} lg={4}>
           <Box component="div" m={1}>
             <Title />
           </Box>
         </Grid>
         {(login.status === ActionStatus.Success && login.data && login.data.type === "super") &&
-          <Grid item xs={12} lg={6} className={classes.tabs}>
+          <Grid item xs={12} lg={4} className={classes.tabs}>
             {menuItems.map((item, index) => (
               <StyledTab label={item.text} key={index} path={item.route} />
             ))}
           </Grid>
         }
-        {login.status === ActionStatus.Success && <Grid item xs={12} lg={3} className={classes.signOut}>
+        {login.status === ActionStatus.Success && <Grid item xs={12} lg={4} className={classes.signOut}>
           <Box component="div" m={1}>
             <div className={classes.textButton}>
-              <Button onClick={handleSignOut}>Sign out</Button>
+              <span className="header-welcome">
+                Welclome{(adminData.name || adminData.surname) && ","}{adminData.name ? ` ${adminData.name}` : ""}{adminData.surname ? ` ${adminData.surname}` : ""}
+              </span>
+              <span className="header-signout">
+                <Button onClick={handleSignOut}>Sign out</Button>
+              </span>
             </div>
           </Box>
         </Grid>}

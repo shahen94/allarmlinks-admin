@@ -35,11 +35,6 @@ const useStyles = makeStyles({
     },
     deleteButton: {
         color: '#d0332d'
-    },
-    formModal: {
-        top: '100px !important',
-        right: '100px !important',
-        left: 'unset !important'
     }
 })
 
@@ -82,7 +77,7 @@ const AdminGridListItem = (props: Props) => {
                 <TableCell className={classes.tableCell}>{surname}</TableCell>
                 <TableCell className={classes.tableCell}>{email}</TableCell>
                 <TableCell className={classes.tableCell}>{password}</TableCell>
-                <TableCell className={classes.tableCell}>
+                <TableCell align="center" className={classes.tableCell}>
                     <IconButton className={classes.editButton} aria-label="edit" onClick={handleModalOpen}>
                         <EditIcon />
                     </IconButton>
@@ -96,7 +91,7 @@ const AdminGridListItem = (props: Props) => {
                 onClose={handleModalClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
-                className={classes.formModal}
+                className="form-modal"
                 disableBackdropClick
             >
                 <AdminEditForm adminId={_id} onModalClose={handleModalClose} />

@@ -11,11 +11,6 @@ import { searchTypesAdmins } from "../../types/admins/AdminSearchTypes"
 const useStyles = makeStyles({
     addButton: {
         color: '#3967d6'
-    },
-    formModal: {
-        top: '100px !important',
-        right: '100px !important',
-        left: 'unset !important',
     }
 })
 
@@ -51,7 +46,7 @@ const SubHeader = ({ count }: IProps) => {
                 onClose={handleModalClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
-                className={classes.formModal}
+                className="form-modal"
                 disableBackdropClick
             >
                 <AdminForm onModalClose={handleModalClose} />

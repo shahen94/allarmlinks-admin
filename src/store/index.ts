@@ -5,7 +5,6 @@ import { logout } from './features/loginSlice';
 
 function loginChecker({ getState, dispatch }: any): any {
     return (next: any) => (action: any) => {
-        debugger
         if (action.type.indexOf("rejected") >= 0 && action.error.message === "Request failed with status code 401") {
             dispatch(logout())
         }

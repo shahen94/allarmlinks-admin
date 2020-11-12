@@ -25,6 +25,12 @@ const useStyles = makeStyles({
     },
     tableHead: {
         fontWeight: 'bolder'
+    },    
+    tableHead15: {
+        width: '15%'
+    },
+    tableHead22: {
+        width: '22%'
     },
     tableCell: {
         padding: '8px 16px',
@@ -56,11 +62,11 @@ const Settings = () => {
                 <Table className={classes.table}>
                     <TableHead>
                         <TableRow>
-                            <TableCell className={classes.tableHead}>Name</TableCell>
-                            <TableCell className={classes.tableHead}>Surname</TableCell>
-                            <TableCell className={classes.tableHead}>Email Address</TableCell>
+                            <TableCell className={classes.tableHead + " " + classes.tableHead15}>Name</TableCell>
+                            <TableCell className={classes.tableHead + " " + classes.tableHead15}>Surname</TableCell>
+                            <TableCell className={classes.tableHead + " " + classes.tableHead22}>Email Address</TableCell>
                             <TableCell className={classes.tableHead}>Password</TableCell>
-                            <TableCell className={classes.tableHead}>Action</TableCell>
+                            <TableCell align="center" className={classes.tableHead}>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

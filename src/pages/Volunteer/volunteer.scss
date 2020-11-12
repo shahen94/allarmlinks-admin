@@ -4,10 +4,14 @@
   border-radius: 10px;
 }
 
-.volunteer__workStatus {
+.volunteer-work-status {
   display: flex;
   align-items: center;
-  width: 200%;
+}
+
+.volunteer-work-status .MuiInputBase-root.MuiOutlinedInput-root {
+  width: 270px;
+  background-color: white;
 }
 
 .gridCont {
@@ -75,6 +79,11 @@
   .gridThird {
     grid-template-columns: 220px 330px 220px;
   }
+
+  .volunteer-work-status .MuiInputBase-root.MuiOutlinedInput-root {
+    width: 220px;
+    background-color: white;
+  }
 }
 
 @media screen and (max-width: 900px) {
@@ -107,12 +116,18 @@
     word-wrap: break-word;
     hyphens: auto;
   }
-  .volunteer__workStatus {
+  .volunteer-work-status {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     width: 100%;
   }
+
+  .volunteer-work-status .MuiInputBase-root.MuiOutlinedInput-root {
+    width: 220px;
+    background-color: white;
+  }
+  
 
   .socialLink {
     display: grid;

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         justifyContent: 'center',
-        minWidth: 500,
+        minWidth: 400,
 
     },
     mainContainer: {
