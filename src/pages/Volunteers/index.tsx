@@ -175,19 +175,11 @@ const Volunteers = () => {
     history.push(`/volunteers/${id}`);
   };
 
-<<<<<<< HEAD
   useEffect(() => {
-    if (!volunteers.length) {
+    if (!volunteers || !volunteers.length) {
       dispatch(fetchAll(10));
     }
   }, []);
-=======
-    useEffect(() => {
-        if (!volunteers || !volunteers.length) {
-            dispatch(fetchAll(10))
-        }
-    }, [])
->>>>>>> ffed0d721e47f4de19e157e937e56f8e519db4aa
 
   return (
     <div className="main-container">
