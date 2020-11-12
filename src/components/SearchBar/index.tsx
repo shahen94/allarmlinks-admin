@@ -9,28 +9,34 @@ import { useDispatch } from "react-redux";
 import { searchVolunteers } from "../../store/features/volunteersSlice";
 import { searchAdmins } from "../../store/features/adminsSlice";
 import { FormControl, Input, InputAdornment } from "@material-ui/core";
+import "./style.scss";
 
 const useStyles = makeStyles((theme) => ({
   selectSection: {
     background: "white",
     marginRight: "1px",
-    padding: "6px 30px 4px 45px",
+    padding: "6px 0px 4px 45px",
     borderBottomLeftRadius: "20px",
     borderTopLeftRadius: "20px",
   },
   searchSection: {
     background: "white",
     marginLeft: "1px",
-    padding: "4px 30px",
+    padding: "4px 10px 4px 15px",
     borderBottomRightRadius: "20px",
     borderTopRightRadius: "20px",
     boxSizing: "border-box",
+    display: "flex",
+    alignItems: "center",
   },
   searchBtn: {
+    height: "28px",
     borderRadius: "20px",
     fontSize: "0.7rem",
     margin: "0",
     boxShadow: "none",
+    display: "flex",
+    alignItems: "center",
   },
   searchIcon: {
     color: "grey",
@@ -68,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
   selectType: {
     fontSize: "0.875rem",
-    minWidth: "120px",
+    width: "120px",
     color: "#2524d6",
     background: "white",
   },
@@ -88,6 +94,9 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
     margin: "0",
     paddingRight: "25px",
+  },
+  searchBtnIcon: {
+    color: "white",
   },
 }));
 const SearchBar = (props: any) => {
@@ -113,7 +122,7 @@ const SearchBar = (props: any) => {
   const classes = useStyles();
   return (
     <form onSubmit={handleSubmit}>
-      <Grid container justify="flex-end" wrap="nowrap">
+      <Grid container justify="flex-end" wrap="nowrap" className="searchBar">
         <Grid item className={classes.selectSection}>
           <FormControl className={classes.formControl}>
             <Select
@@ -157,7 +166,10 @@ const SearchBar = (props: any) => {
             color="primary"
             className={classes.searchBtn}
           >
-            Search
+            <span className="searchTextInButton">Search</span>
+            <span className="searchIconInButton">
+              <SearchIcon className={classes.searchBtnIcon} />
+            </span>
           </Button>
         </Grid>
       </Grid>
