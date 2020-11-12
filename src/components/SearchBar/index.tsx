@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { duration, makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { useDispatch } from "react-redux";
-import { searchVolunteers } from "../../store/features/volunteersSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAll } from "../../store/features/volunteersSlice";
 import { searchAdmins } from "../../store/features/adminsSlice";
+import { RootState } from '../../store';
 import { FormControl, Input, InputAdornment } from "@material-ui/core";
 import "./style.scss";
+import { setSearchType, setSearchValue } from "../../store/features/searchSlice";
 
 const useStyles = makeStyles((theme) => ({
   selectSection: {
@@ -105,17 +107,20 @@ const SearchBar = (props: any) => {
   const dispatch = useDispatch();
 
   const handleTypeChange = (e: any) => {
+    dispatch(setSearchType(e.target.value))
     setType(e.target.value);
   };
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    if (props.role === "volunteers")
-      dispatch(searchVolunteers({ type, value: searchString }));
-    else dispatch(searchAdmins({ type, value: searchString }));
-  };
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        if (props.role === "volunteers")
+            dispatch(fetchAll({ type, value: searchString ,limit:20}))
+        else
+            dispatch(searchAdmins({ type, value: searchString }))
+    };
 
   const handleChange = (e: any) => {
+    dispatch(setSearchValue(e.target.value))
     setSearchString(e.target.value);
   };
 

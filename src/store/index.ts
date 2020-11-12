@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { adminsReducer, loginReducer, singleVolunteerReducer, volunteersReducer } from './features';
+import { adminsReducer, loginReducer, singleVolunteerReducer, volunteersReducer,searchReducer } from './features';
 import { logout } from './features/loginSlice';
 
 function loginChecker({ getState, dispatch }: any): any {
@@ -22,7 +22,9 @@ export const store = configureStore({
         admins: adminsReducer,
         login: loginReducer,
         singleVolunteer: singleVolunteerReducer,
+        search: searchReducer,
     },
+    
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loginChecker)
 })
 

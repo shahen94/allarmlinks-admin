@@ -93,10 +93,8 @@ const Header = (props: IProps) => {
     dispatch(logout());
   }
 
-  const rootClass = login.data && login.data.type === "super" ? classes.root : `${classes.root} no-tabs`
-
   return (
-    <div className={rootClass}>
+    <div className={classes.root}>
       <Grid container spacing={0}>
         <Grid item xs={12} lg={4}>
           <Box component="div" m={1}>
