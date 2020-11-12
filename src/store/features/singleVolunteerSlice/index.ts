@@ -36,7 +36,15 @@ const volunteersSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(fetchById.fulfilled, (state, { payload }) => {
+            state.status = ActionStatus.Success;
             state.data = payload
+        })
+        .addCase(fetchById.pending, (state, { payload }) => {
+            state.status = ActionStatus.Pending;
+        })
+        .addCase(fetchById.rejected, (state, { payload }) => {
+            state.status = ActionStatus.Error;
+            state.error = "Volunteer not found";
         })
     }
 })
