@@ -160,7 +160,7 @@ const Volunteers = () => {
     }
 
     useEffect(() => {
-        if (!volunteers.length) {
+        if (!volunteers || !volunteers.length) {
             dispatch(fetchAll(10))
         }
     }, [])

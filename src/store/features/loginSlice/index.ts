@@ -9,7 +9,7 @@ const adminLogin = createAsyncThunk<ILoginData, any>(
     'admin/login',
     async (loginData: any): Promise<ILoginData> => {
         const response = await login(loginData);
-        return response as ILoginData
+        return response as ILoginData;
     }
 )
 
