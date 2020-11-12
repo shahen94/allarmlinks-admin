@@ -44,7 +44,7 @@ const Settings = () => {
     const admins: IAdminRecord[] = useSelector((state: RootState) => state.admins.data);
 
     useEffect(() => {
-        if (!admins.length) {
+        if (!admins || !admins.length) {
             dispatch(fetchAllAdmins());
         }
     }, [admins.length, dispatch])

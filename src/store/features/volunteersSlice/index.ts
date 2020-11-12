@@ -18,8 +18,7 @@ const searchVolunteers = createAsyncThunk<IVolunteerState, ISearch>(
   "volunteers/search",
   async (params: ISearch): Promise<IVolunteerState> => {
     const response = await search(params, "volunteers");
-    console.log(response)
-    return response as IVolunteerState
+    return response as IVolunteerState;
   })
 
 // interface IVolunteersState extends IAppStateData {

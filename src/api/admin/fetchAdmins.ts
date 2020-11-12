@@ -4,6 +4,7 @@ import { endpoint } from './../../config';
 
 const fetchAdmins = async (): Promise<object> => {
     const records: AxiosRequestConfig = await get(`${endpoint}/admin/admins`);
+    debugger
     return records.data;
 }
 
