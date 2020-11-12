@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Typography from '@material-ui/core/Typography';
 import SearchBar from "../../components/SearchBar";
-import {searchTypesVolunteers} from "../../types/volunteers/VolunteerSearchTypes";
+import { searchTypesVolunteers } from "../../types/volunteers/VolunteerSearchTypes";
 
 
 
@@ -12,12 +12,12 @@ interface IProps {
 const SubHeader = ({ count }: IProps) => {
 
     return (
-            <div className="subheader-container">
-                <Typography variant="h5" component="h5">
-                    {count} Volunteers
+        <div className="subheader-container">
+            <Typography variant="h5" component="h5">
+                {count} Volunteers
                     </Typography>
-                <SearchBar role="volunteers" searchTypes={searchTypesVolunteers} />
-            </div>
+            <SearchBar role="volunteers" searchTypes={searchTypesVolunteers} />
+        </div>
     )
 }
 

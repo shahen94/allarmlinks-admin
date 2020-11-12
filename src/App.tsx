@@ -36,12 +36,6 @@ const App = () => {
                     <PrivateRoute exact path="/settings">
                         <Settings />
                     </PrivateRoute>
-                    <PrivateRoute exact path="/adminform/:id">
-                        <AdminEditForm />
-                    </PrivateRoute>
-                    {/* <PrivateRoute exact path="/adminform">
-            <AdminForm />
-          </PrivateRoute> */}
                     <PublicRoute exact path="/login">
                         <Login />
                     </PublicRoute>

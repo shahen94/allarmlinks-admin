@@ -56,7 +56,7 @@ const Layout = (props: IProps) => {
                 </AppBar>
             </ElevationScroll>
             <Toolbar />
-            <div className="main-container">{props.children}</div>
+            {props.children}
         </div>
     )
 }

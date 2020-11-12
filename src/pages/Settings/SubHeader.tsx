@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import AdminForm from '../Admin/AdminForm';
@@ -16,10 +15,7 @@ const useStyles = makeStyles({
     formModal: {
         top: '100px !important',
         right: '100px !important',
-        left: 'unset !important'
-        //   display: 'inline-flex',
-        //   alignItems: 'center',
-        //   justifyContent: 'center',
+        left: 'unset !important',
     }
 })
 
@@ -47,7 +43,7 @@ const SubHeader = ({ count }: IProps) => {
                     </Typography>
                 <SearchBar role="admins" searchTypes={searchTypesAdmins} />
                 <IconButton onClick={handleModalOpen} aria-label="" className={classes.addButton}>
-                    <AddIcon />
+                    <AddIcon fontSize="large" />
                 </IconButton>
             </div>
             <Modal
