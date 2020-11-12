@@ -10,7 +10,6 @@ import { ErrorMessage, Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { ActionStatus } from '../../types/auth/ILoginData';
-import { Redirect } from 'react-router-dom';
 import { updateAdminById } from '../../store/features/adminsSlice';
 import { IAdminState } from '../../types/admins/IAdminState';
 import IAdminRecord from '../../types/admins/IAdminRecord';
