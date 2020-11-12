@@ -10,11 +10,11 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import VolunteerInfoField from './VolunteerInfoField';
-import WorkStatusContainer from '../../components/Volunteer/WorkStatusContainer';
+import WorkStatusContainer from '../../components/WorkStatus/WorkStatusContainer';
 import SocialLinks from './SocialLinks';
 
 import './volunteer.scss';
-import NoteContainer from '../../components/Volunteer/NoteContainer';
+import NoteContainer from '../../components/NoteContainer/NoteContainer';
 
 interface IParams {
   id: string;
@@ -24,18 +24,20 @@ const useStyles = makeStyles({
   linkToVolunteers: {
     display: 'flex',
     alignItems: 'center',
-    margin: '2rem 1rem 0.5rem',
+    marginBottom: '0.5rem',
+    height: '20px',
   },
 
   fullName: {
-    margin: '0.5rem 0.5rem 1rem 1.5rem ',
     fontWeight: 700,
     textTransform: 'capitalize',
+    fontSize: '1.1rem',
+    color: '#525252',
   },
 
   description: {
     fontWeight: 700,
-    margin: '1rem 0',
+    margin: '0',
   },
 });
 const Volunteer = () => {
@@ -104,10 +106,14 @@ const Volunteer = () => {
                 color="textSecondary"
                 variant="body1"
                 component="span"
+                style={{ fontSize: '0.9rem' }}
               >
                 work status
               </Typography>
-              <WorkStatusContainer workStatus={volunteer.workStatus} />
+              <WorkStatusContainer
+                _id={volunteer._id}
+                workStatus={volunteer.workStatus}
+              />
             </div>
           </div>
           <div className="line gridSecond">

@@ -9,12 +9,13 @@ interface IVolunteerInfoFieldProps {
 
 const useStyles = makeStyles({
   fieldName: {
-    fontSize: '0.9rem',
+    fontSize: '0.8rem',
+    textTransform: 'capitalize',
   },
 
   subBody: {
     fontWeight: 700,
-    fontSize: '0.9rem',
+    fontSize: '0.8rem',
   },
 });
 
