@@ -20,6 +20,8 @@ import IVolunteerRecord from '../../types/volunteers/IVolunteerRecord';
 import WorkStatusContainer from '../../components/WorkStatus/WorkStatusContainer';
 import SubHeader from './SubHeader';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { LinearProgress } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -38,18 +40,28 @@ const Volunteers = () => {
   const volunteers: IVolunteerRecord[] = useSelector(
     (state: RootState) => state.volunteers.data
   );
-
+    const filterType:string = useSelector(
+        (state:RootState) => state.search.type
+    )
+    const filterValue:string = useSelector(
+        (state:RootState) => state.search.value
+    )
+    const hasMore = useSelector(
+        (state:RootState) => state.volunteers.hasNext
+    )
   const CellClickHandler = (id: string): void => {
     history.push(`/volunteers/${id}`);
   };
-
     useEffect(() => {
         if (!volunteers.length) {
             dispatch(fetchAll({limit:20}))
         }
     }, [])
     const handleNext = ()=>{
-        dispatch(fectchAllAndAttach({limit:20,pointer:volunteers[volunteers.length - 1]._id,}))
+        if(filterValue)
+            dispatch(fectchAllAndAttach({limit:20,pointer:volunteers[volunteers.length - 1]._id,type:filterType,value:filterValue}))
+        else
+            dispatch(fectchAllAndAttach({limit:20,pointer:volunteers[volunteers.length - 1]._id}))
     }
     return (
         <div className="main-container">
@@ -58,8 +70,10 @@ const Volunteers = () => {
                         <InfiniteScroll
                             dataLength={volunteers.length}
                             next={handleNext}
-                            hasMore={true}
-                            loader={<h4>Loading...</h4>}
+                            hasMore={hasMore}
+                            loader={<div style={{textAlign:"center",width:"100%",height:"50px",position:"relative"}}>
+                                <CircularProgress disableShrink style={{margin:"0 auto",position:"absolute",left:"0",right:"0"}}></CircularProgress>
+                            </div>}
                         >
                 <Table size="small" aria-label="Volunteers">
                     <TableHead>

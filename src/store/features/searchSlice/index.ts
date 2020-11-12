@@ -12,16 +12,16 @@ const searchSlice = createSlice({
     initialState,
     reducers:{
         setSearchType:(
-            {type}: ISearch,
+            state: ISearch,
             {payload}: PayloadAction<string>
         ):void =>{
-            type = payload
+            state.type = payload
         },
         setSearchValue:(
-            {value}: ISearch,
+            state: ISearch,
             {payload}: PayloadAction<string>
         ):void =>{
-            value = payload
+            state.value = payload
         }
     }
 })

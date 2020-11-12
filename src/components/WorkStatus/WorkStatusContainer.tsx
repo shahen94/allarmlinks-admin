@@ -5,6 +5,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import { endpoint } from '../../config';
 import { put } from '../../utils/fetch';
 import TextField from '@material-ui/core/TextField';
+import { useRef } from 'react';
 
 interface Styles extends Partial<Record<SwitchClassKey, string>> {
   focusVisible?: string;
@@ -75,15 +76,10 @@ const WorkStatusContainer = (props: {
 }) => {
   const workStatus = props?.workStatus;
 
-  console.log(workStatus);
 
   const [checked, setChecked] = useState(!!workStatus);
   const [readonly, setReadonly] = useState(!!workStatus);
   const [status, setStatus] = useState(workStatus);
-
-  useEffect(() => {
-    sendStatus();
-  }, [checked, status]);
 
   const toggleChecked = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -93,15 +89,16 @@ const WorkStatusContainer = (props: {
       setReadonly(false);
     } else {
       console.log('Checked - false');
-      setStatus('');
+      setStatus("");
+      sendStatus("");
       console.log('Checked ', status);
     }
     setChecked(checked);
   };
 
-  const sendStatus = () => {
+  const sendStatus = (workStatus: string | undefined) => {
     const url = endpoint + '/admin/volunteers/workstatus/' + props._id;
-    const body = { workStatus: status };
+    const body = { workStatus };
 
     console.log(body);
 
@@ -114,7 +111,7 @@ const WorkStatusContainer = (props: {
     event.preventDefault();
     console.log(status);
 
-    sendStatus();
+    sendStatus(status);
     setReadonly(!readonly);
   };
 

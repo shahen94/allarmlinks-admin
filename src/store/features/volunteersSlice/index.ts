@@ -21,6 +21,7 @@ const initialState: IVolunteerState = {
   data: [],
   allCount: 0,
   status: ActionStatus.Initial,
+  hasNext:true
 };
 const volunteersSlice = createSlice({
   name: "volunteers",
@@ -43,10 +44,12 @@ const volunteersSlice = createSlice({
     builder.addCase(fetchAll.fulfilled, (state, { payload }) => {
       state.data = payload.data;
       state.allCount = payload.allCount;
+      state.hasNext = !(payload.data.length < 20)
     })
     .addCase(fectchAllAndAttach.fulfilled,(state,{payload})=>{
       state.data = [...state.data,...payload.data]
       state.allCount = payload.allCount;
+      state.hasNext = !(payload.data.length < 20)
 
     })
   },
