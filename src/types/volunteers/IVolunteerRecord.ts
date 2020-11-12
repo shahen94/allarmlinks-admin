@@ -23,4 +23,5 @@ export default interface IVolunteerRecord {
     whereToVolunteer?: string,
     other?: string,
     workStatus?: string
+    note?: string
 }
