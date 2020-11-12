@@ -41,6 +41,7 @@ const searchAdmins = createAsyncThunk<IAdminState, ISearch>(
     "admins/search",
     async (params: ISearch): Promise<IAdminState> => {
         const response = await search(params, "admins");
+        console.log(response)
         return response as IAdminState;
     })
 
