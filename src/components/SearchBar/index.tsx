@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import InputBase from "@material-ui/core/InputBase";
 import Button from "@material-ui/core/Button";
 import { useDispatch } from "react-redux";
-import { searchVolunteers } from "../../store/features/volunteersSlice";
+import { fetchAll } from "../../store/features/volunteersSlice";
 import { searchAdmins } from "../../store/features/adminsSlice";
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +73,7 @@ const SearchBar = (props: any) => {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         if (props.role === "volunteers")
-            dispatch(searchVolunteers({ type, value: searchString }))
+            dispatch(fetchAll({ type, value: searchString ,limit:20}))
         else
             dispatch(searchAdmins({ type, value: searchString }))
     };

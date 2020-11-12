@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { adminsReducer, loginReducer, singleVolunteerReducer, volunteersReducer } from './features';
+import { adminsReducer, loginReducer, singleVolunteerReducer, volunteersReducer,searchReducer } from './features';
 
 
 export const store = configureStore({
@@ -8,6 +8,7 @@ export const store = configureStore({
         admins: adminsReducer,
         login: loginReducer,
         singleVolunteer: singleVolunteerReducer,
+        search: searchReducer,
     }
 })
 

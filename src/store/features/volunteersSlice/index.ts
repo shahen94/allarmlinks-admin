@@ -2,32 +2,20 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import IVolunteerRecord from "../../../types/volunteers/IVolunteerRecord";
 import fetchVolunteers from "../../../api/volunteer/fetchVolunteers";
 import { ActionStatus } from "../../../types/auth/ILoginData";
-import search from "../../../api/admin/search";
-import { ISearch } from "../../../types/ISearch";
 import { IVolunteerState } from "../../../types/volunteers/IVolunteerState";
-
-const fetchAll = createAsyncThunk<IVolunteerState, number>(
+import IVolunteersRequest from './../../../types/volunteers/IVolunteersRequest';
+const fetchVolunteersFunc =  async (req:IVolunteersRequest): Promise<IVolunteerState> => {
+  const response = await fetchVolunteers(req);
+  return response as IVolunteerState;
+}
+const fetchAll = createAsyncThunk<IVolunteerState, IVolunteersRequest>(
   "volunteers/fetchAll",
-  async (limit: number): Promise<IVolunteerState> => {
-    const response = await fetchVolunteers({ limit });
-    return response as IVolunteerState;
-  }
+  fetchVolunteersFunc
 );
-
-const searchVolunteers = createAsyncThunk<IVolunteerState, ISearch>(
-  "volunteers/search",
-  async (params: ISearch): Promise<IVolunteerState> => {
-    const response = await search(params, "volunteers");
-    console.log(response)
-    return response as IVolunteerState
-  })
-
-// interface IVolunteersState extends IAppStateData {
-//     volunteers: IVolunteerRecord[] | [];
-//     processedVolunteers: IProcessedVolunteerRecord[] | [];
-//     allCount: number;
-//     filteredCount: number;
-// }
+const fectchAllAndAttach = createAsyncThunk<IVolunteerState,IVolunteersRequest>(
+  "volunteers/fetchAllAndAttach",
+  fetchVolunteersFunc
+)
 
 const initialState: IVolunteerState = {
   data: [],
@@ -50,27 +38,17 @@ const volunteersSlice = createSlice({
     ): void => {
       allCount = payload;
     },
-    // setVolunteersFilteredCount: (
-    //     {filteredCount}: IVolunteerState,
-    //     {payload}: PayloadAction<number>
-    // ): void => {
-    //     filteredCount = payload;
-    // },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAll.fulfilled, (state, { payload }) => {
       state.data = payload.data;
-      // state.allCount = payload.allCount
-      // state.filteredCount = payload.allCount
       state.allCount = payload.allCount;
-      // state.filteredCount = payload.data.length;
-      // state.processedVolunteers = processVolunteersRecords(payload.data);
     })
-      .addCase(searchVolunteers.fulfilled, (state, { payload }) => {
-        state.data = payload.data
-        state.allCount = payload.allCount
-        // state.filteredCount = payload.data.length
-      })
+    .addCase(fectchAllAndAttach.fulfilled,(state,{payload})=>{
+      state.data = [...state.data,...payload.data]
+      state.allCount = payload.allCount;
+
+    })
   },
 });
 const { actions, reducer } = volunteersSlice;
@@ -79,6 +57,5 @@ export const {
   setVolunteersCount,
   // setVolunteersFilteredCount,
 } = actions;
-export { fetchAll };
-export { searchVolunteers }
+export { fetchAll ,fectchAllAndAttach};
 export default reducer;
