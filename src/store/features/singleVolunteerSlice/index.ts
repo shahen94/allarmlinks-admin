@@ -6,10 +6,9 @@ import ISingleVolunteerState from '../../../types/volunteers/ISingleVolunteerSta
 
 const fetchById = createAsyncThunk<IVolunteerRecord, string>(
     'volunteers/fetchByID',
-    // Declare the type your function argument here:
     async (id: string): Promise<IVolunteerRecord> => {
-        const response = await fetchVolunteerById(id)
-        return response as IVolunteerRecord
+        const response = await fetchVolunteerById(id);
+        return response as IVolunteerRecord;
     }
 )
 
@@ -37,7 +36,15 @@ const volunteersSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(fetchById.fulfilled, (state, { payload }) => {
+            state.status = ActionStatus.Success;
             state.data = payload
+        })
+        .addCase(fetchById.pending, (state, { payload }) => {
+            state.status = ActionStatus.Pending;
+        })
+        .addCase(fetchById.rejected, (state, { payload }) => {
+            state.status = ActionStatus.Error;
+            state.error = "Volunteer not found";
         })
     }
 })

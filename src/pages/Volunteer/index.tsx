@@ -10,11 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import VolunteerInfoField from './VolunteerInfoField';
-import WorkStatusContainer from '../../components/Volunteer/WorkStatusContainer';
+import WorkStatusContainer from '../../components/WorkStatus/WorkStatusContainer';
 import SocialLinks from './SocialLinks';
-
 import './volunteer.scss';
-import NoteContainer from '../../components/Volunteer/NoteContainer';
+import NoteContainer from '../../components/NoteContainer/NoteContainer';
+import ErrorPage from '../../components/ErrorPage';
+import { ActionStatus } from '../../types/auth/ILoginData';
+import ISingleVolunteerState from '../../types/volunteers/ISingleVolunteerState';
 
 interface IParams {
   id: string;
@@ -24,18 +26,20 @@ const useStyles = makeStyles({
   linkToVolunteers: {
     display: 'flex',
     alignItems: 'center',
-    margin: '2rem 1rem 0.5rem',
+    marginBottom: '0.5rem',
+    height: '20px',
   },
 
   fullName: {
-    margin: '0.5rem 0.5rem 1rem 1.5rem ',
     fontWeight: 700,
     textTransform: 'capitalize',
+    fontSize: '1.1rem',
+    color: '#525252',
   },
 
   description: {
     fontWeight: 700,
-    margin: '1rem 0',
+    margin: '0',
   },
 });
 const Volunteer = () => {
@@ -45,11 +49,55 @@ const Volunteer = () => {
   useEffect(() => {
     dispatch(fetchById(id));
   }, [dispatch, id]);
-  const volunteer: IVolunteerRecord = useSelector(
-    (state: RootState) => state.singleVolunteer.data
+  //   const volunteer: IVolunteerRecord = useSelector(
+  //     (state: RootState) => state.singleVolunteer.data
+  //   );
+  const volunteer: ISingleVolunteerState = useSelector(
+    (state: RootState) => state.singleVolunteer
   );
 
-  return !volunteer._id ? (
+  const {
+    _id,
+    name,
+    surname,
+    email,
+    phone,
+    birthDate,
+    workStatus,
+    country,
+    city,
+    address,
+    specialization,
+    currentEmployerName,
+    occupation,
+    skills,
+    languages,
+    hoursPerWeek,
+    whereToVolunteer,
+    other,
+    facebookProfile,
+    linkedinProfile,
+    twitterProfile,
+    note,
+  } = volunteer.data;
+
+  if (volunteer.status === ActionStatus.Pending) {
+    return (
+      <CircularProgress
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+        }}
+      />
+    );
+  }
+
+  if (volunteer.status === ActionStatus.Error) {
+    return <ErrorPage message={volunteer.error || 'Unknown Error'} />;
+  }
+
+  return !volunteer.data._id ? (
     <CircularProgress
       style={{
         position: 'absolute',
@@ -67,7 +115,7 @@ const Volunteer = () => {
         variant="h5"
         component="h2"
         className={classes.fullName}
-      >{`${volunteer.name} ${volunteer.surname}`}</Typography>
+      >{`${name} ${surname}`}</Typography>
 
       <div className="container">
         <Typography
@@ -79,83 +127,69 @@ const Volunteer = () => {
         </Typography>
         <div className="gridCont">
           <div className="line gridFirst">
-            <VolunteerInfoField
-              fieldName="name"
-              fieldContent={volunteer.name}
-            />
-            <VolunteerInfoField
-              fieldName="Surname"
-              fieldContent={volunteer.surname}
-            />
-            <VolunteerInfoField
-              fieldName="email"
-              fieldContent={volunteer.email}
-            />
-            <VolunteerInfoField
-              fieldName="phone"
-              fieldContent={volunteer.phone}
-            />
+            <VolunteerInfoField fieldName="name" fieldContent={name} />
+            <VolunteerInfoField fieldName="Surname" fieldContent={surname} />
+            <VolunteerInfoField fieldName="email" fieldContent={email} />
+            <VolunteerInfoField fieldName="phone" fieldContent={phone} />
             <VolunteerInfoField
               fieldName="Birth date"
-              fieldContent={volunteer.birthDate}
+              fieldContent={birthDate ? birthDate : ''}
             />
             <div className="generalInfo-field">
               <Typography
                 color="textSecondary"
                 variant="body1"
                 component="span"
+                style={{ fontSize: '0.9rem' }}
               >
                 work status
               </Typography>
-              <WorkStatusContainer workStatus={volunteer.workStatus} />
+              <WorkStatusContainer _id={_id} workStatus={workStatus} />
             </div>
           </div>
           <div className="line gridSecond">
-            <VolunteerInfoField
-              fieldName="Country"
-              fieldContent={volunteer.country}
-            />
-            <VolunteerInfoField
-              fieldName="City"
-              fieldContent={volunteer.city}
-            />
+            <VolunteerInfoField fieldName="Country" fieldContent={country} />
+            <VolunteerInfoField fieldName="City" fieldContent={city} />
             <VolunteerInfoField
               fieldName="Address"
-              fieldContent={volunteer.address}
+              fieldContent={address ? address : ''}
             />
             <VolunteerInfoField
               fieldName="Industry of specialization"
-              fieldContent={volunteer.specialization}
+              fieldContent={specialization ? specialization : ''}
             />
             <VolunteerInfoField
               fieldName="Current employer name"
-              fieldContent={volunteer.currentEmployerName}
+              fieldContent={currentEmployerName ? currentEmployerName : ''}
             />
             <VolunteerInfoField
               fieldName="Occupation"
-              fieldContent={volunteer.occupation}
+              fieldContent={occupation ? occupation : ''}
             />
           </div>
           <div className="line gridThird">
             <VolunteerInfoField
               fieldName="Skills"
-              fieldContent={volunteer.skills?.join(', ')}
+              fieldContent={skills ? skills?.join(', ') : ''}
             />
             <VolunteerInfoField
               fieldName="Languages"
-              fieldContent={volunteer.languages?.join(', ')}
+              fieldContent={languages ? languages?.join(', ') : ''}
             />
             <VolunteerInfoField
               fieldName="Availability hours per week"
-              fieldContent={`${volunteer.hoursPerWeek?.from} - ${volunteer.hoursPerWeek?.to}`}
+              fieldContent={`${hoursPerWeek?.from || ''} - ${
+                hoursPerWeek?.to || ''
+              }`}
             />
             <VolunteerInfoField
               fieldName="Where do you prefer to volunteer"
-              fieldContent={volunteer.whereToVolunteer}
+              fieldContent={whereToVolunteer ? whereToVolunteer : ''}
             />
+
             <VolunteerInfoField
               fieldName="Other info which you would like to to share"
-              fieldContent={volunteer.other}
+              fieldContent={other ? other : ''}
             />
           </div>
         </div>
@@ -163,18 +197,16 @@ const Volunteer = () => {
           <div className="social-icons">
             <SocialLinks
               fieldName="Facebook"
-              link={volunteer.facebookProfile}
+              link={facebookProfile ? facebookProfile : ''}
             />
-            <SocialLinks
-              fieldName="LinkedIn"
-              link={volunteer.linkedinProfile}
-            />
-            <SocialLinks fieldName="Twitter" link={volunteer.twitterProfile} />
+            <SocialLinks fieldName="LinkedIn" link={linkedinProfile} />
+            <SocialLinks fieldName="Twitter" link={twitterProfile} />
           </div>
-          <NoteContainer note={volunteer.note} _id={volunteer._id} />
+          <NoteContainer note={note} _id={_id} />
         </div>
       </div>
     </div>
   );
 };
+
 export default Volunteer;

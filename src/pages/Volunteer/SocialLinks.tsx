@@ -1,7 +1,6 @@
 import Typography from '@material-ui/core/Typography';
 
 import React, { FC } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Link } from '@material-ui/core';
 
 interface SocialLinksProps {
@@ -23,6 +22,7 @@ const SocialLinks: FC<SocialLinksProps> = ({ fieldName, link }) => {
         style={{
           color: '#87C6F0',
         }}
+        target="_blank"
         href={link}
       >
         {link ? makeShortLink(link) : null}

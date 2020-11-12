@@ -11,11 +11,28 @@ import { IAdminState } from "../../../types/admins/IAdminState";
 import { ActionStatus } from "../../../types/auth/ILoginData";
 import { ISearch } from "../../../types/ISearch";
 import search from "../../../api/admin/search";
+import { ILocalStorageData } from "../../../types/auth/ILocalStorageData";
+import { getLocalStorageData } from "../../../utils/localStorageUtils";
 
 const fetchAll = createAsyncThunk<IAdminState>(
     'admins/fetchAll',
     async (): Promise<IAdminState> => {
+
+        /* *********** LOGIN TEST *********** */
+        // const parsedData: ILocalStorageData = JSON.parse(getLocalStorageData() || "{}");
+        // const storageData: ILocalStorageData = {
+        //     accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYThjZjE3ZDUzYzdkNGI0ODk5YjcxNCIsImlhdCI6MTYwNDk1OTY2MiwiZXhwIjoxNjA1MDQ2MDYyfQ.EgpG64hTuxecAhY0vXu7sLYeUZdg12-MMKWnOspHWgI",
+        //     userData: parsedData.userData
+        // };
+        // window.localStorage.setItem("adminAuthData", JSON.stringify(storageData));
+        /* ********************************** */
+
         const response = await fetchAdmins();
+        // response.catch((err) => {
+        //     debugger
+        //     return Promise.resolve(err)
+        //     //Promise.reject({ err })
+        // })
         return response as IAdminState;
     }
 );
@@ -24,8 +41,7 @@ const searchAdmins = createAsyncThunk<IAdminState, ISearch>(
     "admins/search",
     async (params: ISearch): Promise<IAdminState> => {
         const response = await search(params, "admins");
-        console.log(response)
-        return response as IAdminState
+        return response as IAdminState;
     })
 
 
@@ -83,7 +99,6 @@ const adminsSlice = createSlice({
                 state.data = payload.data;
             })
             .addCase(fetchById.fulfilled, (state, { payload }) => {
-                debugger
                 const adminRecord = state.data.some((admin: any) => {
                     return admin._id === payload.data._id
                 });
@@ -137,7 +152,6 @@ const adminsSlice = createSlice({
                 state.error = "Error deleting admin";
             })
             .addCase(searchAdmins.fulfilled, (state, { payload }) => {
-                debugger
                 state.data = payload.data;
             })
     }

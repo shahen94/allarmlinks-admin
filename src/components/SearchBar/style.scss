@@ -1,0 +1,29 @@
+.searchIconInButton {
+  display: none;
+}
+
+@media screen and (max-width: 680px) {
+  .MuiInputAdornment-root.MuiInputAdornment-positionStart,
+  .searchTextInButton {
+    display: none;
+  }
+  .searchIconInButton {
+    display: block;
+  }
+  .searchIconInButton {
+    display: flex;
+    align-items: center;
+  }
+  .searchBar {
+    flex-wrap: wrap;
+  }
+  .makeStyles-selectType-22 {
+    width: 75px;
+  }
+  .searchBar {
+    min-width: 400px;
+  }
+  .MuiListItem-root {
+    min-height: 0;
+  }
+}

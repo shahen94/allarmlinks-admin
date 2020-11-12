@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FormEvent, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../store'
+import React, { FormEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import { fetchAll,fectchAllAndAttach } from '../../store/features/volunteersSlice';
@@ -13,32 +13,35 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { put } from "../../utils/fetch";
-import { endpoint } from "../../config";
-import withStyles from "@material-ui/core/styles/withStyles";
-import IVolunteerRecord from "../../types/volunteers/IVolunteerRecord";
-import WorkStatusContainer from "../../components/Volunteer/WorkStatusContainer";
-import SubHeader from "./SubHeader"
+import { put } from '../../utils/fetch';
+import { endpoint } from '../../config';
+import withStyles from '@material-ui/core/styles/withStyles';
+import IVolunteerRecord from '../../types/volunteers/IVolunteerRecord';
+import WorkStatusContainer from '../../components/WorkStatus/WorkStatusContainer';
+import SubHeader from './SubHeader';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const useStyles = makeStyles({
-    root: {
-        backgroundColor: '#f4f4f4',
-        border: 'none'
-    },
-
-})
+  root: {
+    backgroundColor: '#f4f4f4',
+    border: 'none',
+  },
+});
 
 const Volunteers = () => {
-    const dispatch = useDispatch()
-    const history = useHistory()
-    const classes: Record<string, string> = useStyles();
-    const volunteersCount: number = useSelector((state: RootState) => state.volunteers.allCount)
-    const volunteers: IVolunteerRecord[] = useSelector((state: RootState) => state.volunteers.data)
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const classes: Record<string, string> = useStyles();
+  const volunteersCount: number = useSelector(
+    (state: RootState) => state.volunteers.allCount
+  );
+  const volunteers: IVolunteerRecord[] = useSelector(
+    (state: RootState) => state.volunteers.data
+  );
 
-    const CellClickHandler = (id: string): void => {
-        history.push(`/volunteers/${id}`);
-    }
+  const CellClickHandler = (id: string): void => {
+    history.push(`/volunteers/${id}`);
+  };
 
     useEffect(() => {
         if (!volunteers.length) {
@@ -104,4 +107,4 @@ const Volunteers = () => {
     )
 }
 
-export default Volunteers
+export default Volunteers;
