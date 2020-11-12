@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { adminLoginCheck } from './store/features/loginSlice';
 import PrivateRoute from './components/Routes/PrivateRoute';
 import PublicRoute from './components/Routes/PublicRoute';
-import AdminEditForm from './pages/Admin/AdminEditForm';
 
 const App = () => {
     const dispatch = useDispatch();

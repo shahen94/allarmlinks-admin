@@ -6,10 +6,9 @@ import ISingleVolunteerState from '../../../types/volunteers/ISingleVolunteerSta
 
 const fetchById = createAsyncThunk<IVolunteerRecord, string>(
     'volunteers/fetchByID',
-    // Declare the type your function argument here:
     async (id: string): Promise<IVolunteerRecord> => {
-        const response = await fetchVolunteerById(id)
-        return response as IVolunteerRecord
+        const response = await fetchVolunteerById(id);
+        return response as IVolunteerRecord;
     }
 )
 
