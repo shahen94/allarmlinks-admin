@@ -6,7 +6,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useDispatch } from "react-redux";
-import { searchVolunteers } from "../../store/features/volunteersSlice";
+import { fetchAll } from "../../store/features/volunteersSlice";
 import { searchAdmins } from "../../store/features/adminsSlice";
 import { FormControl, Input, InputAdornment } from "@material-ui/core";
 import "./style.scss";
@@ -108,12 +108,13 @@ const SearchBar = (props: any) => {
     setType(e.target.value);
   };
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    if (props.role === "volunteers")
-      dispatch(searchVolunteers({ type, value: searchString }));
-    else dispatch(searchAdmins({ type, value: searchString }));
-  };
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        if (props.role === "volunteers")
+            dispatch(fetchAll({ type, value: searchString ,limit:20}))
+        else
+            dispatch(searchAdmins({ type, value: searchString }))
+    };
 
   const handleChange = (e: any) => {
     setSearchString(e.target.value);

@@ -210,18 +210,3 @@ const Volunteer = () => {
 };
 
 export default Volunteer;
-
-// let from_store:IVolunteerRecord | {} = useSelector((state: RootState) => {
-//     const from_state = state.volunteers.volunteers.filter((elm: IVolunteerRecord) => elm._id === id)
-//     if(from_state.length){
-//         return from_state[0]
-//     }
-//     else if(state.singleVolunteer._id === id){
-//         return state.singleVolunteer
-//     }
-//     else
-//         return {}
-// })
-// if(!Object.keys(from_store).length){
-//     dispatch(fetchById(id))
-// }
