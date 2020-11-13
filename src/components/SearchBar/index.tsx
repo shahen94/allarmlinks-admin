@@ -107,11 +107,13 @@ const SearchBar = (props: any) => {
   const dispatch = useDispatch();
 
   const handleTypeChange = (e: any) => {
-    dispatch(setSearchType(e.target.value))
     setType(e.target.value);
   };
 
     const handleSubmit = async (e: any) => {
+      dispatch(setSearchType(type))
+      dispatch(setSearchValue(searchString))
+
         e.preventDefault();
         if (props.role === "volunteers")
             dispatch(fetchAll({ type, value: searchString ,limit:20}))
@@ -120,7 +122,6 @@ const SearchBar = (props: any) => {
     };
 
   const handleChange = (e: any) => {
-    dispatch(setSearchValue(e.target.value))
     setSearchString(e.target.value);
   };
 
