@@ -97,7 +97,11 @@ const adminsSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(fetchAll.fulfilled, (state, { payload }) => {
+                state.status = ActionStatus.Success
                 state.data = payload.data;
+            })
+            .addCase(fetchAll.pending, (state, { payload }) => {
+                state.status = ActionStatus.Pending
             })
             .addCase(fetchById.fulfilled, (state, { payload }) => {
                 const adminRecord = state.data.some((admin: any) => {
@@ -107,7 +111,6 @@ const adminsSlice = createSlice({
                 if (!adminRecord) {
                     state.data.push(payload.data as never);
                 }
-
                 state.status = ActionStatus.Success;
                 //state.data = payload.data;
             })
@@ -154,6 +157,10 @@ const adminsSlice = createSlice({
             })
             .addCase(searchAdmins.fulfilled, (state, { payload }) => {
                 state.data = payload.data;
+                state.status = ActionStatus.Success;
+            })
+            .addCase(searchAdmins.pending, (state, { payload }) => {
+                state.status = ActionStatus.Pending;
             })
     }
 });

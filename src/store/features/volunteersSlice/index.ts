@@ -45,6 +45,11 @@ const volunteersSlice = createSlice({
       state.data = payload.data;
       state.allCount = payload.allCount;
       state.hasNext = !(payload.data.length < 20)
+      state.status = ActionStatus.Success
+
+    })
+    builder.addCase(fetchAll.pending, (state, { payload }) => {
+      state.status = ActionStatus.Pending
     })
     .addCase(fectchAllAndAttach.fulfilled,(state,{payload})=>{
       state.data = [...state.data,...payload.data]
