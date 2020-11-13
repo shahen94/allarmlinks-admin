@@ -90,7 +90,7 @@ const Volunteers = () => {
                     <TableBody>
                         {volunteers && volunteers.map((row,index) => {
                             return (
-                                <TableRow key={row._id} className={classes.hideLastBorder}>
+                                <TableRow key={row._id}>
                                     <TableCell align="left"
                                         onClick={(e) => CellClickHandler(row._id)}>{row.name}</TableCell>
                                     <TableCell align="left"

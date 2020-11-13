@@ -123,7 +123,7 @@ const Volunteer = () => {
           component="h6"
           variant="body1"
         >
-          personal info
+          Personal info
         </Typography>
         <div className="gridCont">
           <div className="line gridFirst">
