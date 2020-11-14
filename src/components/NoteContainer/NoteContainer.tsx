@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import { endpoint } from '../../config';
@@ -29,20 +29,20 @@ const NoteContainer = (props: { note: string | undefined; _id: string }) => {
       {readonly ? (
         <p className="note__textValue">{note}</p>
       ) : (
-        <TextField
-          style={{
-            width: '90%',
-            height: '55%',
-            fontSize: 16,
-            boxSizing: 'border-box',
-          }}
-          variant={'outlined'}
-          multiline={true}
-          rows={5}
-          onChange={(e) => setNote(e.target.value)}
-          value={note}
-        />
-      )}
+          <TextField
+            style={{
+              width: '90%',
+              height: '55%',
+              fontSize: 16,
+              boxSizing: 'border-box',
+            }}
+            variant={'outlined'}
+            multiline={true}
+            rows={5}
+            onChange={(e) => setNote(e.target.value)}
+            value={note}
+          />
+        )}
       <div className="note__buttonGroup" style={{}}>
         {readonly ? (
           <Button
@@ -54,32 +54,32 @@ const NoteContainer = (props: { note: string | undefined; _id: string }) => {
             Edit
           </Button>
         ) : (
-          <>
-            <Button
-              variant="contained"
-              style={{ width: 90, borderRadius: 25 }}
-              color="default"
-              onClick={() => {
-                setReadonly(true);
-                setNote(prevNote);
-              }}
-            >
-              Cancel
+            <>
+              <Button
+                variant="contained"
+                style={{ width: 90, borderRadius: 25 }}
+                color="default"
+                onClick={() => {
+                  setReadonly(true);
+                  setNote(prevNote);
+                }}
+              >
+                Cancel
             </Button>
-            <Button
-              variant="contained"
-              style={{ width: 90, borderRadius: 25 }}
-              color="primary"
-              onClick={() => {
-                setReadonly(true);
-                sendNote();
-                setPrevNote(note);
-              }}
-            >
-              Save
+              <Button
+                variant="contained"
+                style={{ width: 90, borderRadius: 25 }}
+                color="primary"
+                onClick={() => {
+                  setReadonly(true);
+                  sendNote();
+                  setPrevNote(note);
+                }}
+              >
+                Save
             </Button>
-          </>
-        )}
+            </>
+          )}
       </div>
     </div>
   );

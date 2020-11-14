@@ -35,10 +35,9 @@ const loginSlice = createSlice({
                 state.status = ActionStatus.Initial;
             }
         },
-        logout: (state: ILoginState): void => {
+        logout: (state: ILoginState): ILoginState => {
             window.localStorage.removeItem("adminAuthData");
-            state.status = ActionStatus.Initial;
-            state.data = null;
+            return initialState;
         }
     },
     extraReducers: builder => {

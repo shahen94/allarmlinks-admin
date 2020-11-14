@@ -1,15 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
-
 import { adminsReducer, loginReducer, singleVolunteerReducer, volunteersReducer, searchReducer } from './features';
+import { resetAdmins } from './features/adminsSlice';
 import { logout } from './features/loginSlice';
+import { resetVolunteers } from './features/volunteersSlice';
+import { resetSingleVolunteer } from './features/singleVolunteerSlice';
 
 function loginChecker({ getState, dispatch }: any): any {
     return (next: any) => (action: any) => {
-        // if (action.type.indexOf("rejected") >= 0 && action.error.message === "Request failed with status code 401") {
-        //     dispatch(logout())
-        // }
         if (action.payload && action.payload.status === 401) {
             dispatch(logout());
+        }
+        if (action.type === "login/logout") {
+            dispatch(resetVolunteers());
+            dispatch(resetSingleVolunteer());
+            dispatch(resetAdmins());
         }
 
         return next(action);

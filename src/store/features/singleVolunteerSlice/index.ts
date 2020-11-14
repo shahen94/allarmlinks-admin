@@ -35,6 +35,7 @@ const volunteersSlice = createSlice({
         setVolunteers: (state, { payload }: PayloadAction<IVolunteerRecord>): void => {
             state.data = payload
         },
+        resetSingleVolunteer: (state: ISingleVolunteerState): ISingleVolunteerState => initialState
     },
     extraReducers: builder => {
         builder
@@ -53,6 +54,6 @@ const volunteersSlice = createSlice({
 })
 
 const { actions, reducer } = volunteersSlice
-export const { setVolunteers } = actions
+export const { setVolunteers, resetSingleVolunteer } = actions
 export { fetchById }
 export default reducer
