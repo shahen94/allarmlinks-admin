@@ -59,7 +59,7 @@ const Settings = () => {
         if (!admins.data || !admins.data.length) {
             dispatch(fetchAllAdmins(null));
         }
-    }, [admins.data, dispatch]);
+    }, []);
 
     return (
         <div className="main-container">
