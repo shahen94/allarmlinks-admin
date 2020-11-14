@@ -7,6 +7,8 @@ import AdminForm from '../Admin/AdminForm';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchBar from "../../components/SearchBar";
 import { searchTypesAdmins } from "../../types/admins/AdminSearchTypes"
+import { useDispatch } from 'react-redux';
+import { resetAdminsError } from '../../store/features/adminsSlice';
 
 const useStyles = makeStyles({
     addButton: {
@@ -21,6 +23,7 @@ interface IProps {
 const SubHeader = ({ count }: IProps) => {
     const [modalOpen, setModalOpen] = useState(false);
     const classes: Record<string, string> = useStyles();
+    const dispatch = useDispatch();
 
     const handleModalOpen = () => {
         setModalOpen(true);
@@ -28,6 +31,7 @@ const SubHeader = ({ count }: IProps) => {
 
     const handleModalClose = () => {
         setModalOpen(false);
+        dispatch(resetAdminsError());
     };
 
     return (

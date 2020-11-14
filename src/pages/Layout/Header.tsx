@@ -112,7 +112,7 @@ const Header = (props: IProps) => {
           <Box component="div" m={1}>
             <div className={classes.textButton}>
               <span className="header-welcome">
-                Welclome{(adminData.name || adminData.surname) && ","}{adminData.name ? ` ${adminData.name}` : ""}{adminData.surname ? ` ${adminData.surname}` : ""}
+                Welcome{(adminData.name || adminData.surname) && ","}{adminData.name ? ` ${adminData.name}` : ""}{adminData.surname ? ` ${adminData.surname}` : ""}
               </span>
               <span className="header-signout">
                 <Button onClick={handleSignOut}>Sign out</Button>

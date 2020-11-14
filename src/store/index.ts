@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { adminsReducer, loginReducer, singleVolunteerReducer, volunteersReducer,searchReducer } from './features';
+import { adminsReducer, loginReducer, singleVolunteerReducer, volunteersReducer, searchReducer } from './features';
 import { logout } from './features/loginSlice';
 
 function loginChecker({ getState, dispatch }: any): any {
     return (next: any) => (action: any) => {
-        if (action.type.indexOf("rejected") >= 0 && action.error.message === "Request failed with status code 401") {
-            dispatch(logout())
-        }
-        // if(action.payload && action.payload.response && action.payload.response.status === 401) {
+        // if (action.type.indexOf("rejected") >= 0 && action.error.message === "Request failed with status code 401") {
         //     dispatch(logout())
         // }
+        if (action.payload && action.payload.status === 401) {
+            dispatch(logout());
+        }
 
         return next(action);
     }
@@ -24,8 +24,8 @@ export const store = configureStore({
         singleVolunteer: singleVolunteerReducer,
         search: searchReducer,
     },
-    
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loginChecker)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(loginChecker)
+    //middleware: [loginChecker]
 })
 
 export type RootState = ReturnType<typeof store.getState>

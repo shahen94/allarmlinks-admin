@@ -4,11 +4,16 @@ import { AxiosRequestConfig } from "axios";
 import { ISearch } from "../../types/ISearch";
 import qs from "qs";
 
-const search = async (params: ISearch, role: string): Promise<object> => {
-    const query = qs.stringify(params);
-    const records: AxiosRequestConfig = await get(
-        `${endpoint}/admin/${role}?${query}`
-    );
-    return records.data;
-};
+const search = async (params: ISearch, role: string): Promise<any> => {
+    try {
+        const query = qs.stringify(params);
+        const response: AxiosRequestConfig = await get(
+            `${endpoint}/admin/${role}?${query}`
+        );
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
 export default search;

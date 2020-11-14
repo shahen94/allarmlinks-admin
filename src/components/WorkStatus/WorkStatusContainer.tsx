@@ -1,11 +1,12 @@
-import Switch, { SwitchClassKey, SwitchProps } from '@material-ui/core/Switch';
-import withStyles from '@material-ui/core/styles/withStyles';
-import { createStyles, Theme } from '@material-ui/core/styles';
-import React, { FormEvent, useEffect, useState } from 'react';
-import { endpoint } from '../../config';
-import { put } from '../../utils/fetch';
-import TextField from '@material-ui/core/TextField';
-import { useRef } from 'react';
+import Switch, { SwitchClassKey, SwitchProps } from "@material-ui/core/Switch";
+import withStyles from "@material-ui/core/styles/withStyles";
+import { createStyles, Theme } from "@material-ui/core/styles";
+import React, { FormEvent, useState } from "react";
+import { endpoint } from "../../config";
+import { put } from "../../utils/fetch";
+import TextField from "@material-ui/core/TextField";
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
 
 interface Styles extends Partial<Record<SwitchClassKey, string>> {
   focusVisible?: string;
@@ -25,18 +26,18 @@ const IOSSwitch = withStyles((theme: Theme) =>
     },
     switchBase: {
       padding: 1,
-      '&$checked': {
-        transform: 'translateX(20px)',
+      "&$checked": {
+        transform: "translateX(20px)",
         color: theme.palette.common.white,
-        '& + $track': {
-          backgroundColor: '#2524d6',
+        "& + $track": {
+          backgroundColor: "#2524d6",
           opacity: 1,
-          border: 'none',
+          border: "none",
         },
       },
-      '&$focusVisible $thumb': {
-        color: '#52d869',
-        border: '6px solid #fff',
+      "&$focusVisible $thumb": {
+        color: "#52d869",
+        border: "6px solid #fff",
       },
     },
     thumb: {
@@ -48,7 +49,7 @@ const IOSSwitch = withStyles((theme: Theme) =>
       border: `1px solid ${theme.palette.grey[400]}`,
       backgroundColor: theme.palette.grey[50],
       opacity: 1,
-      transition: theme.transitions.create(['background-color', 'border']),
+      transition: theme.transitions.create(["background-color", "border"]),
     },
     checked: {},
     focusVisible: {},
@@ -76,7 +77,6 @@ const WorkStatusContainer = (props: {
 }) => {
   const workStatus = props?.workStatus;
 
-
   const [checked, setChecked] = useState(!!workStatus);
   const [readonly, setReadonly] = useState(!!workStatus);
   const [status, setStatus] = useState(workStatus);
@@ -88,16 +88,16 @@ const WorkStatusContainer = (props: {
     if (checked) {
       setReadonly(false);
     } else {
-      console.log('Checked - false');
+      console.log("Checked - false");
       setStatus("");
       sendStatus("");
-      console.log('Checked ', status);
+      console.log("Checked ", status);
     }
     setChecked(checked);
   };
 
   const sendStatus = (workStatus: string | undefined) => {
-    const url = endpoint + '/admin/volunteers/workstatus/' + props._id;
+    const url = endpoint + "/admin/volunteers/workstatus/" + props._id;
     const body = { workStatus };
 
     console.log(body);
@@ -120,15 +120,26 @@ const WorkStatusContainer = (props: {
       <IOSSwitch checked={checked} onChange={toggleChecked} />
       {checked ? (
         readonly ? (
-          <div onClick={() => setReadonly(!readonly)}>{status}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <p title={status}> {status} </p>
+            <IconButton
+              style={{ color: "#3967d6" }}
+              aria-label="edit"
+              onClick={() => setReadonly(!readonly)}
+              size="small"
+              title="Edit"
+            >
+              <EditIcon fontSize="small"/>
+            </IconButton>
+          </div>
         ) : (
           <TextField
             placeholder="Add Company Name"
             variant="outlined"
             style={{
-              color: '#BCBCBC',
-              backgroundColor: 'white',
-              borderColor: '#e9e9e9',
+              color: "#BCBCBC",
+              backgroundColor: "white",
+              borderColor: "#e9e9e9",
             }}
             onChange={(e) => setStatus(e.target.value)}
             value={status}
@@ -137,7 +148,7 @@ const WorkStatusContainer = (props: {
           />
         )
       ) : (
-        ''
+        ""
       )}
     </form>
   );

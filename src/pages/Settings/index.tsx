@@ -7,11 +7,15 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { fetchAll as fetchAllAdmins } from "../../store/features/adminsSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import IAdminRecord from "../../types/admins/IAdminRecord";
 import { RootState } from "../../store";
 import SubHeader from "./SubHeader";
+import { ActionStatus } from '../../types/auth/ILoginData';
 import AdminGridListItem from "./AdminGridListItem";
+import { CircularProgress } from '@material-ui/core';
+import "../../styles/global.scss"
+import { IAdminState } from "../../types/admins/IAdminState";
 
 const useStyles = makeStyles({
     root: {
@@ -25,7 +29,7 @@ const useStyles = makeStyles({
     },
     tableHead: {
         fontWeight: 'bolder'
-    },    
+    },
     tableHead15: {
         width: '15%'
     },
@@ -45,39 +49,46 @@ const useStyles = makeStyles({
 });
 
 const Settings = () => {
-  const classes: Record<string, string> = useStyles();
-  const dispatch = useDispatch();
-  const admins: IAdminRecord[] = useSelector(
-    (state: RootState) => state.admins.data
-  );
+    const classes: Record<string, string> = useStyles();
+    const dispatch = useDispatch();
+    const admins: IAdminState = useSelector(
+        (state: RootState) => state.admins
+    );
 
-  useEffect(() => {
-    if (!admins || !admins.length) {
-      dispatch(fetchAllAdmins());
-    }
-  }, []);
+    useEffect(() => {
+        if (!admins.data || !admins.data.length) {
+            dispatch(fetchAllAdmins(null));
+        }
+    }, [admins.data, dispatch]);
 
     return (
         <div className="main-container">
-            <SubHeader count={admins.length} />
-            <TableContainer className={classes.root}>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell className={classes.tableHead + " " + classes.tableHead15}>Name</TableCell>
-                            <TableCell className={classes.tableHead + " " + classes.tableHead15}>Surname</TableCell>
-                            <TableCell className={classes.tableHead + " " + classes.tableHead22}>Email Address</TableCell>
-                            <TableCell className={classes.tableHead}>Password</TableCell>
-                            <TableCell align="center" className={classes.tableHead}>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {admins && admins.map((admin: IAdminRecord) => 
-                            <AdminGridListItem admin={admin} />
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <SubHeader count={admins.data.length} />
+            {admins.status !== `FETCH_ALL_ADMINS_${ActionStatus.Pending}` && admins.status !== `SEARCH_ADMINS_${ActionStatus.Pending}` &&
+                <TableContainer className={classes.root}>
+                    <Table className={classes.table}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className={classes.tableHead + " " + classes.tableHead15}>Name</TableCell>
+                                <TableCell className={classes.tableHead + " " + classes.tableHead15}>Surname</TableCell>
+                                <TableCell className={classes.tableHead + " " + classes.tableHead22}>Email</TableCell>
+                                <TableCell className={classes.tableHead}>Password</TableCell>
+                                <TableCell align="center" className={classes.tableHead}>Action</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {admins.data && admins.data.map((admin: IAdminRecord) =>
+                                <AdminGridListItem key={admin._id} admin={admin} />
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            }
+            {admins.status === `SEARCH_ADMINS_${ActionStatus.Pending}` &&
+                <div className="loader-container">
+                    <CircularProgress disableShrink className="loader" />
+                </div>
+            }
         </div>
     )
 }

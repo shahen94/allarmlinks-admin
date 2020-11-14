@@ -14,6 +14,7 @@ import { updateAdminById } from '../../store/features/adminsSlice';
 import { IAdminState } from '../../types/admins/IAdminState';
 import IAdminRecord from '../../types/admins/IAdminRecord';
 import useGlobalStyles from '../../styles/styles';
+import { IFormikError, IFormikValues } from '../../types/admins/FormikTypes';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -92,22 +93,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-interface IFormikValues {
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-    passwordConfirm: string;
-}
-
-interface IError {
-    name?: string;
-    surname?: string;
-    email?: string;
-    password?: string;
-    passwordConfirm?: string;
-}
-
 interface IProps {
     adminId: string;
     onModalClose: () => void,
@@ -122,13 +107,13 @@ const AdminEditForm = ({ adminId, onModalClose }: IProps) => {
     const adminInStore: IAdminRecord | undefined = useSelector((state: RootState) => state.admins.data.find((admin: IAdminRecord) => admin._id === adminId));
 
     useEffect(() => {
-        if (admins.status !== ActionStatus.Pending) {
+        if (admins.status !== `UPDATE_ADMIN_${ActionStatus.Pending}`) {
             setSubmitting(false);
         }
     }, [admins.status]);
 
     useEffect(() => {
-        if (submitting && admins.status === ActionStatus.Success) {
+        if (submitting && admins.status === `UPDATE_ADMIN_${ActionStatus.Success}`) {
             onModalClose();
         }
     }, [admins.status, onModalClose, submitting]);
@@ -169,7 +154,7 @@ const AdminEditForm = ({ adminId, onModalClose }: IProps) => {
                         {adminInStore && adminInStore._id ? <Formik
                             initialValues={editFormInitialValues as any}
                             validate={values => {
-                                const errors: IError = {};
+                                const errors: IFormikError = {};
                                 if (!values.name) {
                                     errors.name = 'Name is required';
                                 }
@@ -290,12 +275,12 @@ const AdminEditForm = ({ adminId, onModalClose }: IProps) => {
                                                 Save
                                             </Button>
                                         </div>
-                                        {admins.status === ActionStatus.Pending &&
+                                        {admins.status === `UPDATE_ADMIN_${ActionStatus.Pending}` &&
                                             <div className={classes.progress}>
                                                 <CircularProgress />
                                             </div>
                                         }
-                                        {admins.status === ActionStatus.Error &&
+                                        {admins.status === `UPDATE_ADMIN_${ActionStatus.Error}` &&
                                             <div className="form-error">{admins.error}</div>
                                         }
                                     </form>

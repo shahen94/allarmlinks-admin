@@ -1,6 +1,6 @@
 import { ActionStatus } from "./auth/ILoginData";
 
 export default interface IAppStateData {
-    status: ActionStatus,
+    status: string,
     error?: string,
 }

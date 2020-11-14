@@ -5,21 +5,16 @@ import ILoginState from "../../../types/auth/ILoginData";
 import ILoginData, { ActionStatus } from "../../../types/auth/ILoginData";
 import { getLocalStorageData } from "../../../utils/localStorageUtils";
 
-const adminLogin = createAsyncThunk<ILoginData, any>(
+const adminLogin = createAsyncThunk<ILoginData, any, { rejectValue: any }>(
     'admin/login',
-    async (loginData: any): Promise<ILoginData> => {
+    async (loginData: any, thunkApi: any): Promise<ILoginData> => {
         const response = await login(loginData);
-        return response as ILoginData;
+        if (response.status !== 200) {
+            return thunkApi.rejectWithValue(response);
+        }
+        return response.data as ILoginData;
     }
 )
-
-// const adminLoginCheck = createAsyncThunk(
-//     'admin/profile',
-//     async (): Promise<ILoginResponse> => {
-//         const response = await loginCheck();
-//         return response as ILoginResponse
-//     }
-// )
 
 const initialState: ILoginState = {
     status: ActionStatus.Initial,
@@ -61,18 +56,8 @@ const loginSlice = createSlice({
         });
         builder.addCase(adminLogin.rejected, (state, action: PayloadAction<any>) => {
             state.status = ActionStatus.Error;
-            state.error = "Authentication error";
+            state.error = "Wrong Email or Password";
         });
-        // builder.addCase(adminLoginCheck.fulfilled, (state) => {
-        //     debugger
-        //     state.status = LoginStatus.Success;
-        //     //state.userData = payload.data;
-        // });
-        // builder.addCase(adminLoginCheck.rejected, (state, asdsa: any) => {
-        //     debugger
-        //     state.status = LoginStatus.Initial;
-        //     //state.userData = payload.data;
-        // });
     }
 })
 
