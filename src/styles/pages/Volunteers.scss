@@ -3,86 +3,86 @@
   background-color: $neutral_color;
   margin: 0 auto;
   height: auto;
-  
-  .main-container{
+
+  .main-container {
     max-width: 90%;
     margin: 0 auto;
     height: auto;
     background-color: $neutral_color;
     margin-top: 1rem;
-  
-    
+
     > div:nth-child(2) {
       height: auto !important;
       width: auto !important;
     }
-    
+
     > .volunteers-count {
       padding: 16px;
       font-size: 2rem;
-      
+
       > span:first-child {
         margin-right: 16px;
       }
     }
-    
+
     .MuiDataGrid-root {
       margin: 0 auto !important;
       // min-width: 85%;
       .MuiDataGrid-cell:focus {
         outline: none !important;
       }
-      
+
       .MuiDataGrid-row:hover {
         background-color: rgba(0, 0, 0, 0.04) !important;
       }
-      
+
       // height: 80vh !important;
       // background-color: $neutral_color;
       // border: none !important;
       .MuiDataGrid-columnSeparator {
         visibility: hidden;
       }
-      
+
       .MuiDataGrid-colCellTitle {
         font-weight: 600 !important;
       }
     }
   }
 }
-.MuiTable-root{
-  padding-top: 35px!important;
+.MuiTable-root {
+  padding-top: 35px !important;
 }
-tbody .MuiTableRow-root{
+
+tbody .tr-clickable.MuiTableRow-root {
+  cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   -webkit-transition: background-color 0.2s ease-in-out;
   -moz-transition: background-color 0.2s ease-in-out;
   -ms-transition: background-color 0.2s ease-in-out;
   -o-transition: background-color 0.2s ease-in-out;
+  &:hover {
+    background-color: #dddddd;
+  }
+  td {
+    color: #707070;
+  }
 }
-tbody .MuiTableRow-root:hover{
-  background-color: #dddddd;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-}
+
 .table-header {
-  font-weight: bold!important;
-  &:first-child{
+  font-weight: bold !important;
+  &:first-child {
     padding-left: 0;
   }
 }
 
-.MuiTableCell-root{
-  &:first-child{
+.MuiTableCell-root {
+  &:first-child {
     padding-left: 5px;
   }
 }
-.subheader-container{
+.subheader-container {
   margin-bottom: 25px;
-  h5{
+  h5 {
     padding-left: 5px;
   }
 }

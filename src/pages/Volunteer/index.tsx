@@ -108,7 +108,7 @@ const Volunteer = () => {
   ) : (
     <div className="volunteer">
       <Link className={classes.linkToVolunteers} href="/volunteers">
-        <ArrowBack /> back to all volunteers
+        <ArrowBack /> Back to all Volunteers
       </Link>
 
       <Typography
@@ -142,7 +142,7 @@ const Volunteer = () => {
                 component="span"
                 style={{ fontSize: '0.9rem' }}
               >
-                work status
+                Work status
               </Typography>
               <WorkStatusContainer _id={_id} workStatus={workStatus} />
             </div>

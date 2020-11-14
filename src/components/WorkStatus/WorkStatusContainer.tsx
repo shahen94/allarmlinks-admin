@@ -1,11 +1,10 @@
 import Switch, { SwitchClassKey, SwitchProps } from "@material-ui/core/Switch";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { createStyles, Theme } from "@material-ui/core/styles";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { endpoint } from "../../config";
 import { put } from "../../utils/fetch";
 import TextField from "@material-ui/core/TextField";
-import { useRef } from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
 
@@ -122,12 +121,13 @@ const WorkStatusContainer = (props: {
       {checked ? (
         readonly ? (
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <p> {status} </p>
+            <p title={status}> {status} </p>
             <IconButton
               style={{ color: "#3967d6" }}
               aria-label="edit"
               onClick={() => setReadonly(!readonly)}
               size="small"
+              title="Edit"
             >
               <EditIcon fontSize="small"/>
             </IconButton>

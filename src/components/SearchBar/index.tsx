@@ -1,16 +1,16 @@
-import React, {useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import SearchIcon from "@material-ui/icons/Search";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import {useDispatch} from "react-redux";
-import {fetchAll} from "../../store/features/volunteersSlice";
-import {searchAdmins} from "../../store/features/adminsSlice";
-import {FormControl, Input, InputAdornment} from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { fetchAll } from "../../store/features/volunteersSlice";
+import { searchAdmins } from "../../store/features/adminsSlice";
+import { FormControl, Input, InputAdornment } from "@material-ui/core";
 import "./style.scss";
-import {setSearchType, setSearchValue} from "../../store/features/searchSlice";
+import { resetSearchTypeValue, setSearchType, setSearchValue } from "../../store/features/searchSlice";
 import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
         color: "grey",
     },
     selectOptions: {
-        width: "80%",
-        margin: "auto",
+        width: "auto",
+        margin: "auto 14px",
         borderTop: "2px solid #f4f4f4",
         "&.Mui-selected": {
             color: "#2524d6",
@@ -107,7 +107,13 @@ const useStyles = makeStyles((theme) => ({
     }
 
 }));
-const SearchBar = (props: any) => {
+
+interface IProps {
+    role: string;
+    searchTypes: any[];
+}
+
+const SearchBar = (props: IProps) => {
     const [type, setType] = useState(props.searchTypes[0].value);
     const [searchString, setSearchString] = useState("");
     const [clear, setClear] = useState(false);
@@ -119,14 +125,18 @@ const SearchBar = (props: any) => {
     };
 
     const handleSubmit = async (e: any) => {
-        if(searchString!==""){
+        if (searchString !== "") {
             dispatch(setSearchType(type))
             dispatch(setSearchValue(searchString))
             e.preventDefault();
-            if (props.role === "volunteers")
-                dispatch(fetchAll({type, value: searchString, limit: 20}))
-            else
-                dispatch(searchAdmins({type, value: searchString}))
+            switch (props.role) {
+                case "volunteers":
+                    dispatch(fetchAll({ type, value: searchString, limit: 20 }))
+                    break;
+                case "admins":
+                    dispatch(searchAdmins({ type, value: searchString }))
+                    break;
+            }
             setClear(true)
             setSearchActive(true)
         }
@@ -134,20 +144,21 @@ const SearchBar = (props: any) => {
 
     const handleChange = (e: any) => {
         setSearchString(e.target.value);
-        if(e.target.value.length>0)
-          setClear(true)
+        if (e.target.value.length > 0)
+            setClear(true)
         else
-          setClear(false)
+            setClear(false)
 
     };
 
     const handleClear = () => {
-        setSearchString("")
-        if(searchActive){
+        setSearchString("");
+        dispatch(resetSearchTypeValue());
+        if (searchActive) {
             if (props.role === "volunteers")
-                dispatch(fetchAll({type, value: "", limit: 20}))
+                dispatch(fetchAll({ type, value: "", limit: 20 }))
             else
-                dispatch(searchAdmins({type, value: ""}))
+                dispatch(searchAdmins({ type, value: "" }))
             setSearchActive(false)
         }
         setClear(false)
@@ -189,15 +200,14 @@ const SearchBar = (props: any) => {
                             disableUnderline
                             startAdornment={
                                 <InputAdornment position="start">
-                                    <SearchIcon className={classes.searchIcon}/>
+                                    <SearchIcon className={classes.searchIcon} />
                                 </InputAdornment>
                             }
                             endAdornment={
                                 <InputAdornment position="end">
-                                    {clear && <ClearIcon onClick={handleClear} className={classes.clearIcon}/>}
+                                    {clear && <ClearIcon onClick={handleClear} className={classes.clearIcon} />}
                                 </InputAdornment>
                             }
-
                         />
                     </div>
                     <Button
@@ -208,8 +218,8 @@ const SearchBar = (props: any) => {
                     >
                         <span className="searchTextInButton">Search</span>
                         <span className="searchIconInButton">
-              <SearchIcon className={classes.searchBtnIcon}/>
-            </span>
+                            <SearchIcon className={classes.searchBtnIcon} />
+                        </span>
                     </Button>
                 </Grid>
             </Grid>

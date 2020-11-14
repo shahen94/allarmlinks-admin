@@ -4,14 +4,16 @@ import IVolunteerRecord from '../../../types/volunteers/IVolunteerRecord';
 import fetchVolunteerById from './../../../api/volunteer/fetchVolunteerById';
 import ISingleVolunteerState from '../../../types/volunteers/ISingleVolunteerState';
 
-const fetchById = createAsyncThunk<IVolunteerRecord, string>(
+const fetchById = createAsyncThunk<IVolunteerRecord, string, { rejectValue: any }>(
     'volunteers/fetchByID',
-    async (id: string): Promise<IVolunteerRecord> => {
+    async (id: string, thunkApi: any): Promise<IVolunteerRecord> => {
         const response = await fetchVolunteerById(id);
-        return response as IVolunteerRecord;
+        if (response.status !== 200) {
+            return thunkApi.rejectWithValue(response);
+        }
+        return response.data.data as IVolunteerRecord;
     }
 )
-
 const initialState: ISingleVolunteerState = {
     data: {
         _id: '',
@@ -35,17 +37,18 @@ const volunteersSlice = createSlice({
         },
     },
     extraReducers: builder => {
-        builder.addCase(fetchById.fulfilled, (state, { payload }) => {
-            state.status = ActionStatus.Success;
-            state.data = payload
-        })
-        .addCase(fetchById.pending, (state, { payload }) => {
-            state.status = ActionStatus.Pending;
-        })
-        .addCase(fetchById.rejected, (state, { payload }) => {
-            state.status = ActionStatus.Error;
-            state.error = "Volunteer not found";
-        })
+        builder
+            .addCase(fetchById.fulfilled, (state, { payload }) => {
+                state.status = ActionStatus.Success;
+                state.data = payload
+            })
+            .addCase(fetchById.pending, (state, { payload }) => {
+                state.status = ActionStatus.Pending;
+            })
+            .addCase(fetchById.rejected, (state, { payload }) => {
+                state.status = ActionStatus.Error;
+                state.error = "Volunteer not found";
+            })
     }
 })
 

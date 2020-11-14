@@ -6,11 +6,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { deleteAdminById } from '../../store/features/adminsSlice';
-import { useDispatch } from 'react-redux'
+import { deleteAdminById, resetAdminsError } from '../../store/features/adminsSlice';
+import { useDispatch, useSelector } from 'react-redux'
 import Modal from '@material-ui/core/Modal';
 import AdminEditForm from '../Admin/AdminEditForm';
 import ConfirmationDialog from '../../components/Dialog/ConfirmationDialog';
+import { RootState } from '../../store';
+import { CircularProgress } from '@material-ui/core';
+import { ActionStatus } from '../../types/auth/ILoginData';
+import { IAdminState } from '../../types/admins/IAdminState';
 
 const useStyles = makeStyles({
     root: {
@@ -48,6 +52,9 @@ const AdminGridListItem = (props: Props) => {
     const { _id, email, name, surname, password }: IAdminRecord = props.admin;
     const classes: Record<string, string> = useStyles();
     const dispatch = useDispatch();
+    const adminsState: IAdminState = useSelector(
+        (state: RootState) => state.admins
+    );
 
     const closeDialog = () => {
         setDialogOpen(false);
@@ -68,7 +75,16 @@ const AdminGridListItem = (props: Props) => {
 
     const handleModalClose = () => {
         setModalOpen(false);
+        dispatch(resetAdminsError());
     };
+
+    if (adminsState.status === `UPDATE_ADMINS_${ActionStatus.Pending}`) {
+        return (
+            <div className="loader-container">
+                <CircularProgress disableShrink className="loader" />
+            </div>
+        );
+    }
 
     return (
         <>

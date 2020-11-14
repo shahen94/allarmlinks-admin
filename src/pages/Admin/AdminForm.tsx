@@ -13,6 +13,7 @@ import { ActionStatus } from '../../types/auth/ILoginData';
 import { createNewAdmin } from '../../store/features/adminsSlice';
 import { IAdminState } from '../../types/admins/IAdminState';
 import useGlobalStyles from '../../styles/styles';
+import { IFormikError, IFormikValues } from '../../types/admins/FormikTypes';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,22 +57,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-interface IFormikValues {
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-    passwordConfirm: string;
-}
-
-interface IError {
-    name?: string;
-    surname?: string;
-    email?: string;
-    password?: string;
-    passwordConfirm?: string;
-}
-
 interface IProps {
     onModalClose: () => void,
 }
@@ -84,13 +69,13 @@ const AdminForm = ({ onModalClose }: IProps) => {
     const admins: IAdminState = useSelector((state: RootState) => state.admins);
 
     useEffect(() => {
-        if (admins.status !== ActionStatus.Pending) {
+        if (admins.status !== `CREATE_ADMIN_${ActionStatus.Pending}`) {
             setSubmitting(false);
         }
     }, [admins.status]);
 
     useEffect(() => {
-        if (submitting && admins.status === ActionStatus.Success) {
+        if (submitting && admins.status === `CREATE_ADMIN_${ActionStatus.Success}`) {
             onModalClose();
         }
     }, [admins.status, onModalClose, submitting]);
@@ -104,10 +89,6 @@ const AdminForm = ({ onModalClose }: IProps) => {
         onModalClose();
     }
 
-    // if (submitting && admins.status === ActionStatus.Success) {
-    //     return <Redirect to="/settings" />
-    // }
-
     return (
         <div className={classes.root}>
             <Card className={classes.card} variant="outlined">
@@ -118,9 +99,9 @@ const AdminForm = ({ onModalClose }: IProps) => {
                             Add Admin
                         </Typography>
                         <Formik
-                            initialValues={{ name: '', surname: '', email: '', password: '', passwordConfirm: '' }}
+                            initialValues={{ name: '', surname: '', email: '', password: '' }}
                             validate={values => {
-                                const errors: IError = {};
+                                const errors: IFormikError = {};
                                 if (!values.name) {
                                     errors.name = 'Name is required';
                                 }
@@ -237,12 +218,12 @@ const AdminForm = ({ onModalClose }: IProps) => {
                                                 Create
                                         </Button>
                                         </div>
-                                        {admins.status === ActionStatus.Pending &&
+                                        {admins.status === `CREATE_ADMIN_${ActionStatus.Pending}` &&
                                             <div className={classes.progress}>
                                                 <CircularProgress />
                                             </div>
                                         }
-                                        {admins.status === ActionStatus.Error &&
+                                        {admins.status === `CREATE_ADMIN_${ActionStatus.Error}` &&
                                             <div className="form-error">{admins.error}</div>
                                         }
                                     </form>
