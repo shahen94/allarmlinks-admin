@@ -33,18 +33,13 @@ const volunteersSlice = createSlice({
   name: "volunteers",
   initialState,
   reducers: {
-    setVolunteers: (
-      { data }: IVolunteerState,
-      { payload }: PayloadAction<IVolunteerRecord[]>
-    ): void => {
+    setVolunteers: ({ data }: IVolunteerState, { payload }: PayloadAction<IVolunteerRecord[]>): void => {
       data = payload;
     },
-    setVolunteersCount: (
-      { allCount }: IVolunteerState,
-      { payload }: PayloadAction<number>
-    ): void => {
+    setVolunteersCount: ({ allCount }: IVolunteerState, { payload }: PayloadAction<number>): void => {
       allCount = payload;
     },
+    resetVolunteers: (state: IVolunteerState): IVolunteerState => initialState
   },
   extraReducers: (builder) => {
     builder
@@ -70,7 +65,7 @@ const { actions, reducer } = volunteersSlice;
 export const {
   setVolunteers,
   setVolunteersCount,
-  // setVolunteersFilteredCount,
+  resetVolunteers
 } = actions;
 export { fetchAll, fectchAllAndAttach };
 export default reducer;

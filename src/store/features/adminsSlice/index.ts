@@ -109,6 +109,7 @@ const adminsSlice = createSlice({
         resetAdminsError: (state: IAdminState): void => {
             state.error = "";
         },
+        resetAdmins: (state: IAdminState): IAdminState => initialState
     },
     extraReducers: builder => {
         builder
@@ -173,7 +174,6 @@ const adminsSlice = createSlice({
                 else {
                     state.error = payload.data.error || "Unknown Error";
                 }
-
             })
             .addCase(deleteAdminById.fulfilled, (state, { payload }) => {
                 const newData = state.data.filter((admin: any) => {
@@ -198,6 +198,6 @@ const adminsSlice = createSlice({
 });
 
 const { actions, reducer } = adminsSlice;
-export const { setAdmins, resetAdminsError } = actions;
+export const { setAdmins, resetAdminsError, resetAdmins } = actions;
 export { fetchAll, fetchById, createNewAdmin, updateAdminById, deleteAdminById, searchAdmins };
 export default reducer;
